@@ -13,16 +13,18 @@ namespace Ex03.GarageLogic
         }
 
         private eLicenseType? m_LicenseType;
-        private int m_EngineCapacity;
+        private uint m_EngineCapacity;
+        internal const byte k_NumberOfWheels = 2;
+        internal const byte k_MaxPressureInWheel = 30;
 
-        internal Motorcycle(string i_LicenseType, int i_EngineCapacity)
+        internal Motorcycle(string i_LicenseType, uint i_EngineCapacity)
         {
             m_LicenseType = null;
             m_EngineCapacity = 0;
             EngineCapacity = i_EngineCapacity;
         }
 
-        internal int EngineCapacity
+        internal uint EngineCapacity
         {
             get
             {
@@ -31,14 +33,7 @@ namespace Ex03.GarageLogic
 
             set
             {
-                if(value > 0)
-                {
-                    m_EngineCapacity = value;
-                }
-                else
-                {
-                    throw new FormatException();
-                }
+                m_EngineCapacity = value;
             }
         }
 

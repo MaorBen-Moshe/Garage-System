@@ -5,68 +5,36 @@ namespace Ex03.GarageLogic
     public class Truck : FuelVehicle
     {
         private const float k_MaxTankFuel = 120;
+        private const byte k_NumberOfWheels = 16;
+        internal const byte k_MaxPressureInWheel = 28;
         private float m_CargoVolume;
         private bool m_IsHaveHazardousMaterials;
 
         public Truck(string i_VehicleModel,
                      string i_VehicleLicenseNumber,
-                     byte i_NumberOfWheels,
                      float i_CurrentTankFuel,
-                     eFuelType i_FuelType,
                      float i_CargoVolume,
                      bool i_IsHaveHazardousMaterials)
             : base(i_VehicleModel, 
                 i_VehicleLicenseNumber,
-                i_CurrentTankFuel / k_MaxTankFuel,
-                i_NumberOfWheels,
+                k_NumberOfWheels,
                 i_CurrentTankFuel,
-                i_FuelType)
+                eFuelType.Soler,
+                k_MaxTankFuel)
         {
             m_IsHaveHazardousMaterials = i_IsHaveHazardousMaterials;
             m_CargoVolume = i_CargoVolume;
+            IntialNewWheelsOfVehicle();
         }
 
-        public override float CurrentTankFuel
+        protected sealed override void IntialNewWheelsOfVehicle()
         {
-            get
+            for (int i = 0; i < k_NumberOfWheels; i++)
             {
-                return m_CurrentTankFuel;
-            }
-
-            set
-            {
-                if(value >= 0 && value <= k_MaxTankFuel)
-                {
-                    m_CurrentTankFuel = value;
-                }
-                else
-                {
-                    throw new ValueOutOfRangeException();
-                }
-            }
-        }
-
-        public override float GetMaxTankFuel()
-        {
-            return k_MaxTankFuel;
-        }
-
-        public override void Refueling(float i_FuelToAdd, eFuelType i_VehicleFuelType)
-        {
-            if(m_FuelType.Equals(i_VehicleFuelType))
-            {
-                if(m_CurrentTankFuel + i_FuelToAdd <= k_MaxTankFuel)
-                {
-                    m_CurrentTankFuel += i_FuelToAdd;
-                }
-                else
-                {
-                    throw new ValueOutOfRangeException();
-                }
-            }
-            else
-            {
-                throw new ArgumentException();
+                m_VehicleWheels.Add(new Wheel(
+                    string.Empty,
+                    k_MaxPressureInWheel,
+                    k_MaxPressureInWheel));
             }
         }
     }

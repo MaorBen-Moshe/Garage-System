@@ -12,13 +12,15 @@ namespace Ex03.GarageLogic
             Silver
         }
 
+        internal const byte k_NumberOfWheels = 4;
+        internal const byte k_MaxPressureInWheel = 32;
         private eColor? m_Color;
-        private byte m_NumberOfDoors;
+        private readonly byte r_NumberOfDoors;
 
         internal Car(string i_Color, byte i_NumberOfDoors)
         {
             m_Color = null;
-            m_NumberOfDoors = i_NumberOfDoors;
+            r_NumberOfDoors = i_NumberOfDoors;
             Color = i_Color;
         }
 
@@ -52,11 +54,7 @@ namespace Ex03.GarageLogic
         {
             get
             {
-                return m_NumberOfDoors;
-            }
-
-            set
-            {
+                return r_NumberOfDoors;
             }
         }
     }

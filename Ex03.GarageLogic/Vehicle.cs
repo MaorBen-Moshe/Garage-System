@@ -26,7 +26,7 @@ namespace Ex03.GarageLogic
                 }
                 else
                 {
-                    throw new ValueOutOfRangeException();
+                    throw new ValueOutOfRangeException(0, r_MaxAirPressure);
                 }
             }
         }
@@ -48,10 +48,10 @@ namespace Ex03.GarageLogic
         {
             m_VehicleModel = i_VehicleModel;
             m_VehicleLicenseNumber = i_VehicleLicenseNumber;
-            m_EnergyLeft = i_EnergyLeft;
+            m_EnergyLeft = i_EnergyLeft < 1 ? i_EnergyLeft : 1;
             m_VehicleWheels = new List<Wheel>(i_NumberOfWheels);
         }
 
-
+        protected abstract void IntialNewWheelsOfVehicle();
     }
 }
