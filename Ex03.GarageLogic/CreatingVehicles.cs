@@ -14,11 +14,15 @@ namespace Ex03.GarageLogic
         }
 
         private eTypeOfVehicles m_VehicleToCreate;
+        private string m_VehicleModel;
+        private string m_LicenseNumber;
         private string m_ErrorMessage;
 
-        public CreatingVehicles(string i_VehicleToCreate)
+        public CreatingVehicles(string i_VehicleToCreate, string i_VehicleModel, string i_LicesneNumber)
         {
              VehicleToCreate = i_VehicleToCreate;
+             m_VehicleModel = i_VehicleModel;
+             m_LicenseNumber = i_LicesneNumber;
              m_ErrorMessage = string.Format("Fail creating {0}", m_VehicleToCreate.ToString());
         }
 
@@ -39,17 +43,23 @@ namespace Ex03.GarageLogic
             }
         }
 
-        public Vehicle CreateFuelCar(string i_VehicleModel,
-                                     string i_VehicleLicenseNumber,
-                                     float i_CurrentTankFuel,
+        public eTypeOfVehicles VehicleType
+        {
+            get
+            {
+                return m_VehicleToCreate;
+            }
+        }
+
+        public Vehicle CreateFuelCar(float i_CurrentTankFuel,
                                      string i_ColorOfCar,
                                      byte i_NumberOfDoors)
         {
             try
             {
                 Vehicle newFuelCar = new FuelCar(
-                    i_VehicleModel,
-                    i_VehicleLicenseNumber,
+                    m_VehicleModel,
+                    m_LicenseNumber,
                     i_CurrentTankFuel,
                     i_ColorOfCar,
                     i_NumberOfDoors);
@@ -62,17 +72,15 @@ namespace Ex03.GarageLogic
             }
         }
 
-        public Vehicle CreateElectricCar(string i_VehicleModel,
-                                         string i_VehicleLicenseNumber,
-                                         float i_CurrentBatteryTime,
+        public Vehicle CreateElectricCar(float i_CurrentBatteryTime,
                                          string i_ColorOfCar,
                                          byte i_NumberOfDoors)
         {
             try
             {
                 Vehicle newElectricCar = new ElectricCar(
-                    i_VehicleModel,
-                    i_VehicleLicenseNumber,
+                    m_VehicleModel,
+                    m_LicenseNumber,
                     i_CurrentBatteryTime,
                     i_ColorOfCar,
                     i_NumberOfDoors);
@@ -84,17 +92,15 @@ namespace Ex03.GarageLogic
             }
         }
 
-        public Vehicle CreateFuelMotorcycle(string i_VehicleModel,
-                                            string i_VehicleLicenseNumber,
-                                            float i_CurrentTankFuel,
+        public Vehicle CreateFuelMotorcycle(float i_CurrentTankFuel,
                                             string i_LicenseType,
                                             uint i_EngineCapacity)
         {
             try
             {
                 Vehicle newFuelMotorcycle = new FuelMotorcycle(
-                    i_VehicleModel,
-                    i_VehicleLicenseNumber,
+                    m_VehicleModel,
+                    m_LicenseNumber,
                     i_CurrentTankFuel,
                     i_LicenseType,
                     i_EngineCapacity);
@@ -106,17 +112,15 @@ namespace Ex03.GarageLogic
             }
         }
 
-        public Vehicle CreateElectricMotorcycle(string i_VehicleModel,
-                                                string i_VehicleLicenseNumber,
-                                                float i_CurrentBatteryTime,
+        public Vehicle CreateElectricMotorcycle(float i_CurrentBatteryTime,
                                                 string i_LicenseType,
                                                 uint i_EngineCapacity)
         {
             try
             {
                 Vehicle newElectricMotorcycle = new ElectricMotorcycle(
-                    i_VehicleModel,
-                    i_VehicleLicenseNumber,
+                    m_VehicleModel,
+                    m_LicenseNumber,
                     i_CurrentBatteryTime,
                     i_LicenseType,
                     i_EngineCapacity);
@@ -128,17 +132,15 @@ namespace Ex03.GarageLogic
             }
         }
 
-        public Vehicle CreateTruck(string i_VehicleModel,
-                                   string i_VehicleLicenseNumber,
-                                   float i_CurrentTankFuel,
+        public Vehicle CreateTruck(float i_CurrentTankFuel,
                                    float i_CargoVolume,
                                    bool i_IsHaveHazardousMaterials)
         {
             try
             {
                 Vehicle newTruck = new Truck(
-                    i_VehicleModel,
-                    i_VehicleLicenseNumber,
+                    m_VehicleModel,
+                    m_LicenseNumber,
                     i_CurrentTankFuel,
                     i_CargoVolume,
                     i_IsHaveHazardousMaterials);
