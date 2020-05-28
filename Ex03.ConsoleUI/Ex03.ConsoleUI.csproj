@@ -46,7 +46,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AutoRepairShop.cs" />
+    <Compile Include="PrintingUtils.cs" />
     <Compile Include="Program.cs" />
+    <Compile Include="UserInterface.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

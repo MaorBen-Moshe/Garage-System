@@ -105,19 +105,19 @@ namespace Ex03.ConsoleUI
                 switch(vehicleMaker.VehicleType)
                 {
                     case CreatingVehicles.eTypeOfVehicles.FuelCar:
-                        vehicleMaker.CreateFuelCar();
+                        //vehicleMaker.CreateFuelCar();
                         break;
                     case CreatingVehicles.eTypeOfVehicles.ElectricCar:
-                        vehicleMaker.CreateElectricCar();
+                        //vehicleMaker.CreateElectricCar();
                         break;
                     case CreatingVehicles.eTypeOfVehicles.ElectricMotorcycle:
-                        vehicleMaker.CreateElectricMotorcycle();
+                        //vehicleMaker.CreateElectricMotorcycle();
                         break;
                     case CreatingVehicles.eTypeOfVehicles.FuelMotorcycle:
-                        vehicleMaker.CreateFuelMotorcycle();
+                        //vehicleMaker.CreateFuelMotorcycle();
                         break;
                     case CreatingVehicles.eTypeOfVehicles.Truck:
-                        vehicleMaker.CreateTruck();
+                        //vehicleMaker.CreateTruck();
                         break;
                     default:
                         throw new ArgumentException("Invalid vehicle type");

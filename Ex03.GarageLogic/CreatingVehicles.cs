@@ -14,16 +14,16 @@ namespace Ex03.GarageLogic
         }
 
         private eTypeOfVehicles m_VehicleToCreate;
-        private string m_VehicleModel;
-        private string m_LicenseNumber;
-        private string m_ErrorMessage;
+        private readonly string r_VehicleModel;
+        private readonly string r_LicenseNumber;
+        private readonly string r_ErrorMessage;
 
         public CreatingVehicles(string i_VehicleToCreate, string i_VehicleModel, string i_LicesneNumber)
         {
              VehicleToCreate = i_VehicleToCreate;
-             m_VehicleModel = i_VehicleModel;
-             m_LicenseNumber = i_LicesneNumber;
-             m_ErrorMessage = string.Format("Fail creating {0}", m_VehicleToCreate.ToString());
+             r_VehicleModel = i_VehicleModel;
+             r_LicenseNumber = i_LicesneNumber;
+             r_ErrorMessage = string.Format("Fail creating {0}", m_VehicleToCreate.ToString());
         }
 
         public string VehicleToCreate
@@ -58,8 +58,8 @@ namespace Ex03.GarageLogic
             try
             {
                 Vehicle newFuelCar = new FuelCar(
-                    m_VehicleModel,
-                    m_LicenseNumber,
+                    r_VehicleModel,
+                    r_LicenseNumber,
                     i_CurrentTankFuel,
                     i_ColorOfCar,
                     i_NumberOfDoors);
@@ -79,8 +79,8 @@ namespace Ex03.GarageLogic
             try
             {
                 Vehicle newElectricCar = new ElectricCar(
-                    m_VehicleModel,
-                    m_LicenseNumber,
+                    r_VehicleModel,
+                    r_LicenseNumber,
                     i_CurrentBatteryTime,
                     i_ColorOfCar,
                     i_NumberOfDoors);
@@ -88,7 +88,7 @@ namespace Ex03.GarageLogic
             }
             catch (Exception ex)
             {
-                throw new Exception(m_ErrorMessage, ex);
+                throw new Exception(r_ErrorMessage, ex);
             }
         }
 
@@ -99,8 +99,8 @@ namespace Ex03.GarageLogic
             try
             {
                 Vehicle newFuelMotorcycle = new FuelMotorcycle(
-                    m_VehicleModel,
-                    m_LicenseNumber,
+                    r_VehicleModel,
+                    r_LicenseNumber,
                     i_CurrentTankFuel,
                     i_LicenseType,
                     i_EngineCapacity);
@@ -108,7 +108,7 @@ namespace Ex03.GarageLogic
             }
             catch(Exception ex)
             {
-                throw new Exception(m_ErrorMessage, ex);
+                throw new Exception(r_ErrorMessage, ex);
             }
         }
 
@@ -119,8 +119,8 @@ namespace Ex03.GarageLogic
             try
             {
                 Vehicle newElectricMotorcycle = new ElectricMotorcycle(
-                    m_VehicleModel,
-                    m_LicenseNumber,
+                    r_VehicleModel,
+                    r_LicenseNumber,
                     i_CurrentBatteryTime,
                     i_LicenseType,
                     i_EngineCapacity);
@@ -128,7 +128,7 @@ namespace Ex03.GarageLogic
             }
             catch (Exception ex)
             {
-                throw new Exception(m_ErrorMessage, ex);
+                throw new Exception(r_ErrorMessage, ex);
             }
         }
 
@@ -139,8 +139,8 @@ namespace Ex03.GarageLogic
             try
             {
                 Vehicle newTruck = new Truck(
-                    m_VehicleModel,
-                    m_LicenseNumber,
+                    r_VehicleModel,
+                    r_LicenseNumber,
                     i_CurrentTankFuel,
                     i_CargoVolume,
                     i_IsHaveHazardousMaterials);
@@ -148,7 +148,7 @@ namespace Ex03.GarageLogic
             }
             catch(Exception ex)
             {
-                throw new Exception(m_ErrorMessage, ex);
+                throw new Exception(r_ErrorMessage, ex);
             }
         }
     }
