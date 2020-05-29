@@ -2,7 +2,7 @@
 
 namespace Ex03.GarageLogic
 {
-    internal struct Motorcycle
+    public class MotorcycleData : VehicleData
     {
         internal enum eLicenseType
         {
@@ -17,10 +17,14 @@ namespace Ex03.GarageLogic
         internal const byte k_NumberOfWheels = 2;
         internal const byte k_MaxPressureInWheel = 30;
 
-        internal Motorcycle(string i_LicenseType, uint i_EngineCapacity)
+        public MotorcycleData(string i_VehicleModel,
+                              string i_VehicleLicenseNumber,
+                              float i_CurrentEnergy,
+                              string i_LicenseType, 
+                              uint i_EngineCapacity)
+        : base(i_VehicleModel, i_VehicleLicenseNumber, k_NumberOfWheels, i_CurrentEnergy)
         {
-            m_LicenseType = null;
-            m_EngineCapacity = 0;
+            LicenseType = i_LicenseType;
             EngineCapacity = i_EngineCapacity;
         }
 

@@ -2,7 +2,7 @@
 
 namespace Ex03.GarageLogic
 {
-    internal struct Car
+    public class CarData : VehicleData
     {
         internal enum eColor
         {
@@ -17,9 +17,13 @@ namespace Ex03.GarageLogic
         private eColor? m_Color;
         private readonly byte r_NumberOfDoors;
 
-        internal Car(string i_Color, byte i_NumberOfDoors)
+        public CarData(string i_VehicleModel,
+                       string i_VehicleLicenseNumber,
+                       float i_CurrentEnergy,
+                       string i_Color,
+                       byte i_NumberOfDoors)
+            : base(i_VehicleModel, i_VehicleLicenseNumber, k_NumberOfWheels, i_CurrentEnergy)
         {
-            m_Color = null;
             r_NumberOfDoors = i_NumberOfDoors;
             Color = i_Color;
         }

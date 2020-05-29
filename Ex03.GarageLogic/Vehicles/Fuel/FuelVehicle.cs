@@ -13,20 +13,11 @@ namespace Ex03.GarageLogic
         }
 
         protected eFuelType m_FuelType;
-        protected float m_CurrentTankFuel;
-        protected float m_MaxTankFuel;
 
-        protected FuelVehicle(string i_VehicleModel,
-                              string i_VehicleLicenseNumber,
-                              byte i_NumberOfWheels,
-                              float i_CurrentTankFuel,
-                              eFuelType i_FuelType,
-                              float i_MaxTankFuel)
-            : base(i_VehicleModel, i_VehicleLicenseNumber, i_CurrentTankFuel / i_MaxTankFuel, i_NumberOfWheels)
+        protected FuelVehicle(VehicleData i_VehicleData, eFuelType i_FuelType)
+            : base(i_VehicleData)
         {
-            m_MaxTankFuel = i_MaxTankFuel;
             FuelType = i_FuelType;
-            CurrentTankFuel = i_CurrentTankFuel;
         }
 
         public eFuelType FuelType
@@ -51,18 +42,18 @@ namespace Ex03.GarageLogic
         {
             get
             {
-                return m_CurrentTankFuel;
+                return r_VehicleData.CurrentEnergy;
             }
 
             set
             {
-                if (value >= 0 && value <= m_MaxTankFuel)
+                if (value >= 0 && value <= r_VehicleData.MaxEnergy)
                 {
-                    m_CurrentTankFuel = value;
+                    r_VehicleData.CurrentEnergy = value;
                 }
                 else
                 {
-                    throw new ValueOutOfRangeException(0, m_MaxTankFuel);
+                    throw new ValueOutOfRangeException(0, r_VehicleData.MaxEnergy);
                 }
             }
         }
@@ -71,7 +62,7 @@ namespace Ex03.GarageLogic
         {
             get
             {
-                return m_MaxTankFuel;
+                return r_VehicleData.MaxEnergy;
             }
         }
 
@@ -79,13 +70,15 @@ namespace Ex03.GarageLogic
         {
             if (m_FuelType.Equals(i_VehicleFuelType))
             {
-                if (m_CurrentTankFuel + i_FuelToAdd <= m_MaxTankFuel)
+                if (r_VehicleData.CurrentEnergy + i_FuelToAdd <= r_VehicleData.MaxEnergy)
                 {
-                    m_CurrentTankFuel += i_FuelToAdd;
+                    r_VehicleData.CurrentEnergy += i_FuelToAdd;
                 }
                 else
                 {
-                    throw new ValueOutOfRangeException(0, m_MaxTankFuel - m_CurrentTankFuel);
+                    throw new ValueOutOfRangeException(
+                        0,
+                        r_VehicleData.MaxEnergy - r_VehicleData.CurrentEnergy);
                 }
             }
             else

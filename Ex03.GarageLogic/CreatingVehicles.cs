@@ -1,4 +1,5 @@
 ﻿using System;
+using Ex03.GarageLogic.VehiclesData;
 
 namespace Ex03.GarageLogic
 {
@@ -14,15 +15,11 @@ namespace Ex03.GarageLogic
         }
 
         private eTypeOfVehicles m_VehicleToCreate;
-        private readonly string r_VehicleModel;
-        private readonly string r_LicenseNumber;
         private readonly string r_ErrorMessage;
 
-        public CreatingVehicles(string i_VehicleToCreate, string i_VehicleModel, string i_LicesneNumber)
+        public CreatingVehicles(string i_VehicleToCreate)
         {
              VehicleToCreate = i_VehicleToCreate;
-             r_VehicleModel = i_VehicleModel;
-             r_LicenseNumber = i_LicesneNumber;
              r_ErrorMessage = string.Format("Fail creating {0}", m_VehicleToCreate.ToString());
         }
 
@@ -51,103 +48,36 @@ namespace Ex03.GarageLogic
             }
         }
 
-        public Vehicle CreateFuelCar(float i_CurrentTankFuel,
-                                     string i_ColorOfCar,
-                                     byte i_NumberOfDoors)
+        public Vehicle CreateVehicle(VehicleData i_VehicleData)
         {
             try
             {
-                Vehicle newFuelCar = new FuelCar(
-                    r_VehicleModel,
-                    r_LicenseNumber,
-                    i_CurrentTankFuel,
-                    i_ColorOfCar,
-                    i_NumberOfDoors);
-                return newFuelCar;
+                Vehicle vehicleToCreate;
+                switch(m_VehicleToCreate)
+                {
+                    case eTypeOfVehicles.ElectricCar:
+                        vehicleToCreate = new ElectricCar(i_VehicleData as CarData);
+                        break;
+                    case eTypeOfVehicles.ElectricMotorcycle:
+                        vehicleToCreate = new ElectricMotorcycle(i_VehicleData as MotorcycleData);
+                        break;
+                    case eTypeOfVehicles.FuelCar:
+                        vehicleToCreate = new FuelCar(i_VehicleData as CarData);
+                        break;
+                    case eTypeOfVehicles.FuelMotorcycle:
+                        vehicleToCreate = new FuelMotorcycle(i_VehicleData as MotorcycleData);
+                        break;
+                    case eTypeOfVehicles.Truck:
+                        vehicleToCreate = new Truck(i_VehicleData as TruckData);
+                        break;
+                    default:
+                        throw new ArgumentException(r_ErrorMessage);
+                }
+
+                return vehicleToCreate;
             }
             catch(Exception ex)
-            {
-                string message= "Fail creating fuel car!";
-                throw new Exception(message, ex);
-            }
-        }
-
-        public Vehicle CreateElectricCar(float i_CurrentBatteryTime,
-                                         string i_ColorOfCar,
-                                         byte i_NumberOfDoors)
-        {
-            try
-            {
-                Vehicle newElectricCar = new ElectricCar(
-                    r_VehicleModel,
-                    r_LicenseNumber,
-                    i_CurrentBatteryTime,
-                    i_ColorOfCar,
-                    i_NumberOfDoors);
-                return newElectricCar;
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(r_ErrorMessage, ex);
-            }
-        }
-
-        public Vehicle CreateFuelMotorcycle(float i_CurrentTankFuel,
-                                            string i_LicenseType,
-                                            uint i_EngineCapacity)
-        {
-            try
-            {
-                Vehicle newFuelMotorcycle = new FuelMotorcycle(
-                    r_VehicleModel,
-                    r_LicenseNumber,
-                    i_CurrentTankFuel,
-                    i_LicenseType,
-                    i_EngineCapacity);
-                return newFuelMotorcycle;
-            }
-            catch(Exception ex)
-            {
-                throw new Exception(r_ErrorMessage, ex);
-            }
-        }
-
-        public Vehicle CreateElectricMotorcycle(float i_CurrentBatteryTime,
-                                                string i_LicenseType,
-                                                uint i_EngineCapacity)
-        {
-            try
-            {
-                Vehicle newElectricMotorcycle = new ElectricMotorcycle(
-                    r_VehicleModel,
-                    r_LicenseNumber,
-                    i_CurrentBatteryTime,
-                    i_LicenseType,
-                    i_EngineCapacity);
-                return newElectricMotorcycle;
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(r_ErrorMessage, ex);
-            }
-        }
-
-        public Vehicle CreateTruck(float i_CurrentTankFuel,
-                                   float i_CargoVolume,
-                                   bool i_IsHaveHazardousMaterials)
-        {
-            try
-            {
-                Vehicle newTruck = new Truck(
-                    r_VehicleModel,
-                    r_LicenseNumber,
-                    i_CurrentTankFuel,
-                    i_CargoVolume,
-                    i_IsHaveHazardousMaterials);
-                return newTruck;
-            }
-            catch(Exception ex)
-            {
+            { 
                 throw new Exception(r_ErrorMessage, ex);
             }
         }
