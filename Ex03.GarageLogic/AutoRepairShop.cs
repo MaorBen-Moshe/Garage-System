@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using Ex03.GarageLogic;
 
-namespace Ex03.ConsoleUI
+namespace Ex03.GarageLogic
 {
     public class AutoRepairShop
     {
@@ -16,30 +15,30 @@ namespace Ex03.ConsoleUI
             }
 
             private string m_OwnerName;
-            private string m_OwnerNumber;
+            private string m_OwnerPhoneNumber;
             private eVehicleStatus m_VehicleStatus = eVehicleStatus.InRepair;
-            private Vehicle m_VehicleInShop;
+            internal Vehicle m_VehicleInShop;
 
-            public VehicleInShop(string i_OwnerName, string i_OwnerNumber, Vehicle i_VehicleInShop)
+            public VehicleInShop(string i_OwnerOwenerName, string i_OwnerPhoneNumber, Vehicle i_VehicleInShop)
             {
-                m_OwnerName = i_OwnerName;
-                m_OwnerNumber = i_OwnerNumber;
+                m_OwnerName = i_OwnerOwenerName;
+                m_OwnerPhoneNumber = i_OwnerPhoneNumber;
                 m_VehicleInShop = i_VehicleInShop;
             }
 
-            public string Name
+            public string OwenerName
             {
                 get
                 {
-                    return m_OwnerName;
+                    return m_OwnerOwenerName;
                 }
             }
 
-            public string Number
+            public string PhoneNumber
             {
                 get
                 {
-                    return m_OwnerNumber;
+                    return m_OwnerPhoneNumber;
                 }
             }
 
@@ -47,7 +46,7 @@ namespace Ex03.ConsoleUI
             {
                 get
                 {
-                    return m_VehicleInShop.VehicleLicenseNumber;
+                    return m_VehicleInShop.LicenseNumber;
                 }
             }
 
@@ -65,118 +64,143 @@ namespace Ex03.ConsoleUI
             }
         }
 
-        Dictionary<string, VehicleInShop> m_VehicleList;
+        private readonly Dictionary<string, VehicleInShop> r_VehicleList;
+        private readonly string r_IsNotExistError = "Vehicle do not exsit in the garage";
 
         public AutoRepairShop()
         {
-            m_VehicleList = new Dictionary<string, VehicleInShop>();
+            r_VehicleList = new Dictionary<string, VehicleInShop>();
         }
 
-        public void AddVehicleToStore()
+        public void AddVehicleToStore(VehicleInShop i_VehicleToAdd)
         {
-            Console.WriteLine("Please enter your vehicle model: ");
-            string vehicleModel = Console.ReadLine();
-            Console.WriteLine("Please enter your vehicle license number: ");
-            string licenseNumber = Console.ReadLine();
-            if(licenseNumber != null)
+            bool isExist = r_VehicleList.ContainsKey(i_VehicleToAdd.VehicleLicensNumber);
+            if(isExist)
             {
-                if(m_VehicleList.ContainsKey(licenseNumber))
-                {
-                    m_VehicleList[licenseNumber].VehicleStatus = VehicleInShop.eVehicleStatus.InRepair;
-                }
-                else
-                {
-                    handleCreatingVehicle(vehicleModel, licenseNumber);
-                }
+                i_VehicleToAdd.VehicleStatus = VehicleInShop.eVehicleStatus.InRepair;
             }
             else
             {
-                throw new ArgumentException(string.Format("Invalid Vehicle license number"));
+                r_VehicleList.Add(i_VehicleToAdd.VehicleLicensNumber, i_VehicleToAdd);
             }
         }
 
-        private void handleCreatingVehicle(string i_VehicleModel, string i_VehicleLicenseNumber)
+        public List<VehicleInShop> ShowAllVehiclesInGarage(VehicleInShop.eVehicleStatus? i_Status = null)
         {
-            try
+            List<VehicleInShop> vehiclesToShow = new List<VehicleInShop>(r_VehicleList.Count);
+            foreach(KeyValuePair<string, VehicleInShop> current in r_VehicleList)
             {
-                Console.WriteLine("Please enter the type of the vehicle: ");
-                string vehicleType = Console.ReadLine();
-                CreatingVehicles vehicleMaker = new CreatingVehicles(vehicleType, i_VehicleModel, i_VehicleLicenseNumber);
-                switch(vehicleMaker.VehicleType)
+                if(i_Status != null)
                 {
-                    case CreatingVehicles.eTypeOfVehicles.FuelCar:
-                        //vehicleMaker.CreateFuelCar();
-                        break;
-                    case CreatingVehicles.eTypeOfVehicles.ElectricCar:
-                        //vehicleMaker.CreateElectricCar();
-                        break;
-                    case CreatingVehicles.eTypeOfVehicles.ElectricMotorcycle:
-                        //vehicleMaker.CreateElectricMotorcycle();
-                        break;
-                    case CreatingVehicles.eTypeOfVehicles.FuelMotorcycle:
-                        //vehicleMaker.CreateFuelMotorcycle();
-                        break;
-                    case CreatingVehicles.eTypeOfVehicles.Truck:
-                        //vehicleMaker.CreateTruck();
-                        break;
-                    default:
-                        throw new ArgumentException("Invalid vehicle type");
-                }
-            }
-            catch(Exception ex)
-            {
-                throw new Exception(string.Format("Fail adding the vehicle"), ex);
-            }
-        }
-
-        public void ShowAllVehiclesInGarage(VehicleInShop.eVehicleStatus? i_Status = null)
-        {
-            foreach (KeyValuePair<string, VehicleInShop> current in m_VehicleList)
-            {
-                if(i_Status != null && current.Value.VehicleStatus == i_Status)
-                {
+                    if(current.Value.VehicleStatus.Equals(i_Status))
+                    {
+                        vehiclesToShow.Add(current.Value);
+                    }
                 }
                 else
                 {
+                    vehiclesToShow.Add(current.Value);
                 }
             }
+
+            return vehiclesToShow;
         }
 
         public void SetNewStatusToVehicle(string i_LicenseNumber, VehicleInShop.eVehicleStatus i_NewStatus)
         {
-            bool isExist = m_VehicleList.TryGetValue(i_LicenseNumber, out VehicleInShop toChange);
+            bool isExist = r_VehicleList.TryGetValue(i_LicenseNumber, out VehicleInShop toChange);
             if(isExist)
             {
-                toChange.VehicleStatus = i_NewStatus;
+                if(toChange.VehicleStatus.Equals(i_NewStatus) == false)
+                {
+                    toChange.VehicleStatus = i_NewStatus;
+                }
             }
             else
             {
-                throw new FormatException(string.Format("Vehicle is not available"));
+                throw new ArgumentException(r_IsNotExistError);
             }
         }
 
         public void SetWheelsPressureToMaximum(string i_LicenseNumber)
         {
-            bool isExist = m_VehicleList.TryGetValue(i_LicenseNumber, out VehicleInShop toChange);
+            bool isExist = r_VehicleList.TryGetValue(i_LicenseNumber, out VehicleInShop pressureToMaximum);
             if(isExist)
             {
+                List<VehicleData.Wheel> wheelsList = pressureToMaximum.m_VehicleInShop.Wheels;
+                foreach(VehicleData.Wheel currentWheel in wheelsList)
+                {
+                    currentWheel.WheelBlowing(currentWheel.MaxAirPressure - currentWheel.CurrentAirPressure);
+                }
             }
             else
             {
-                throw new FormatException(string.Format("Vehicle is not available"));
+                throw new ArgumentException(r_IsNotExistError);
             }
         }
 
         public void RefuelingVehicle(string i_LicenseNumber, FuelVehicle.eFuelType i_FuelType, float i_AmountToAdd)
         {
+            try
+            {
+                bool isExist = r_VehicleList.TryGetValue(i_LicenseNumber, out VehicleInShop toRefuel);
+                if(isExist)
+                {
+                    FuelVehicle vehicle = toRefuel.m_VehicleInShop as FuelVehicle;
+                    if(vehicle != null)
+                    {
+                        vehicle.Refueling(i_AmountToAdd, i_FuelType);
+                    }
+                }
+                else
+                {
+                    throw new ArgumentException(r_IsNotExistError);
+                }
+            }
+            catch(Exception ex)
+            {
+                throw new Exception("Fail refueling the vehicle", ex);
+            }
         }
 
         public void LoadingVehicle(string i_LicenseNumber, float i_MinutesToLoad)
         {
+            try
+            {
+                bool isExist = r_VehicleList.TryGetValue(i_LicenseNumber, out VehicleInShop toRefuel);
+                if (isExist)
+                {
+                    ElectricVehicle vehicle = toRefuel.m_VehicleInShop as ElectricVehicle;
+                    if (vehicle != null)
+                    {
+                        vehicle.Loading(i_MinutesToLoad / 60);
+                    }
+                }
+                else
+                {
+                    throw new ArgumentException(r_IsNotExistError);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Fail loading the vehicle", ex);
+            }
         }
 
-        public void ShowDetailsOfVehicle(string i_LicenseNumber)
+        public string ShowDetailsOfVehicle(string i_LicenseNumber)
         {
+            string vehicleDetails;
+            bool isExist = r_VehicleList.TryGetValue(i_LicenseNumber, out VehicleInShop toShow);
+            if(isExist)
+            {
+                vehicleDetails = toShow.m_VehicleInShop.ToString();
+            }
+            else
+            {
+                throw new ArgumentException(r_IsNotExistError);
+            }
+
+            return vehicleDetails;
         }
     }
 }

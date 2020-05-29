@@ -20,6 +20,22 @@ namespace Ex03.GarageLogic
 
         protected abstract void IntialNewWheelsOfVehicle();
 
+        internal string LicenseNumber
+        {
+            get
+            {
+                return r_VehicleData.VehicleLicenseNumber;
+            }
+        }
+
+        internal List<VehicleData.Wheel> Wheels
+        {
+            get
+            {
+                return r_VehicleData.VehicleWheels;
+            }
+        }
+
         public abstract override string ToString();
     }
 }
