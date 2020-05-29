@@ -71,6 +71,17 @@ $$$$$$$$$$ $$          $$ $$    $$$ $$         $$ $$$$$$$$$$  $$$$$$$$$$
             Console.WriteLine(status);
         }
 
+        public static void FuelToAdd()
+        {
+            string fuel = string.Format(format: @"Please write below the fuel type:
+1.Octan95
+2.Octan96
+3.Octan98
+4.Soler");
+
+            Console.WriteLine(fuel);
+        }
+
         private static void printOptions()
         {
             string options = string.Format(format:

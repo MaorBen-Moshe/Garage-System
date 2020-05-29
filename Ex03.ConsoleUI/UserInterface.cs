@@ -82,10 +82,18 @@ namespace Ex03.ConsoleUI
                         r_AutoRepairShop.SetNewStatusToVehicle(licenseNumber, status);
                         break;
                     case eOption.InflateWheels:
+                        licenseNumber = getLicenseNumber();
+                        r_AutoRepairShop.SetWheelsPressureToMaximum(licenseNumber);
                         break;
                     case eOption.RefuelVehicle:
+                        licenseNumber = getLicenseNumber();
+                        getFuelToAdd(out FuelVehicle.eFuelType fuelType, out float fuelToAdd);
+                        r_AutoRepairShop.RefuelingVehicle(licenseNumber, fuelType, fuelToAdd);
                         break;
                     case eOption.LoadVehicle:
+                        licenseNumber = getLicenseNumber();
+                        float minutesToAdd = getMinutesToLoad();
+                        r_AutoRepairShop.LoadingVehicle(licenseNumber, minutesToAdd);
                         break;
                     case eOption.ShowVehicleDetails:
                         licenseNumber = getLicenseNumber();
@@ -213,6 +221,35 @@ namespace Ex03.ConsoleUI
         {
             Console.WriteLine("Please enter the vehicle's license number:");
             return Console.ReadLine();
+        }
+
+        private float getMinutesToLoad()
+        {
+            Console.WriteLine("Please enter the amount of time(in minutes) you would like to load the battery:");
+            bool isValid = float.TryParse(Console.ReadLine(), out float minutesToAdd);
+            if(isValid == false)
+            {
+                throw new FormatException("Fail parsing the minutes to load");
+            }
+
+            return minutesToAdd;
+        }
+
+        private void getFuelToAdd(out FuelVehicle.eFuelType o_FuelType, out float o_FuelToAdd)
+        {
+            PrintingUtils.FuelToAdd();
+            bool isValid = Enum.TryParse(Console.ReadLine(), out o_FuelType);
+            if(isValid == false)
+            {
+                throw new FormatException("Fail parsing fuel type");
+            }
+
+            Console.WriteLine("Please insert the amount of fuel you would like to add: ");
+            bool isParse = float.TryParse(Console.ReadLine(), out o_FuelToAdd);
+            if(isParse == false)
+            {
+                throw new FormatException("Fail parsing the amount of fuel to add");
+            }
         }
     }
 }
