@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text;
 using Ex03.GarageLogic.VehiclesData;
 
 namespace Ex03.GarageLogic
@@ -24,6 +25,9 @@ namespace Ex03.GarageLogic
 
         public override string ToString()
         {
+            string baseString = base.ToString();
+            baseString += r_VehicleData.ToString();
+            return baseString;
         }
     }
 }

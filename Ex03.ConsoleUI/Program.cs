@@ -7,6 +7,8 @@ namespace Ex03.ConsoleUI
     {
         public static void Main()
         {
+            UserInterface garageController = new UserInterface();
+            garageController.ControlGarage();
         }
     }
 }

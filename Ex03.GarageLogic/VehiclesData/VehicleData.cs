@@ -49,6 +49,14 @@ namespace Ex03.GarageLogic
                     throw new ValueOutOfRangeException(0, r_MaxAirPressure);
                 }
             }
+
+            public override string ToString()
+            {
+                return string.Format(
+                    format: @"Manufacter: {0},Current Air Pressure: {1}",
+                    m_Manufacturer,
+                    m_CurrentAirPressure);
+            }
         }
 
         protected string m_VehicleModel;
@@ -68,7 +76,19 @@ namespace Ex03.GarageLogic
             m_VehicleWheels = new List<Wheel>(i_NumberOfWheels);
             m_CurrentEnergy = i_CurrentEnergy;
         }
+        
 
+        public string VehicleModel
+        {
+            get
+            {
+               return m_VehicleModel;
+            } 
+            set
+            {
+                m_VehicleModel = value;
+            } 
+        }
         public float EnergyLeft
         {
             get
@@ -122,5 +142,7 @@ namespace Ex03.GarageLogic
                 return m_VehicleWheels;
             }
         }
+
+        public abstract override string ToString();
     }
 }

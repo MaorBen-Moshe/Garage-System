@@ -15,7 +15,7 @@ namespace Ex03.GarageLogic
 
         protected sealed override void IntialNewWheelsOfVehicle()
         {
-            for (int i = 0; i < r_VehicleData.VehicleWheels.Count; i++)
+            for (int i = 0; i < r_VehicleData.VehicleWheels.Capacity; i++)
             {
                 r_VehicleData.VehicleWheels.Add(new VehicleData.Wheel(
                     string.Empty,
@@ -26,6 +26,9 @@ namespace Ex03.GarageLogic
 
         public override string ToString()
         {
+            string baseString = base.ToString();
+            baseString += r_VehicleData.ToString();
+            return baseString;
         }
 
         public string ColorOfCar

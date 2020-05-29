@@ -87,5 +87,16 @@ namespace Ex03.GarageLogic
                     i_VehicleFuelType.ToString()));
             }
         }
+
+        public override string ToString()
+        {
+            string basesString = base.ToString();
+            basesString += string.Format(
+                format: @"
+Fuel Type: {0}",
+                m_FuelType.ToString());
+
+            return basesString;
+        }
     }
 }

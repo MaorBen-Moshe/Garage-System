@@ -61,5 +61,15 @@ namespace Ex03.GarageLogic
                 return r_NumberOfDoors;
             }
         }
+
+        public override string ToString()
+        {
+            return string.Format(
+                format: @"
+Color: {0},
+The car has {1} doors",
+                m_Color,
+                r_NumberOfDoors);
+        }
     }
 }

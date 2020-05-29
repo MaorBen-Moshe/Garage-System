@@ -6,7 +6,7 @@ namespace Ex03.GarageLogic
     {
         internal enum eLicenseType
         {
-            A,
+            A = 1,
             A1,
             Aa,
             B
@@ -65,6 +65,15 @@ namespace Ex03.GarageLogic
                     throw new FormatException();
                 }
             }
+        }
+
+        public override string ToString()
+        {
+            return string.Format(format: @"
+License Type: {0},
+Engine Capacity: {1}",
+                m_LicenseType,
+                m_EngineCapacity);
         }
     }
 }

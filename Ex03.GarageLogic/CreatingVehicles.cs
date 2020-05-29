@@ -7,7 +7,7 @@ namespace Ex03.GarageLogic
     {
         public enum eTypeOfVehicles
         {
-            FuelCar,
+            FuelCar = 1,
             ElectricCar,
             FuelMotorcycle,
             ElectricMotorcycle,
@@ -17,9 +17,9 @@ namespace Ex03.GarageLogic
         private eTypeOfVehicles m_VehicleToCreate;
         private readonly string r_ErrorMessage;
 
-        public CreatingVehicles(string i_VehicleToCreate)
+        public CreatingVehicles(eTypeOfVehicles i_VehicleToCreate)
         {
-             VehicleToCreate = i_VehicleToCreate;
+             m_VehicleToCreate = i_VehicleToCreate;
              r_ErrorMessage = string.Format("Fail creating {0}", m_VehicleToCreate.ToString());
         }
 

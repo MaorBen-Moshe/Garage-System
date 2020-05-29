@@ -30,7 +30,7 @@ namespace Ex03.GarageLogic
             {
                 get
                 {
-                    return m_OwnerOwenerName;
+                    return m_OwnerName;
                 }
             }
 
@@ -85,21 +85,21 @@ namespace Ex03.GarageLogic
             }
         }
 
-        public List<VehicleInShop> ShowAllVehiclesInGarage(VehicleInShop.eVehicleStatus? i_Status = null)
+        public List<string> ShowAllVehiclesInGarage(VehicleInShop.eVehicleStatus? i_Status = null)
         {
-            List<VehicleInShop> vehiclesToShow = new List<VehicleInShop>(r_VehicleList.Count);
+            List<string> vehiclesToShow = new List<string>(r_VehicleList.Count);
             foreach(KeyValuePair<string, VehicleInShop> current in r_VehicleList)
             {
                 if(i_Status != null)
                 {
                     if(current.Value.VehicleStatus.Equals(i_Status))
                     {
-                        vehiclesToShow.Add(current.Value);
+                        vehiclesToShow.Add(current.Value.VehicleLicensNumber);
                     }
                 }
                 else
                 {
-                    vehiclesToShow.Add(current.Value);
+                    vehiclesToShow.Add(current.Value.VehicleLicensNumber);
                 }
             }
 

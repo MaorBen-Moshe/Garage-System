@@ -36,5 +36,15 @@
                 return m_IsHaveHazardousMaterials;
             }
         }
+
+        public override string ToString()
+        {
+            return string.Format(
+                format: @"
+Cargo volume: {0},
+Truck {1} deliver hazardous materials",
+                m_CargoVolume,
+                m_IsHaveHazardousMaterials ? "is" : "is not");
+        }
     }
 }
