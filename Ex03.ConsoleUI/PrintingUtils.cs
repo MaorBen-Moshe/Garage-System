@@ -41,13 +41,13 @@ $$$$$$$$$$ $$          $$ $$    $$$ $$         $$ $$$$$$$$$$  $$$$$$$$$$
 
         public static void ColorType()
         {
-            string type = string.Format(format: @"Please write below the color:
+            string color = string.Format(format: @"Please write below the color:
 1.Red
 2.Silver
 3.White
 4.Black");
 
-            Console.WriteLine(type);
+            Console.WriteLine(color);
         }
 
         public static void LicenseType()
@@ -59,6 +59,16 @@ $$$$$$$$$$ $$          $$ $$    $$$ $$         $$ $$$$$$$$$$  $$$$$$$$$$
 4.B");
 
             Console.WriteLine(type);
+        }
+
+        public static void VehicleStatus()
+        {
+            string status = string.Format(format: @"Please write below the vehicle status:
+1.InRepair
+2.Repaired
+3.Paid");
+
+            Console.WriteLine(status);
         }
 
         private static void printOptions()

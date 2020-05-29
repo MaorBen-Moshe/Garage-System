@@ -9,7 +9,7 @@ namespace Ex03.GarageLogic
         {
             public enum eVehicleStatus
             {
-                InRepair,
+                InRepair = 1,
                 Repaired,
                 Paid
             }
@@ -106,14 +106,17 @@ namespace Ex03.GarageLogic
             return vehiclesToShow;
         }
 
-        public void SetNewStatusToVehicle(string i_LicenseNumber, VehicleInShop.eVehicleStatus i_NewStatus)
+        public void SetNewStatusToVehicle(string i_LicenseNumber, VehicleInShop.eVehicleStatus? i_NewStatus)
         {
             bool isExist = r_VehicleList.TryGetValue(i_LicenseNumber, out VehicleInShop toChange);
             if(isExist)
             {
                 if(toChange.VehicleStatus.Equals(i_NewStatus) == false)
                 {
-                    toChange.VehicleStatus = i_NewStatus;
+                    if(i_NewStatus != null)
+                    {
+                        toChange.VehicleStatus = (VehicleInShop.eVehicleStatus)i_NewStatus;
+                    }
                 }
             }
             else

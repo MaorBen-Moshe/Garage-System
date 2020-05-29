@@ -13,6 +13,7 @@ namespace Ex03.ConsoleUI
         {
             r_AutoRepairShop = new AutoRepairShop();
         }
+
         private enum eOption
         {
             AddVehicle = 1,
@@ -42,32 +43,43 @@ namespace Ex03.ConsoleUI
                     }
                     catch
                     {
+                        System.Threading.Thread.Sleep(2000);
                         isValid = false;
                     }
                 }
                 else
                 {
+                    System.Threading.Thread.Sleep(2000);
                     Console.WriteLine("Please choose from the following!");
                 }
-                Console.Clear();
+                //Console.Clear();
             }
-            while(isValid == false && m_LeaveStore == false);
+            while(m_LeaveStore == false);
+            Console.WriteLine("Goodbye!");
         }
 
         private void controlGarageOptions(eOption i_Option)
         {
             try
             {
+                AutoRepairShop.VehicleInShop.eVehicleStatus? status;
+                string licenseNumber;
                 switch (i_Option)
                 {
                     case eOption.AddVehicle:
                         addVehicle();
                         break;
                     case eOption.ShowVehiclesByLicense:
+                        r_AutoRepairShop.ShowAllVehiclesInGarage();
                         break;
                     case eOption.ShowVehiclesByStatus:
+                        status = getStatus();
+                        r_AutoRepairShop.ShowAllVehiclesInGarage(status);
                         break;
                     case eOption.ModifyStatus:
+                        licenseNumber = getLicenseNumber();
+                        status = getStatus();
+                        r_AutoRepairShop.SetNewStatusToVehicle(licenseNumber, status);
                         break;
                     case eOption.InflateWheels:
                         break;
@@ -76,10 +88,16 @@ namespace Ex03.ConsoleUI
                     case eOption.LoadVehicle:
                         break;
                     case eOption.ShowVehicleDetails:
+                        licenseNumber = getLicenseNumber();
+                        Console.WriteLine(string.Format(format:@"The vehicle details:
+{0}", 
+                            r_AutoRepairShop.ShowDetailsOfVehicle(licenseNumber)));
                         break;
                     case eOption.Exit:
                         m_LeaveStore = true;
                         break;
+                    default:
+                        throw new ValueOutOfRangeException(1, 9);
                 }
             }
             catch(Exception ex)
@@ -163,6 +181,38 @@ namespace Ex03.ConsoleUI
             Vehicle vehicle = vehicleMaker.CreateVehicle(vehicleData);
 
             return vehicle;
+        }
+
+        private AutoRepairShop.VehicleInShop.eVehicleStatus? getStatus()
+        {
+            AutoRepairShop.VehicleInShop.eVehicleStatus? returnStatus;
+            PrintingUtils.VehicleStatus();
+            string status = Console.ReadLine();
+            bool isValid = Enum.TryParse(status, out AutoRepairShop.VehicleInShop.eVehicleStatus result);
+            if(isValid)
+            {
+                if(result.CompareTo(AutoRepairShop.VehicleInShop.eVehicleStatus.Repaired) > 0)
+                {
+                    returnStatus = null;
+                }
+                else
+                {
+                    returnStatus = result;
+                }
+            }
+            else
+            {
+                ValueOutOfRangeException ex = new ValueOutOfRangeException(1, 3);
+                throw new FormatException("Fail parsing the vehicle status", ex);
+            }
+
+            return returnStatus;
+        }
+
+        private string getLicenseNumber()
+        {
+            Console.WriteLine("Please enter the vehicle's license number:");
+            return Console.ReadLine();
         }
     }
 }
