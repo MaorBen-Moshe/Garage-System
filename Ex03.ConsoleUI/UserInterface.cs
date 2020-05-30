@@ -48,10 +48,9 @@ namespace Ex03.ConsoleUI
                 }
                 else
                 {
-                    System.Threading.Thread.Sleep(2000);
                     Console.WriteLine("Please choose from the options above!");
+                    System.Threading.Thread.Sleep(2000);
                 }
-                Console.Clear();
             }
             while(m_LeaveStore == false);
             Console.WriteLine("Goodbye!");
@@ -63,6 +62,7 @@ namespace Ex03.ConsoleUI
             {
                 AutoRepairShop.VehicleInShop.eVehicleStatus? status;
                 string licenseNumber;
+                Console.Clear();
                 switch (i_Option)
                 {
                     case eOption.AddVehicle:
@@ -79,6 +79,7 @@ namespace Ex03.ConsoleUI
                         licenseNumber = getLicenseNumber();
                         status = getStatus();
                         r_AutoRepairShop.SetNewStatusToVehicle(licenseNumber, status);
+                        PrintingUtils.StatusModified(licenseNumber, status);
                         break;
                     case eOption.InflateWheels:
                         licenseNumber = getLicenseNumber();
@@ -120,15 +121,17 @@ The vehicle details:
             Console.WriteLine("Creating Vehicle: ");
             Console.WriteLine("Please write your name: ");
             string ownerName = Console.ReadLine();
+            Console.WriteLine("Please write your phone number: ");
+            string ownerPhone = Console.ReadLine();
             bool isValid = false;
             do
             {
-                Console.WriteLine("Please write your phone number: ");
-                string ownerPhone = Console.ReadLine();
                 bool isValidPhoneNumber = int.TryParse(ownerPhone, out int intPhoneNumber);
                 if(isValidPhoneNumber == false)
                 {
                     Console.WriteLine("Fail to add the phone number you entered.");
+                    Console.WriteLine("Please write your phone number: ");
+                    ownerPhone = Console.ReadLine();
                     continue;
                 }
                 PrintingUtils.TypeOfVehicle();

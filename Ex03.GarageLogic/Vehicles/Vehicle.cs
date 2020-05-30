@@ -22,6 +22,22 @@ namespace Ex03.GarageLogic
             }
         }
 
+        internal float CurrentEnergy
+        {
+            get
+            {
+                return r_VehicleData.CurrentEnergy;
+            }
+        }
+
+        internal float MaxEnergy
+        {
+            get
+            {
+                return r_VehicleData.MaxEnergy;
+            }
+        }
+
         internal List<VehicleData.Wheel> Wheels
         {
             get

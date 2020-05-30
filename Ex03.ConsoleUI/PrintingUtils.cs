@@ -24,6 +24,7 @@ $$$$$$$$$$ $$          $$ $$    $$$ $$         $$ $$$$$$$$$$  $$$$$$$$$$
 *************************************************************************
 *************************************************************************");
 
+            Console.Clear();
             Console.WriteLine(opening);
             printOptions();
         }
@@ -93,11 +94,23 @@ $$$$$$$$$$ $$          $$ $$    $$$ $$         $$ $$$$$$$$$$  $$$$$$$$$$
             Console.WriteLine(i_Ex.Message);
         }
 
+        public static void StatusModified(
+            string i_LicenseNumber,
+            AutoRepairShop.VehicleInShop.eVehicleStatus? i_NewStatus)
+        {
+            Console.WriteLine(
+                    string.Format(
+                    format:
+                    @"Status to vehicle {0} has been modified to: {1}",
+                    i_LicenseNumber,
+                    i_NewStatus));
+        }
+
         public static void PrintLicensesList(List<string> i_LicensesList, 
                                              AutoRepairShop.VehicleInShop.eVehicleStatus? i_Status = null)
         {
             string header = i_Status != null
-                                ? string.Format("The list of licenses by {0} status:", i_Status.ToString())
+                                ? string.Format(format:@"The list of licenses by {0} status:", i_Status.ToString())
                                 : "The list of licenses:"; 
             Console.WriteLine(header);
             foreach(string currentLicense in i_LicensesList)
