@@ -9,6 +9,7 @@
         {
             r_VehicleData.MaxEnergy = k_MaxBatteryTime;
             r_VehicleData.EnergyLeft = r_VehicleData.CurrentEnergy / k_MaxBatteryTime;
+            MaintainCurrentEnergy();
             IntialNewWheelsOfVehicle();
         }
 

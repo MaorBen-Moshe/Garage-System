@@ -6,7 +6,7 @@ namespace Ex03.GarageLogic
     {
         internal enum eColor
         {
-            Red,
+            Red = 1,
             White,
             Black,
             Silver
@@ -43,7 +43,7 @@ namespace Ex03.GarageLogic
 
             set
             {
-                bool isValidColor = Enum.TryParse(value, out eColor result) && Enum.IsDefined(typeof(eColor), value);
+                bool isValidColor = Enum.TryParse(value, out eColor result) && Enum.IsDefined(typeof(eColor), result);
                 if(isValidColor)
                 {
                     m_Color = result;

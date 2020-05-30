@@ -61,7 +61,15 @@ Current Energy: {4}",
                 r_VehicleData.CurrentEnergy);
         }
 
-        private StringBuilder printWheels()
+        protected void MaintainCurrentEnergy()
+        {
+            if(CurrentEnergy > MaxEnergy)
+            {
+               r_VehicleData.CurrentEnergy = MaxEnergy;
+            }
+        }
+
+       private StringBuilder printWheels()
         {
             StringBuilder wheelList = new StringBuilder();
             int index = 0;

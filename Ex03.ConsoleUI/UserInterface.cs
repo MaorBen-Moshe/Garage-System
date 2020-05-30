@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Diagnostics.CodeAnalysis;
+using System.Threading;
 using Ex03.GarageLogic;
 using Ex03.GarageLogic.VehiclesData;
 
@@ -40,16 +40,17 @@ namespace Ex03.ConsoleUI
                     try
                     {
                         controlGarageOptions(result);
+                        Thread.Sleep(4000);
                     }
                     catch
                     {
-                        System.Threading.Thread.Sleep(2000);
+                        Thread.Sleep(2000);
                     }
                 }
                 else
                 {
                     Console.WriteLine("Please choose from the options above!");
-                    System.Threading.Thread.Sleep(2000);
+                    Thread.Sleep(2000);
                 }
             }
             while(m_LeaveStore == false);
@@ -60,54 +61,7 @@ namespace Ex03.ConsoleUI
         {
             try
             {
-                AutoRepairShop.VehicleInShop.eVehicleStatus? status;
-                string licenseNumber;
-                Console.Clear();
-                switch (i_Option)
-                {
-                    case eOption.AddVehicle:
-                        addVehicle();
-                        break;
-                    case eOption.ShowVehiclesByLicense:
-                        PrintingUtils.PrintLicensesList(r_AutoRepairShop.ShowAllVehiclesInGarage());
-                        break;
-                    case eOption.ShowVehiclesByStatus:
-                        status = getStatus();
-                        PrintingUtils.PrintLicensesList(r_AutoRepairShop.ShowAllVehiclesInGarage(status), status);
-                        break;
-                    case eOption.ModifyStatus:
-                        licenseNumber = getLicenseNumber();
-                        status = getStatus();
-                        r_AutoRepairShop.SetNewStatusToVehicle(licenseNumber, status);
-                        PrintingUtils.StatusModified(licenseNumber, status);
-                        break;
-                    case eOption.InflateWheels:
-                        licenseNumber = getLicenseNumber();
-                        r_AutoRepairShop.SetWheelsPressureToMaximum(licenseNumber);
-                        break;
-                    case eOption.RefuelVehicle:
-                        licenseNumber = getLicenseNumber();
-                        getFuelToAdd(out FuelVehicle.eFuelType fuelType, out float fuelToAdd);
-                        r_AutoRepairShop.FillInEnergyToVehicle(licenseNumber, fuelToAdd, fuelType);
-                        break;
-                    case eOption.LoadVehicle:
-                        licenseNumber = getLicenseNumber();
-                        float minutesToAdd = getMinutesToLoad();
-                        r_AutoRepairShop.FillInEnergyToVehicle(licenseNumber, minutesToAdd);
-                        break;
-                    case eOption.ShowVehicleDetails:
-                        licenseNumber = getLicenseNumber();
-                        Console.WriteLine(string.Format(format:@"
-The vehicle details:
-{0}", 
-                            r_AutoRepairShop.ShowDetailsOfVehicle(licenseNumber)));
-                        break;
-                    case eOption.Exit:
-                        m_LeaveStore = true;
-                        break;
-                    default:
-                        throw new ValueOutOfRangeException(1, 9);
-                }
+                controlGragageHandler(i_Option);
             }
             catch(Exception ex)
             {
@@ -115,7 +69,64 @@ The vehicle details:
                 throw;
             }
         }
-        
+
+        private void controlGragageHandler(eOption i_Option)
+        {
+            AutoRepairShop.VehicleInShop.eVehicleStatus? status;
+            string licenseNumber;
+            Console.Clear();
+            switch (i_Option)
+            {
+                case eOption.AddVehicle:
+                    addVehicle();
+                    break;
+                case eOption.ShowVehiclesByLicense:
+                    PrintingUtils.PrintLicensesList(r_AutoRepairShop.ShowAllVehiclesInGarage());
+                    break;
+                case eOption.ShowVehiclesByStatus:
+                    status = getStatus();
+                    PrintingUtils.PrintLicensesList(r_AutoRepairShop.ShowAllVehiclesInGarage(status), status);
+                    break;
+                case eOption.ModifyStatus:
+                    licenseNumber = getLicenseNumber();
+                    status = getStatus();
+                    r_AutoRepairShop.SetNewStatusToVehicle(licenseNumber, status);
+                    PrintingUtils.StatusModified(licenseNumber, status);
+                    break;
+                case eOption.InflateWheels:
+                    licenseNumber = getLicenseNumber();
+                    r_AutoRepairShop.SetWheelsPressureToMaximum(licenseNumber);
+                    PrintingUtils.InflateWheels(licenseNumber);
+                    break;
+                case eOption.RefuelVehicle:
+                    licenseNumber = getLicenseNumber();
+                    getFuelToAdd(out FuelVehicle.eFuelType fuelType, out float fuelToAdd);
+                    r_AutoRepairShop.FillInEnergyToVehicle(licenseNumber, fuelToAdd, fuelType);
+                    PrintingUtils.EnergyAdded(licenseNumber, fuelType);
+                    break;
+                case eOption.LoadVehicle:
+                    licenseNumber = getLicenseNumber();
+                    float minutesToAdd = getMinutesToLoad();
+                    r_AutoRepairShop.FillInEnergyToVehicle(licenseNumber, minutesToAdd);
+                    PrintingUtils.EnergyAdded(licenseNumber);
+                    break;
+                case eOption.ShowVehicleDetails:
+                    licenseNumber = getLicenseNumber();
+                    Console.WriteLine(
+                        string.Format(
+                            format: @"
+The vehicle details:
+{0}",
+                        r_AutoRepairShop.ShowDetailsOfVehicle(licenseNumber)));
+                    break;
+                case eOption.Exit:
+                    m_LeaveStore = true;
+                    break;
+                default:
+                    throw new ValueOutOfRangeException(1, 9);
+            }
+        }
+
         private void addVehicle()
         {
             Console.WriteLine("Creating Vehicle: ");
@@ -134,21 +145,38 @@ The vehicle details:
                     ownerPhone = Console.ReadLine();
                     continue;
                 }
+
                 PrintingUtils.TypeOfVehicle();
                 string option = Console.ReadLine();
                 isValid = Enum.TryParse(option, true, out CreatingVehicles.eTypeOfVehicles result)
                           && Enum.IsDefined(typeof(CreatingVehicles.eTypeOfVehicles), result);
-                if (isValid)
+                if(!isValid)
+                {
+                    Console.WriteLine("please choose a valid option.");
+                    continue;
+                }
+
+                try
                 {
                     Vehicle vehicle = createVehicle(result);
-                    AutoRepairShop.VehicleInShop toAdd = new AutoRepairShop.VehicleInShop(ownerName, ownerPhone, vehicle);
+                    AutoRepairShop.VehicleInShop toAdd = new AutoRepairShop.VehicleInShop(
+                        ownerName,
+                        ownerPhone,
+                        vehicle);
                     r_AutoRepairShop.AddVehicleToStore(toAdd);
+                    PrintingUtils.VehicleAdded(toAdd.VehicleLicensNumber);
+                    Thread.Sleep(2000);
                     break;
                 }
-                
-                Console.WriteLine("please choose a valid option.");
+                catch(Exception ex)
+                {
+                    PrintingUtils.PrintExceptionErrors(ex);
+                    isValid = false;
+                    Thread.Sleep(2000);
+                    Console.Clear();
+                }
             }
-            while(isValid == false);
+            while(isValid != true);
         }
 
         private Vehicle createVehicle(CreatingVehicles.eTypeOfVehicles i_TypeOfVehicle)
@@ -165,6 +193,7 @@ The vehicle details:
             {
                 throw new FormatException("Fail parsing the current energy in vehicle");
             }
+
             switch(i_TypeOfVehicle)
             {
                 case CreatingVehicles.eTypeOfVehicles.ElectricCar:
@@ -189,6 +218,7 @@ The vehicle details:
                     vehicleData = new TruckData(vehicleModel, vehicleLicenseNumber, currentEnergy, cargoVolume, isHazardous);
                     break;
             }
+
             CreatingVehicles vehicleMaker = new CreatingVehicles(i_TypeOfVehicle);
             Vehicle vehicle = vehicleMaker.CreateVehicle(vehicleData);
             return vehicle;
@@ -233,7 +263,7 @@ The vehicle details:
 
         private AutoRepairShop.VehicleInShop.eVehicleStatus? getStatus()
         {
-            AutoRepairShop.VehicleInShop.eVehicleStatus? returnStatus = null;
+            AutoRepairShop.VehicleInShop.eVehicleStatus? returnStatus;
             PrintingUtils.VehicleStatus();
             string status = Console.ReadLine();
             bool isValid = Enum.TryParse(status, out AutoRepairShop.VehicleInShop.eVehicleStatus result)
@@ -273,7 +303,7 @@ The vehicle details:
         {
             PrintingUtils.FuelToAdd();
             bool isValid = Enum.TryParse(Console.ReadLine(), out o_FuelType) 
-                && Enum.IsDefined(typeof(FuelVehicle.eFuelType), o_FuelType);
+                && Enum.IsDefined(typeof(FuelVehicle.eFuelType), (int)o_FuelType);
             if(isValid == false)
             {
                 throw new FormatException("Fail parsing fuel type");

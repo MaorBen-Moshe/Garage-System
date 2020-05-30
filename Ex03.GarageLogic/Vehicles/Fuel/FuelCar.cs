@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Ex03.GarageLogic
+﻿namespace Ex03.GarageLogic
 {
     internal class FuelCar : FuelVehicle
     {
@@ -11,6 +9,7 @@ namespace Ex03.GarageLogic
         {
             r_VehicleData.MaxEnergy = 60;
             r_VehicleData.EnergyLeft = r_VehicleData.CurrentEnergy / k_MaxTankFuel;
+            MaintainCurrentEnergy();
             IntialNewWheelsOfVehicle();
         }
 

@@ -1,6 +1,4 @@
-﻿using System;
-using System.Text;
-using Ex03.GarageLogic.VehiclesData;
+﻿using Ex03.GarageLogic.VehiclesData;
 
 namespace Ex03.GarageLogic
 {

@@ -18,6 +18,7 @@
         {
             m_MaxEnergy = k_MaxTankFuel;
             EnergyLeft = m_CurrentEnergy / m_MaxEnergy;
+            m_CurrentEnergy = m_CurrentEnergy > m_MaxEnergy ? m_MaxEnergy : m_CurrentEnergy;
             r_CargoVolume = i_CargoVolume;
             r_IsHaveHazardousMaterials = i_IsHaveHazardousMaterials;
         }

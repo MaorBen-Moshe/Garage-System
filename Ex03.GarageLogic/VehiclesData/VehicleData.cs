@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Ex03.GarageLogic
 {
@@ -75,7 +72,7 @@ namespace Ex03.GarageLogic
             m_VehicleModel = i_VehicleModel;
             m_VehicleLicenseNumber = i_VehicleLicenseNumber;
             m_VehicleWheels = new List<Wheel>(i_NumberOfWheels);
-            CurrentEnergy = i_CurrentEnergy;
+            m_CurrentEnergy = i_CurrentEnergy;
         }
         
         internal string VehicleModel
@@ -159,12 +156,7 @@ namespace Ex03.GarageLogic
         {
             get
             {
-                if(m_VehicleWheels.Count > 0)
-                {
-                    return m_VehicleWheels;
-                }
-
-                throw new NullReferenceException("Wheels list is Empty");
+                return m_VehicleWheels;
             }
         }
 

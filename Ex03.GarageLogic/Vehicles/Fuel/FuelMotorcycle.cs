@@ -9,6 +9,7 @@
         {
             r_VehicleData.MaxEnergy = k_MaxTankFuel;
             r_VehicleData.EnergyLeft = r_VehicleData.CurrentEnergy / k_MaxTankFuel;
+            MaintainCurrentEnergy();
             IntialNewWheelsOfVehicle();
         }
 

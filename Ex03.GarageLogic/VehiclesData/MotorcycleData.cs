@@ -57,7 +57,7 @@ namespace Ex03.GarageLogic
             set
             {
                 bool isValidLicesneType = Enum.TryParse(value, out eLicenseType result) 
-                                          && Enum.IsDefined(typeof(eLicenseType), value);
+                                          && Enum.IsDefined(typeof(eLicenseType), result);
                 if(isValidLicesneType)
                 {
                     m_LicenseType = result;

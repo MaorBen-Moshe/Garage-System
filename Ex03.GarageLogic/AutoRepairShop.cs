@@ -26,7 +26,7 @@ namespace Ex03.GarageLogic
                 m_VehicleInShop = i_VehicleInShop;
             }
 
-            internal string VehicleLicensNumber
+            public string VehicleLicensNumber
             {
                 get
                 {
@@ -117,8 +117,7 @@ namespace Ex03.GarageLogic
             bool isExist = r_VehicleList.TryGetValue(i_LicenseNumber, out VehicleInShop pressureToMaximum);
             if(isExist)
             {
-                List<VehicleData.Wheel> wheelsList = pressureToMaximum.m_VehicleInShop.Wheels;
-                foreach(VehicleData.Wheel currentWheel in wheelsList)
+                foreach(VehicleData.Wheel currentWheel in pressureToMaximum.m_VehicleInShop.Wheels)
                 {
                     currentWheel.WheelBlowing(currentWheel.MaxAirPressure - currentWheel.CurrentAirPressure);
                 }
@@ -139,15 +138,21 @@ namespace Ex03.GarageLogic
                 bool isExist = r_VehicleList.TryGetValue(i_LicenseNumber, out VehicleInShop toRefuel);
                 if (isExist)
                 {
-                    if (toRefuel.m_VehicleInShop is FuelVehicle)
+                    if (toRefuel.m_VehicleInShop is FuelVehicle && i_FuelType != null)
                     {
                         FuelVehicle fuelVehicle = toRefuel.m_VehicleInShop as FuelVehicle;
-                        fuelVehicle.Refueling(i_AmountToAdd, (FuelVehicle.eFuelType)i_FuelType);
+                        if(fuelVehicle != null)
+                        {
+                            fuelVehicle.Refueling(i_AmountToAdd, (FuelVehicle.eFuelType)i_FuelType);
+                        }
                     }
                     else if(toRefuel.m_VehicleInShop is ElectricVehicle)
                     {
                         ElectricVehicle electricVehicle = toRefuel.m_VehicleInShop as ElectricVehicle;
-                        electricVehicle.Loading(i_AmountToAdd / 60);
+                        if(electricVehicle != null)
+                        {
+                            electricVehicle.Loading(i_AmountToAdd / 60);
+                        }
                     }
                 }
                 else
