@@ -14,17 +14,18 @@ namespace Ex03.GarageLogic
 
         internal const byte k_NumberOfWheels = 4;
         internal const byte k_MaxPressureInWheel = 32;
+        private byte m_NumberOfDoors;
         private eColor? m_Color;
-        private readonly byte r_NumberOfDoors;
 
-        public CarData(string i_VehicleModel,
-                       string i_VehicleLicenseNumber,
-                       float i_CurrentEnergy,
-                       string i_Color,
-                       byte i_NumberOfDoors)
+        public CarData(
+            string i_VehicleModel,
+            string i_VehicleLicenseNumber,
+            float i_CurrentEnergy,
+            string i_Color,
+            byte i_NumberOfDoors)
             : base(i_VehicleModel, i_VehicleLicenseNumber, k_NumberOfWheels, i_CurrentEnergy)
         {
-            r_NumberOfDoors = i_NumberOfDoors;
+            NumberOfDoors = i_NumberOfDoors;
             Color = i_Color;
         }
 
@@ -42,14 +43,14 @@ namespace Ex03.GarageLogic
 
             set
             {
-                bool isValidColor = Enum.TryParse(value, out eColor result);
-                if (isValidColor)
+                bool isValidColor = Enum.TryParse(value, out eColor result) && Enum.IsDefined(typeof(eColor), value);
+                if(isValidColor)
                 {
                     m_Color = result;
                 }
                 else
                 {
-                    throw new FormatException();
+                    throw new FormatException("Fail parsing the car color");
                 }
             }
         }
@@ -58,7 +59,17 @@ namespace Ex03.GarageLogic
         {
             get
             {
-                return r_NumberOfDoors;
+                return m_NumberOfDoors;
+            }
+
+            set
+            {
+                if(!(value >= 2 && value <= 5))
+                {
+                    throw new ValueOutOfRangeException(2, 5);
+                }
+
+                m_NumberOfDoors = value;
             }
         }
 
@@ -69,7 +80,7 @@ namespace Ex03.GarageLogic
 Color: {0},
 The car has {1} doors",
                 m_Color,
-                r_NumberOfDoors);
+                m_NumberOfDoors);
         }
     }
 }

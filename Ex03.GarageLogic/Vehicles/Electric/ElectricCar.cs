@@ -1,10 +1,10 @@
 ﻿namespace Ex03.GarageLogic
 {
-    public class ElectricCar : ElectricVehicle
+    internal class ElectricCar : ElectricVehicle
     {
         private const float k_MaxBatteryTime = 2.1f;
 
-        public ElectricCar(VehicleData i_CarData)
+        internal ElectricCar(VehicleData i_CarData)
             : base(i_CarData)
         {
             r_VehicleData.MaxEnergy = k_MaxBatteryTime;
@@ -28,22 +28,6 @@
             string baseString = base.ToString();
             baseString += r_VehicleData.ToString();
             return baseString;
-        }
-
-        public string ColorOfCar
-        {
-            get
-            {
-                return (r_VehicleData as CarData).Color;
-            }
-        }
-
-        public byte NumberOfDoors
-        {
-            get
-            {
-                return (r_VehicleData as CarData).NumberOfDoors;
-            }
         }
     }
 }

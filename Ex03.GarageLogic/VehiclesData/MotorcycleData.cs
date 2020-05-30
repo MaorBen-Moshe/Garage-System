@@ -12,16 +12,17 @@ namespace Ex03.GarageLogic
             B
         }
 
-        private eLicenseType? m_LicenseType;
-        private uint m_EngineCapacity;
         internal const byte k_NumberOfWheels = 2;
         internal const byte k_MaxPressureInWheel = 30;
+        private eLicenseType? m_LicenseType;
+        private uint m_EngineCapacity;
 
-        public MotorcycleData(string i_VehicleModel,
-                              string i_VehicleLicenseNumber,
-                              float i_CurrentEnergy,
-                              string i_LicenseType, 
-                              uint i_EngineCapacity)
+        public MotorcycleData(
+            string i_VehicleModel,
+            string i_VehicleLicenseNumber,
+            float i_CurrentEnergy,
+            string i_LicenseType, 
+            uint i_EngineCapacity)
         : base(i_VehicleModel, i_VehicleLicenseNumber, k_NumberOfWheels, i_CurrentEnergy)
         {
             LicenseType = i_LicenseType;
@@ -55,21 +56,23 @@ namespace Ex03.GarageLogic
 
             set
             {
-                bool isValidLicesneType = Enum.TryParse(value, out eLicenseType result);
+                bool isValidLicesneType = Enum.TryParse(value, out eLicenseType result) 
+                                          && Enum.IsDefined(typeof(eLicenseType), value);
                 if(isValidLicesneType)
                 {
                     m_LicenseType = result;
                 }
                 else
                 {
-                    throw new FormatException();
+                    throw new FormatException("Fail parsing the license type of a motorcycle");
                 }
             }
         }
 
         public override string ToString()
         {
-            return string.Format(format: @"
+            return string.Format(
+                format: @"
 License Type: {0},
 Engine Capacity: {1}",
                 m_LicenseType,

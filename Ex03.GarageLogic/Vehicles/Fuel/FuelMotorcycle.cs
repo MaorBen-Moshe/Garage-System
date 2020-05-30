@@ -1,10 +1,10 @@
 ﻿namespace Ex03.GarageLogic
 {
-    public class FuelMotorcycle : FuelVehicle
+    internal class FuelMotorcycle : FuelVehicle
     {
         private const float k_MaxTankFuel = 7;
 
-        public FuelMotorcycle(VehicleData i_MotorcycleData)
+        internal FuelMotorcycle(VehicleData i_MotorcycleData)
             : base(i_MotorcycleData, eFuelType.Octan95)
         {
             r_VehicleData.MaxEnergy = k_MaxTankFuel;
@@ -20,22 +20,6 @@
                     string.Empty,
                     0,
                     MotorcycleData.k_MaxPressureInWheel));
-            }
-        }
-
-        public string LicenseType
-        {
-            get
-            {
-                return (r_VehicleData as MotorcycleData).LicenseType;
-            }
-        }
-
-        public uint EngineCapacity
-        {
-            get
-            {
-                return (r_VehicleData as MotorcycleData).EngineCapacity;
             }
         }
 

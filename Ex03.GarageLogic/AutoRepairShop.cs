@@ -26,23 +26,7 @@ namespace Ex03.GarageLogic
                 m_VehicleInShop = i_VehicleInShop;
             }
 
-            public string OwenerName
-            {
-                get
-                {
-                    return m_OwnerName;
-                }
-            }
-
-            public string PhoneNumber
-            {
-                get
-                {
-                    return m_OwnerPhoneNumber;
-                }
-            }
-
-            public string VehicleLicensNumber
+            internal string VehicleLicensNumber
             {
                 get
                 {
@@ -50,7 +34,7 @@ namespace Ex03.GarageLogic
                 }
             }
 
-            public eVehicleStatus VehicleStatus
+            internal eVehicleStatus VehicleStatus
             {
                 get
                 {
@@ -64,8 +48,8 @@ namespace Ex03.GarageLogic
             }
         }
 
+        private const string k_IsNotExistError = "Vehicle do not exist in the garage";
         private readonly Dictionary<string, VehicleInShop> r_VehicleList;
-        private readonly string r_IsNotExistError = "Vehicle do not exsit in the garage";
 
         public AutoRepairShop()
         {
@@ -77,12 +61,15 @@ namespace Ex03.GarageLogic
             bool isExist = r_VehicleList.ContainsKey(i_VehicleToAdd.VehicleLicensNumber);
             if(isExist)
             {
+                string argumentFormat = string.Format(
+                    format: @"vehicle of type {0}, is in the garage with status: {1}, changed to be InRepair.",
+                    i_VehicleToAdd.m_VehicleInShop.GetType(),
+                    i_VehicleToAdd.VehicleStatus);
                 i_VehicleToAdd.VehicleStatus = VehicleInShop.eVehicleStatus.InRepair;
+                throw new ArgumentException(argumentFormat);
             }
-            else
-            {
-                r_VehicleList.Add(i_VehicleToAdd.VehicleLicensNumber, i_VehicleToAdd);
-            }
+
+            r_VehicleList.Add(i_VehicleToAdd.VehicleLicensNumber, i_VehicleToAdd);
         }
 
         public List<string> ShowAllVehiclesInGarage(VehicleInShop.eVehicleStatus? i_Status = null)
@@ -121,7 +108,7 @@ namespace Ex03.GarageLogic
             }
             else
             {
-                throw new ArgumentException(r_IsNotExistError);
+                throw new ArgumentException(k_IsNotExistError);
             }
         }
 
@@ -138,55 +125,39 @@ namespace Ex03.GarageLogic
             }
             else
             {
-                throw new ArgumentException(r_IsNotExistError);
+                throw new ArgumentException(k_IsNotExistError);
             }
         }
 
-        public void RefuelingVehicle(string i_LicenseNumber, FuelVehicle.eFuelType i_FuelType, float i_AmountToAdd)
-        {
-            try
-            {
-                bool isExist = r_VehicleList.TryGetValue(i_LicenseNumber, out VehicleInShop toRefuel);
-                if(isExist)
-                {
-                    FuelVehicle vehicle = toRefuel.m_VehicleInShop as FuelVehicle;
-                    if(vehicle != null)
-                    {
-                        vehicle.Refueling(i_AmountToAdd, i_FuelType);
-                    }
-                }
-                else
-                {
-                    throw new ArgumentException(r_IsNotExistError);
-                }
-            }
-            catch(Exception ex)
-            {
-                throw new Exception("Fail refueling the vehicle", ex);
-            }
-        }
-
-        public void LoadingVehicle(string i_LicenseNumber, float i_MinutesToLoad)
+        public void FillInEnergyToVehicle(
+            string i_LicenseNumber,
+            float i_AmountToAdd,
+            FuelVehicle.eFuelType? i_FuelType = null)
         {
             try
             {
                 bool isExist = r_VehicleList.TryGetValue(i_LicenseNumber, out VehicleInShop toRefuel);
                 if (isExist)
                 {
-                    ElectricVehicle vehicle = toRefuel.m_VehicleInShop as ElectricVehicle;
-                    if (vehicle != null)
+                    if (toRefuel.m_VehicleInShop is FuelVehicle)
                     {
-                        vehicle.Loading(i_MinutesToLoad / 60);
+                        FuelVehicle fuelVehicle = toRefuel.m_VehicleInShop as FuelVehicle;
+                        fuelVehicle.Refueling(i_AmountToAdd, (FuelVehicle.eFuelType)i_FuelType);
+                    }
+                    else if(toRefuel.m_VehicleInShop is ElectricVehicle)
+                    {
+                        ElectricVehicle electricVehicle = toRefuel.m_VehicleInShop as ElectricVehicle;
+                        electricVehicle.Loading(i_AmountToAdd / 60);
                     }
                 }
                 else
                 {
-                    throw new ArgumentException(r_IsNotExistError);
+                    throw new ArgumentException(k_IsNotExistError);
                 }
             }
             catch (Exception ex)
             {
-                throw new Exception("Fail loading the vehicle", ex);
+                throw new Exception("Fail to fill in the energy in the vehicle", ex);
             }
         }
 
@@ -200,7 +171,7 @@ namespace Ex03.GarageLogic
             }
             else
             {
-                throw new ArgumentException(r_IsNotExistError);
+                throw new ArgumentException(k_IsNotExistError);
             }
 
             return vehicleDetails;

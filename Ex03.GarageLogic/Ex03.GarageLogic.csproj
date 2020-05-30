@@ -40,7 +40,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AutoRepairShop.cs" />
-    <Compile Include="VehiclesData\CarData.cs" />
+    <Compile Include="VehiclesData\CarData.cs">
+      <ExcludeFromStyleCop>False</ExcludeFromStyleCop>
+    </Compile>
     <Compile Include="CreatingVehicles.cs" />
     <Compile Include="VehiclesData\TruckData.cs" />
     <Compile Include="VehiclesData\VehicleData.cs" />

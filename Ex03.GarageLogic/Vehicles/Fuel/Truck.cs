@@ -4,9 +4,9 @@ using Ex03.GarageLogic.VehiclesData;
 
 namespace Ex03.GarageLogic
 {
-    public class Truck : FuelVehicle
+    internal class Truck : FuelVehicle
     {
-        public Truck(VehicleData i_TruckData)
+        internal Truck(VehicleData i_TruckData)
             : base(i_TruckData, eFuelType.Soler)
         {
             IntialNewWheelsOfVehicle();

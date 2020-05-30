@@ -8,20 +8,20 @@ namespace Ex03.GarageLogic
 {
     public abstract class VehicleData
     {
-        public struct Wheel
+        protected internal struct Wheel
         {
-            private string m_Manufacturer;
-            private float m_CurrentAirPressure;
             private readonly float r_MaxAirPressure;
+            private readonly string r_Manufacturer;
+            private float m_CurrentAirPressure;
 
-            public Wheel(string i_ManufacturerName, float i_CurrentAirPressure, float i_MaxAirPressure)
+            internal Wheel(string i_ManufacturerName, float i_CurrentAirPressure, float i_MaxAirPressure)
             {
-                m_Manufacturer = i_ManufacturerName;
+                r_Manufacturer = i_ManufacturerName ?? "Michelin";
                 m_CurrentAirPressure = i_CurrentAirPressure;
                 r_MaxAirPressure = i_MaxAirPressure;
             }
 
-            public float CurrentAirPressure
+            internal float CurrentAirPressure
             {
                 get
                 {
@@ -29,7 +29,7 @@ namespace Ex03.GarageLogic
                 }
             }
 
-            public float MaxAirPressure
+            internal float MaxAirPressure
             {
                 get
                 {
@@ -37,7 +37,7 @@ namespace Ex03.GarageLogic
                 }
             }
 
-            public void WheelBlowing(float i_AirToAdd)
+            internal void WheelBlowing(float i_AirToAdd)
             {
                 float afterBlowing = m_CurrentAirPressure + i_AirToAdd;
                 if (afterBlowing.CompareTo(r_MaxAirPressure) <= 0)
@@ -53,8 +53,8 @@ namespace Ex03.GarageLogic
             public override string ToString()
             {
                 return string.Format(
-                    format: @"Manufacter: {0},Current Air Pressure: {1}",
-                    m_Manufacturer,
+                    format: @"Manufacturer: {0},Current Air Pressure: {1}",
+                    r_Manufacturer,
                     m_CurrentAirPressure);
             }
         }
@@ -66,30 +66,32 @@ namespace Ex03.GarageLogic
         protected float m_MaxEnergy;
         protected float m_CurrentEnergy;
 
-        protected VehicleData(string i_VehicleModel,
-                              string i_VehicleLicenseNumber,
-                              byte i_NumberOfWheels,
-                              float i_CurrentEnergy)
+        protected VehicleData(
+            string i_VehicleModel,
+            string i_VehicleLicenseNumber,
+            byte i_NumberOfWheels,
+            float i_CurrentEnergy)
         {
             m_VehicleModel = i_VehicleModel;
             m_VehicleLicenseNumber = i_VehicleLicenseNumber;
             m_VehicleWheels = new List<Wheel>(i_NumberOfWheels);
-            m_CurrentEnergy = i_CurrentEnergy;
+            CurrentEnergy = i_CurrentEnergy;
         }
         
-
-        public string VehicleModel
+        internal string VehicleModel
         {
             get
             {
                return m_VehicleModel;
             } 
+
             set
             {
                 m_VehicleModel = value;
             } 
         }
-        public float EnergyLeft
+
+        protected internal float EnergyLeft
         {
             get
             {
@@ -98,11 +100,18 @@ namespace Ex03.GarageLogic
 
             set
             {
-                m_EnergyLeft = value < 1 ? value : 1;
+                if(value >= 0)
+                {
+                    m_EnergyLeft = value < 1 ? value : 1;
+                }
+                else
+                {
+                    throw new ValueOutOfRangeException(0, 1);
+                }
             }
         }
 
-        public string VehicleLicenseNumber
+        internal string VehicleLicenseNumber
         {
             get
             {
@@ -110,7 +119,7 @@ namespace Ex03.GarageLogic
             }
         }
 
-        public float CurrentEnergy
+        internal float CurrentEnergy
         {
             get
             {
@@ -119,27 +128,43 @@ namespace Ex03.GarageLogic
 
             set
             {
-                m_CurrentEnergy = value;
+                if(value >= 0 && value <= m_MaxEnergy)
+                {
+                    m_CurrentEnergy = value;
+                }
+                else
+                {
+                    throw new ValueOutOfRangeException(0, m_MaxEnergy);
+                }
             }
         }
 
-        public float MaxEnergy
+        internal float MaxEnergy
         {
             get
             {
                 return m_MaxEnergy;
             }
+
             set
             {
-                m_MaxEnergy = value;
+                if(value >= 0)
+                {
+                    m_MaxEnergy = value;
+                }
             }
         }
 
-        public List<Wheel> VehicleWheels
+        internal List<Wheel> VehicleWheels
         {
             get
             {
-                return m_VehicleWheels;
+                if(m_VehicleWheels.Count > 0)
+                {
+                    return m_VehicleWheels;
+                }
+
+                throw new NullReferenceException("Wheels list is Empty");
             }
         }
 

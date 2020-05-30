@@ -14,37 +14,28 @@ namespace Ex03.GarageLogic
             Truck
         }
 
-        private eTypeOfVehicles m_VehicleToCreate;
         private readonly string r_ErrorMessage;
+        private eTypeOfVehicles m_VehicleToCreate;
 
         public CreatingVehicles(eTypeOfVehicles i_VehicleToCreate)
         {
-             m_VehicleToCreate = i_VehicleToCreate;
-             r_ErrorMessage = string.Format("Fail creating {0}", m_VehicleToCreate.ToString());
+            VehicleToCreate = i_VehicleToCreate;
+            r_ErrorMessage = string.Format("Fail creating {0}", m_VehicleToCreate.ToString());
         }
 
-        public string VehicleToCreate
+        public eTypeOfVehicles VehicleToCreate
         {
             set
             {
-                bool isValid = Enum.TryParse(value, out eTypeOfVehicles result);
+                bool isValid = Enum.IsDefined(typeof(eTypeOfVehicles), value.ToString());
                 if(isValid)
                 {
-                    m_VehicleToCreate = result;
+                    m_VehicleToCreate = value;
                 }
                 else
                 {
-                    throw new ArgumentException(
-                        string.Format("There is not {0} type of vehicle in the garage", value));
+                    throw new ArgumentException(string.Format("There is not type of vehicle: {0} in the garage", value));
                 }
-            }
-        }
-
-        public eTypeOfVehicles VehicleType
-        {
-            get
-            {
-                return m_VehicleToCreate;
             }
         }
 

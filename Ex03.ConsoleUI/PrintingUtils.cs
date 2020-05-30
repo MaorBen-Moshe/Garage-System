@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Ex03.GarageLogic;
 
 namespace Ex03.ConsoleUI
 {
@@ -80,6 +81,29 @@ $$$$$$$$$$ $$          $$ $$    $$$ $$         $$ $$$$$$$$$$  $$$$$$$$$$
 4.Soler");
 
             Console.WriteLine(fuel);
+        }
+
+        public static void PrintExceptionErrors(Exception i_Ex)
+        {
+            while (i_Ex.InnerException != null)
+            {
+                Console.WriteLine(i_Ex.InnerException.Message);
+            }
+
+            Console.WriteLine(i_Ex.Message);
+        }
+
+        public static void PrintLicensesList(List<string> i_LicensesList, 
+                                             AutoRepairShop.VehicleInShop.eVehicleStatus? i_Status = null)
+        {
+            string header = i_Status != null
+                                ? string.Format("The list of licenses by {0} status:", i_Status.ToString())
+                                : "The list of licenses:"; 
+            Console.WriteLine(header);
+            foreach(string currentLicense in i_LicensesList)
+            {
+                Console.WriteLine(currentLicense);
+            }
         }
 
         private static void printOptions()

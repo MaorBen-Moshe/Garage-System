@@ -2,10 +2,11 @@
 
 namespace Ex03.GarageLogic
 {
-    public class FuelCar : FuelVehicle
+    internal class FuelCar : FuelVehicle
     {
         private const float k_MaxTankFuel = 60;
-        public FuelCar(VehicleData i_CarData)
+
+        internal FuelCar(VehicleData i_CarData)
             : base(i_CarData, eFuelType.Octan96)
         {
             r_VehicleData.MaxEnergy = 60;
@@ -29,22 +30,6 @@ namespace Ex03.GarageLogic
             string baseString = base.ToString();
             baseString += r_VehicleData.ToString();
             return baseString;
-        }
-
-        public string ColorOfCar
-        {
-            get
-            {
-                return (r_VehicleData as CarData).Color;
-            }
-        }
-
-        public byte NumberOfDoors
-        {
-            get
-            {
-                return (r_VehicleData as CarData).NumberOfDoors;
-            }
         }
     }
 }

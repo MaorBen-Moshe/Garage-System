@@ -20,7 +20,7 @@ namespace Ex03.GarageLogic
             FuelType = i_FuelType;
         }
 
-        public eFuelType FuelType
+        internal eFuelType FuelType
         {
             get
             {
@@ -30,43 +30,15 @@ namespace Ex03.GarageLogic
             set
             {
                 string fuelTypeName = value.ToString();
-                bool isValid = Enum.TryParse(fuelTypeName, out m_FuelType);
+                bool isValid = Enum.TryParse(fuelTypeName, out m_FuelType) && Enum.IsDefined(typeof(eFuelType), fuelTypeName);
                 if(!isValid)
                 {
-                    throw new ArgumentException();
+                    throw new ArgumentException(@"This not a valid type of fuel");
                 }
             }
         }
 
-        public float CurrentTankFuel
-        {
-            get
-            {
-                return r_VehicleData.CurrentEnergy;
-            }
-
-            set
-            {
-                if (value >= 0 && value <= r_VehicleData.MaxEnergy)
-                {
-                    r_VehicleData.CurrentEnergy = value;
-                }
-                else
-                {
-                    throw new ValueOutOfRangeException(0, r_VehicleData.MaxEnergy);
-                }
-            }
-        }
-
-        public float MaxTankFuel
-        {
-            get
-            {
-                return r_VehicleData.MaxEnergy;
-            }
-        }
-
-        public virtual void Refueling(float i_FuelToAdd, eFuelType i_VehicleFuelType)
+        internal virtual void Refueling(float i_FuelToAdd, eFuelType i_VehicleFuelType)
         {
             if (m_FuelType.Equals(i_VehicleFuelType))
             {
@@ -83,8 +55,10 @@ namespace Ex03.GarageLogic
             }
             else
             {
-                throw new ArgumentException(string.Format(format: "You cannot add {0} to a truck",
-                    i_VehicleFuelType.ToString()));
+                throw new ArgumentException(
+                        string.Format(
+                        format: "You cannot add {0} to this vehicle",
+                        i_VehicleFuelType.ToString()));
             }
         }
 

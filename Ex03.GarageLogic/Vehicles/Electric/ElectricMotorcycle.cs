@@ -1,10 +1,10 @@
 ﻿namespace Ex03.GarageLogic
 {
-    public class ElectricMotorcycle : ElectricVehicle
+    internal class ElectricMotorcycle : ElectricVehicle
     {
         private const float k_MaxBatteryTime = 1.2f;
 
-        public ElectricMotorcycle(VehicleData i_MotorcycleData)
+        internal ElectricMotorcycle(VehicleData i_MotorcycleData)
             : base(i_MotorcycleData)
         {
             r_VehicleData.MaxEnergy = k_MaxBatteryTime;
@@ -20,22 +20,6 @@
                     string.Empty,
                     0,
                     MotorcycleData.k_MaxPressureInWheel));
-            }
-        }
-
-        public string LicenseType
-        {
-            get
-            {
-                return (r_VehicleData as MotorcycleData).LicenseType;
-            }
-        }
-
-        public uint EngineCapacity
-        {
-            get
-            {
-                return (r_VehicleData as MotorcycleData).EngineCapacity;
             }
         }
 
