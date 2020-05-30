@@ -127,7 +127,7 @@ $$$$$$$$$$ $$          $$ $$    $$$ $$         $$ $$$$$$$$$$  $$$$$$$$$$
                 string.Format(
                     format:@"Energy add to vehicle {0} {1}", 
                     i_LicenseNumber,
-                    fuelType ?? null));
+                    fuelType));
         }
 
         public static void PrintLicensesList(

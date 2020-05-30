@@ -13,7 +13,7 @@ namespace Ex03.GarageLogic
 
             internal Wheel(string i_ManufacturerName, float i_CurrentAirPressure, float i_MaxAirPressure)
             {
-                r_Manufacturer = i_ManufacturerName ?? "Michelin";
+                r_Manufacturer = i_ManufacturerName == string.Empty ? "Michelin" : i_ManufacturerName;
                 m_CurrentAirPressure = i_CurrentAirPressure;
                 r_MaxAirPressure = i_MaxAirPressure;
             }
@@ -23,6 +23,18 @@ namespace Ex03.GarageLogic
                 get
                 {
                     return m_CurrentAirPressure;
+                }
+
+                set
+                {
+                    if(m_CurrentAirPressure + value <= r_MaxAirPressure)
+                    {
+                        m_CurrentAirPressure = value;
+                    }
+                    else
+                    {
+                        throw new ValueOutOfRangeException(0, r_MaxAirPressure);
+                    }
                 }
             }
 
@@ -36,10 +48,10 @@ namespace Ex03.GarageLogic
 
             internal void WheelBlowing(float i_AirToAdd)
             {
-                float afterBlowing = m_CurrentAirPressure + i_AirToAdd;
+                float afterBlowing = CurrentAirPressure + i_AirToAdd;
                 if (afterBlowing.CompareTo(r_MaxAirPressure) <= 0)
                 {
-                    m_CurrentAirPressure += i_AirToAdd;
+                    CurrentAirPressure += i_AirToAdd;
                 }
                 else
                 {

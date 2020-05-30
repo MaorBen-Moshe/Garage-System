@@ -67,9 +67,14 @@ Current Energy: {4}",
             {
                r_VehicleData.CurrentEnergy = MaxEnergy;
             }
+
+            if(CurrentEnergy < 0)
+            {
+                throw new ValueOutOfRangeException(0, MaxEnergy);
+            }
         }
 
-       private StringBuilder printWheels()
+        private StringBuilder printWheels()
         {
             StringBuilder wheelList = new StringBuilder();
             int index = 0;

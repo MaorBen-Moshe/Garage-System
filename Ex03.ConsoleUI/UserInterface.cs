@@ -40,7 +40,6 @@ namespace Ex03.ConsoleUI
                     try
                     {
                         controlGarageOptions(result);
-                        Thread.Sleep(4000);
                     }
                     catch
                     {
@@ -165,7 +164,7 @@ The vehicle details:
                         vehicle);
                     r_AutoRepairShop.AddVehicleToStore(toAdd);
                     PrintingUtils.VehicleAdded(toAdd.VehicleLicensNumber);
-                    Thread.Sleep(2000);
+                    Thread.Sleep(4000);
                     break;
                 }
                 catch(Exception ex)
