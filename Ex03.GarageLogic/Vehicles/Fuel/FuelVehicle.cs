@@ -12,6 +12,8 @@ namespace Ex03.GarageLogic
             Soler
         }
 
+        public const float k_CarMaxTankFuel = 60;
+        public const float k_MotorcycleMaxTankFuel = 7;
         protected eFuelType m_FuelType;
 
         protected FuelVehicle(VehicleData i_VehicleData, eFuelType i_FuelType)
@@ -48,9 +50,11 @@ namespace Ex03.GarageLogic
                 }
                 else
                 {
+                    string message = "Fail refueling the vehicle";
                     throw new ValueOutOfRangeException(
                         0,
-                        r_VehicleData.MaxEnergy - r_VehicleData.CurrentEnergy);
+                        r_VehicleData.MaxEnergy - r_VehicleData.CurrentEnergy,
+                        message);
                 }
             }
             else

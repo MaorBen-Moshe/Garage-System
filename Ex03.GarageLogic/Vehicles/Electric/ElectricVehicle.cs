@@ -2,6 +2,9 @@
 {
     public abstract class ElectricVehicle : Vehicle
     {
+        public const float k_CarMaxBatteryTime = 2.1f;
+        public const float k_MotorcycleMaxBatteryTime = 1.2f;
+
         protected ElectricVehicle(VehicleData i_VehicleData)
             : base(i_VehicleData)
         {
@@ -15,9 +18,11 @@
             }
             else
             {
+                string message = "Fail loading the vehicle";
                 throw new ValueOutOfRangeException(
                     0,
-                    r_VehicleData.MaxEnergy - r_VehicleData.CurrentEnergy);
+                    r_VehicleData.MaxEnergy - r_VehicleData.CurrentEnergy, 
+                    message);
             }
         }
     }

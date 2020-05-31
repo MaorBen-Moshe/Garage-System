@@ -2,14 +2,9 @@
 {
     internal class FuelMotorcycle : FuelVehicle
     {
-        private const float k_MaxTankFuel = 7;
-
         internal FuelMotorcycle(MotorcycleData i_MotorcycleData)
             : base(i_MotorcycleData, eFuelType.Octan95)
         {
-            r_VehicleData.MaxEnergy = k_MaxTankFuel;
-            MaintainCurrentEnergy();
-            r_VehicleData.EnergyLeft = r_VehicleData.CurrentEnergy / k_MaxTankFuel;
             IntialNewWheelsOfVehicle();
         }
 

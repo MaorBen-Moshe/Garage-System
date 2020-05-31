@@ -22,8 +22,9 @@ namespace Ex03.GarageLogic
             string i_VehicleLicenseNumber,
             float i_CurrentEnergy,
             string i_LicenseType, 
-            uint i_EngineCapacity)
-        : base(i_VehicleModel, i_VehicleLicenseNumber, sr_NumberOfWheels, i_CurrentEnergy)
+            uint i_EngineCapacity,
+            float i_MaxEnergy)
+        : base(i_VehicleModel, i_VehicleLicenseNumber, sr_NumberOfWheels, i_CurrentEnergy, i_MaxEnergy)
         {
             LicenseType = i_LicenseType;
             EngineCapacity = i_EngineCapacity;

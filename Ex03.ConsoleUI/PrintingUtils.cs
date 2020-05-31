@@ -84,9 +84,11 @@ $$$$$$$$$$ $$          $$ $$    $$$ $$         $$ $$$$$$$$$$  $$$$$$$$$$
         {
             if(i_Ex is ValueOutOfRangeException || i_Ex is ArgumentException || i_Ex is FormatException)
             {
-                while (i_Ex.InnerException != null)
+                Exception inner = i_Ex.InnerException;
+                while (inner != null)
                 {
-                    Console.WriteLine(i_Ex.InnerException.Message);
+                    Console.WriteLine(inner.Message);
+                    inner = inner.InnerException;
                 }
             }
 
@@ -107,6 +109,10 @@ $$$$$$$$$$ $$          $$ $$    $$$ $$         $$ $$$$$$$$$$  $$$$$$$$$$
                     i_LicenseNumber,
                     i_NewStatus));
             }
+            else
+            {
+                Console.WriteLine("Fail modify vehicle {0}", i_LicenseNumber);
+            }
         }
 
         public static void InflateWheels(string i_LicenseNumber, bool i_IsInflated)
@@ -115,6 +121,10 @@ $$$$$$$$$$ $$          $$ $$    $$$ $$         $$ $$$$$$$$$$  $$$$$$$$$$
             {
                 Console.WriteLine(string.Format(format:@"All the wheels of vehicle {0} inflated to maximum", i_LicenseNumber));
             }
+            else
+            {
+                Console.WriteLine("Fail inflating vehicle {0}", i_LicenseNumber);
+            }
         }
 
         public static void VehicleAdded(string i_LicenseNumber, bool i_IsAdded)
@@ -122,6 +132,10 @@ $$$$$$$$$$ $$          $$ $$    $$$ $$         $$ $$$$$$$$$$  $$$$$$$$$$
             if(i_IsAdded)
             {
                 Console.WriteLine(string.Format(format:@"Vehicle {0} added successfully to the garage", i_LicenseNumber));
+            }
+            else
+            {
+                Console.WriteLine("Fail adding vehicle {0}", i_LicenseNumber);
             }
         }
 
@@ -136,6 +150,10 @@ $$$$$$$$$$ $$          $$ $$    $$$ $$         $$ $$$$$$$$$$  $$$$$$$$$$
                 }
 
                 Console.WriteLine(string.Format(format: @"Energy add to vehicle {0} {1}", i_LicenseNumber, fuelType));
+            }
+            else
+            {
+                Console.WriteLine("Fail fill in energy to vehicle {0}", i_LicenseNumber);
             }
         }
 

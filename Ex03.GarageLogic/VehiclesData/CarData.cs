@@ -22,8 +22,9 @@ namespace Ex03.GarageLogic
             string i_VehicleLicenseNumber,
             float i_CurrentEnergy,
             string i_Color,
-            byte i_NumberOfDoors)
-            : base(i_VehicleModel, i_VehicleLicenseNumber, sr_NumberOfWheels, i_CurrentEnergy)
+            byte i_NumberOfDoors,
+            float i_MaxEnergy)
+            : base(i_VehicleModel, i_VehicleLicenseNumber, sr_NumberOfWheels, i_CurrentEnergy, i_MaxEnergy)
         {
             NumberOfDoors = i_NumberOfDoors;
             Color = i_Color;
@@ -66,7 +67,8 @@ namespace Ex03.GarageLogic
             {
                 if(!(value >= 2 && value <= 5))
                 {
-                    throw new ValueOutOfRangeException(2, 5);
+                    string message = "Fail adding the number of doors";
+                    throw new ValueOutOfRangeException(2, 5, message);
                 }
 
                 m_NumberOfDoors = value;

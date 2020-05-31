@@ -34,7 +34,8 @@ namespace Ex03.GarageLogic
                     }
                     else
                     {
-                        throw new ValueOutOfRangeException(0, r_MaxAirPressure);
+                        string message = "Fail adding air to the wheel";
+                        throw new ValueOutOfRangeException(0, r_MaxAirPressure, message);
                     }
                 }
             }
@@ -56,7 +57,8 @@ namespace Ex03.GarageLogic
                 }
                 else
                 {
-                    throw new ValueOutOfRangeException(0, r_MaxAirPressure);
+                    string message = "Fail add air to the wheel";
+                    throw new ValueOutOfRangeException(0, r_MaxAirPressure, message);
                 }
             }
 
@@ -80,12 +82,15 @@ namespace Ex03.GarageLogic
             string i_VehicleModel,
             string i_VehicleLicenseNumber,
             byte i_NumberOfWheels,
-            float i_CurrentEnergy)
+            float i_CurrentEnergy,
+            float i_MaxEnergy)
         {
             m_VehicleModel = i_VehicleModel;
             m_VehicleLicenseNumber = i_VehicleLicenseNumber;
             m_VehicleWheels = new List<Wheel>(i_NumberOfWheels);
-            m_CurrentEnergy = i_CurrentEnergy;
+            m_MaxEnergy = i_MaxEnergy;
+            CurrentEnergy = i_CurrentEnergy;
+            m_EnergyLeft = m_CurrentEnergy / m_MaxEnergy;
         }
         
         internal string VehicleModel
@@ -106,18 +111,6 @@ namespace Ex03.GarageLogic
             get
             {
                 return m_EnergyLeft;
-            }
-
-            set
-            {
-                if(value >= 0)
-                {
-                    m_EnergyLeft = value < 1 ? value : 1;
-                }
-                else
-                {
-                    throw new ValueOutOfRangeException(0, 1);
-                }
             }
         }
 
@@ -144,7 +137,8 @@ namespace Ex03.GarageLogic
                 }
                 else
                 {
-                    throw new ValueOutOfRangeException(0, m_MaxEnergy);
+                    string message = "Energy added is off the limit";
+                    throw new ValueOutOfRangeException(0, m_MaxEnergy, message);
                 }
             }
         }

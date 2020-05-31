@@ -14,11 +14,8 @@
             float i_CurrentEnergy,
             float i_CargoVolume,
             bool i_IsHaveHazardousMaterials)
-        : base(i_VehicleModel, i_VehicleLicenseNumber, sr_NumberOfWheels, i_CurrentEnergy)
+        : base(i_VehicleModel, i_VehicleLicenseNumber, sr_NumberOfWheels, i_CurrentEnergy, sr_MaxTankFuel)
         {
-            m_MaxEnergy = sr_MaxTankFuel;
-            EnergyLeft = m_CurrentEnergy / m_MaxEnergy;
-            m_CurrentEnergy = m_CurrentEnergy > m_MaxEnergy ? m_MaxEnergy : m_CurrentEnergy;
             r_CargoVolume = i_CargoVolume;
             r_IsHaveHazardousMaterials = i_IsHaveHazardousMaterials;
         }

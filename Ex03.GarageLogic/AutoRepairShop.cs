@@ -146,6 +146,7 @@ namespace Ex03.GarageLogic
         {
             try
             {
+                o_IsSucceeded = false;
                 bool isExist = r_VehicleList.TryGetValue(i_LicenseNumber, out VehicleInShop toRefuel);
                 if (isExist)
                 {
@@ -155,6 +156,7 @@ namespace Ex03.GarageLogic
                         if(fuelVehicle != null)
                         {
                             fuelVehicle.Refueling(i_AmountToAdd, (FuelVehicle.eFuelType)i_FuelType);
+                            o_IsSucceeded = true;
                         }
                     }
                     else if(toRefuel.m_VehicleInShop is ElectricVehicle)
@@ -163,10 +165,9 @@ namespace Ex03.GarageLogic
                         if(electricVehicle != null)
                         {
                             electricVehicle.Loading(i_AmountToAdd / 60);
+                            o_IsSucceeded = true;
                         }
                     }
-
-                    o_IsSucceeded = true;
                 }
                 else
                 {

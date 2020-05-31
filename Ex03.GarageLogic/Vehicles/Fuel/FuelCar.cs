@@ -2,14 +2,9 @@
 {
     internal class FuelCar : FuelVehicle
     {
-        private const float k_MaxTankFuel = 60;
-
         internal FuelCar(CarData i_CarData)
             : base(i_CarData, eFuelType.Octan96)
         {
-            r_VehicleData.MaxEnergy = 60;
-            MaintainCurrentEnergy();
-            r_VehicleData.EnergyLeft = r_VehicleData.CurrentEnergy / k_MaxTankFuel;
             IntialNewWheelsOfVehicle();
         }
 
