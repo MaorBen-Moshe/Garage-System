@@ -82,14 +82,11 @@ $$$$$$$$$$ $$          $$ $$    $$$ $$         $$ $$$$$$$$$$  $$$$$$$$$$
 
         public static void PrintExceptionErrors(Exception i_Ex)
         {
-            if(i_Ex is ValueOutOfRangeException || i_Ex is ArgumentException || i_Ex is FormatException)
+            Exception inner = i_Ex.InnerException;
+            while (inner != null)
             {
-                Exception inner = i_Ex.InnerException;
-                while (inner != null)
-                {
-                    Console.WriteLine(inner.Message);
-                    inner = inner.InnerException;
-                }
+                Console.WriteLine(inner.Message);
+                inner = inner.InnerException;
             }
 
             Console.WriteLine(i_Ex.Message);
