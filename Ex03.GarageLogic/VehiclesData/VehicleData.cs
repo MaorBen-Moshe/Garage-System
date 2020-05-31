@@ -112,6 +112,18 @@ namespace Ex03.GarageLogic
             {
                 return m_EnergyLeft;
             }
+
+            set
+            {
+                if(value > 1)
+                {
+                    m_EnergyLeft = 1;
+                }
+                else
+                {
+                    m_EnergyLeft = value;
+                }
+            }
         }
 
         internal string VehicleLicenseNumber

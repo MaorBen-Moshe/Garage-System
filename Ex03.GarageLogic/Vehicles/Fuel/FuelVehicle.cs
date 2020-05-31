@@ -47,6 +47,7 @@ namespace Ex03.GarageLogic
                 if (r_VehicleData.CurrentEnergy + i_FuelToAdd <= r_VehicleData.MaxEnergy)
                 {
                     r_VehicleData.CurrentEnergy += i_FuelToAdd;
+                    r_VehicleData.EnergyLeft = r_VehicleData.CurrentEnergy / r_VehicleData.MaxEnergy;
                 }
                 else
                 {

@@ -15,6 +15,7 @@
             if (r_VehicleData.CurrentEnergy + i_ElectricityToAdd <= r_VehicleData.MaxEnergy)
             {
                 r_VehicleData.CurrentEnergy += i_ElectricityToAdd;
+                r_VehicleData.EnergyLeft = r_VehicleData.CurrentEnergy / r_VehicleData.MaxEnergy;
             }
             else
             {
