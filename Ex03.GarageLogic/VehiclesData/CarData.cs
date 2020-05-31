@@ -12,8 +12,8 @@ namespace Ex03.GarageLogic
             Silver
         }
 
-        internal const byte k_NumberOfWheels = 4;
-        internal const byte k_MaxPressureInWheel = 32;
+        internal static readonly byte sr_NumberOfWheels = 4;
+        internal static readonly byte sr_MaxPressureInWheel = 32;
         private byte m_NumberOfDoors;
         private eColor? m_Color;
 
@@ -23,7 +23,7 @@ namespace Ex03.GarageLogic
             float i_CurrentEnergy,
             string i_Color,
             byte i_NumberOfDoors)
-            : base(i_VehicleModel, i_VehicleLicenseNumber, k_NumberOfWheels, i_CurrentEnergy)
+            : base(i_VehicleModel, i_VehicleLicenseNumber, sr_NumberOfWheels, i_CurrentEnergy)
         {
             NumberOfDoors = i_NumberOfDoors;
             Color = i_Color;
@@ -77,7 +77,7 @@ namespace Ex03.GarageLogic
         {
             return string.Format(
                 format: @"
-Color: {0},
+Color: {0}
 The car has {1} doors",
                 m_Color,
                 m_NumberOfDoors);

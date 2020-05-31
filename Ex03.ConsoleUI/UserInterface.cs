@@ -40,10 +40,14 @@ namespace Ex03.ConsoleUI
                     try
                     {
                         controlGarageOptions(result);
+                        if(result.Equals(eOption.Exit) == false)
+                        {
+                            Thread.Sleep(4000);
+                        }
                     }
                     catch
                     {
-                        Thread.Sleep(2000);
+                        Thread.Sleep(4000);
                     }
                 }
                 else
@@ -89,34 +93,30 @@ namespace Ex03.ConsoleUI
                 case eOption.ModifyStatus:
                     licenseNumber = getLicenseNumber();
                     status = getStatus();
-                    r_AutoRepairShop.SetNewStatusToVehicle(licenseNumber, status);
-                    PrintingUtils.StatusModified(licenseNumber, status);
+                    r_AutoRepairShop.SetNewStatusToVehicle(licenseNumber, status, out bool isModified);
+                    PrintingUtils.StatusModified(licenseNumber, status, isModified);
                     break;
                 case eOption.InflateWheels:
                     licenseNumber = getLicenseNumber();
-                    r_AutoRepairShop.SetWheelsPressureToMaximum(licenseNumber);
-                    PrintingUtils.InflateWheels(licenseNumber);
+                    r_AutoRepairShop.SetWheelsPressureToMaximum(licenseNumber, out bool isInflated);
+                    PrintingUtils.InflateWheels(licenseNumber, isInflated);
                     break;
                 case eOption.RefuelVehicle:
                     licenseNumber = getLicenseNumber();
                     getFuelToAdd(out FuelVehicle.eFuelType fuelType, out float fuelToAdd);
-                    r_AutoRepairShop.FillInEnergyToVehicle(licenseNumber, fuelToAdd, fuelType);
-                    PrintingUtils.EnergyAdded(licenseNumber, fuelType);
+                    r_AutoRepairShop.FillInEnergyToVehicle(licenseNumber, fuelToAdd, out bool isRefueled, fuelType);
+                    PrintingUtils.EnergyAdded(licenseNumber, isRefueled, fuelType);
                     break;
                 case eOption.LoadVehicle:
                     licenseNumber = getLicenseNumber();
                     float minutesToAdd = getMinutesToLoad();
-                    r_AutoRepairShop.FillInEnergyToVehicle(licenseNumber, minutesToAdd);
-                    PrintingUtils.EnergyAdded(licenseNumber);
+                    r_AutoRepairShop.FillInEnergyToVehicle(licenseNumber, minutesToAdd, out bool isLoaded);
+                    PrintingUtils.EnergyAdded(licenseNumber, isLoaded);
                     break;
                 case eOption.ShowVehicleDetails:
                     licenseNumber = getLicenseNumber();
-                    Console.WriteLine(
-                        string.Format(
-                            format: @"
-The vehicle details:
-{0}",
-                        r_AutoRepairShop.ShowDetailsOfVehicle(licenseNumber)));
+                    string details = r_AutoRepairShop.ShowDetailsOfVehicle(licenseNumber, out bool isExist);
+                    PrintingUtils.PrintVehicleDetails(details, isExist);
                     break;
                 case eOption.Exit:
                     m_LeaveStore = true;
@@ -162,16 +162,15 @@ The vehicle details:
                         ownerName,
                         ownerPhone,
                         vehicle);
-                    r_AutoRepairShop.AddVehicleToStore(toAdd);
-                    PrintingUtils.VehicleAdded(toAdd.VehicleLicensNumber);
-                    Thread.Sleep(4000);
+                    r_AutoRepairShop.AddVehicleToStore(toAdd, out bool isAdded);
+                    PrintingUtils.VehicleAdded(toAdd.VehicleLicensNumber, isAdded);
                     break;
                 }
                 catch(Exception ex)
                 {
                     PrintingUtils.PrintExceptionErrors(ex);
                     isValid = false;
-                    Thread.Sleep(2000);
+                    Thread.Sleep(3000);
                     Console.Clear();
                 }
             }

@@ -5,7 +5,7 @@ namespace Ex03.GarageLogic
 {
     public abstract class VehicleData
     {
-        protected internal struct Wheel
+        protected internal class Wheel
         {
             private readonly float r_MaxAirPressure;
             private readonly string r_Manufacturer;
@@ -27,7 +27,8 @@ namespace Ex03.GarageLogic
 
                 set
                 {
-                    if(m_CurrentAirPressure + value <= r_MaxAirPressure)
+                    float afterBlowing = m_CurrentAirPressure + value;
+                    if(afterBlowing <= r_MaxAirPressure)
                     {
                         m_CurrentAirPressure = value;
                     }
@@ -49,9 +50,9 @@ namespace Ex03.GarageLogic
             internal void WheelBlowing(float i_AirToAdd)
             {
                 float afterBlowing = CurrentAirPressure + i_AirToAdd;
-                if (afterBlowing.CompareTo(r_MaxAirPressure) <= 0)
+                if (afterBlowing <= r_MaxAirPressure)
                 {
-                    CurrentAirPressure += i_AirToAdd;
+                    m_CurrentAirPressure += i_AirToAdd;
                 }
                 else
                 {
@@ -62,7 +63,7 @@ namespace Ex03.GarageLogic
             public override string ToString()
             {
                 return string.Format(
-                    format: @"Manufacturer: {0},Current Air Pressure: {1}",
+                    format: @"Manufacturer: {0}, Current Air Pressure: {1}",
                     r_Manufacturer,
                     m_CurrentAirPressure);
             }

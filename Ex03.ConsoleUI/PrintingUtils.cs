@@ -95,53 +95,79 @@ $$$$$$$$$$ $$          $$ $$    $$$ $$         $$ $$$$$$$$$$  $$$$$$$$$$
 
         public static void StatusModified(
             string i_LicenseNumber,
-            AutoRepairShop.VehicleInShop.eVehicleStatus? i_NewStatus)
+            AutoRepairShop.VehicleInShop.eVehicleStatus? i_NewStatus,
+            bool i_IsModifeid)
         {
-            Console.WriteLine(
+            if(i_IsModifeid)
+            {
+                Console.WriteLine(
                     string.Format(
                     format:
                     @"Status to vehicle {0} has been modified to: {1}",
                     i_LicenseNumber,
                     i_NewStatus));
-        }
-
-        public static void InflateWheels(string i_LicenseNumber)
-        {
-            Console.WriteLine(string.Format(format:@"All the wheels of vehicle {0} inflated to maximum", i_LicenseNumber));
-        }
-
-        public static void VehicleAdded(string i_LicenseNumber)
-        {
-            Console.WriteLine(string.Format(format:@"Vehicle {0} added successfully to the garage", i_LicenseNumber));
-        }
-
-        public static void EnergyAdded(string i_LicenseNumber, FuelVehicle.eFuelType? i_FuelType = null)
-        {
-            string fuelType = string.Empty;
-            if(i_FuelType != null)
-            {
-                fuelType = string.Format(format: @"fuel add: {0}", i_FuelType);
             }
+        }
 
-            Console.WriteLine(
-                string.Format(
-                    format:@"Energy add to vehicle {0} {1}", 
-                    i_LicenseNumber,
-                    fuelType));
+        public static void InflateWheels(string i_LicenseNumber, bool i_IsInflated)
+        {
+            if(i_IsInflated)
+            {
+                Console.WriteLine(string.Format(format:@"All the wheels of vehicle {0} inflated to maximum", i_LicenseNumber));
+            }
+        }
+
+        public static void VehicleAdded(string i_LicenseNumber, bool i_IsAdded)
+        {
+            if(i_IsAdded)
+            {
+                Console.WriteLine(string.Format(format:@"Vehicle {0} added successfully to the garage", i_LicenseNumber));
+            }
+        }
+
+        public static void EnergyAdded(string i_LicenseNumber, bool i_IsEnergyAdded, FuelVehicle.eFuelType? i_FuelType = null)
+        {
+            if(i_IsEnergyAdded)
+            {
+                string fuelType = string.Empty;
+                if(i_FuelType != null)
+                {
+                    fuelType = string.Format(format: @"fuel add: {0}", i_FuelType);
+                }
+
+                Console.WriteLine(string.Format(format: @"Energy add to vehicle {0} {1}", i_LicenseNumber, fuelType));
+            }
         }
 
         public static void PrintLicensesList(
                                              List<string> i_LicensesList, 
                                              AutoRepairShop.VehicleInShop.eVehicleStatus? i_Status = null)
         {
-            string header = i_Status != null
-                                ? string.Format(format:@"The list of licenses by {0} status:", i_Status.ToString())
-                                : "The list of licenses:"; 
-            Console.WriteLine(header);
-            foreach(string currentLicense in i_LicensesList)
+            if(i_LicensesList.Count == 0)
             {
-                Console.WriteLine(currentLicense);
+                Console.WriteLine("There are no vehicles in the garage");
             }
+            else
+            {
+                string header = i_Status != null
+                                    ? string.Format(format: @"The list of licenses by {0} status:", i_Status.ToString())
+                                    : "The list of licenses:";
+                Console.WriteLine(header);
+                foreach (string currentLicense in i_LicensesList)
+                {
+                    Console.WriteLine(currentLicense);
+                }
+            }
+        }
+
+        public static void PrintVehicleDetails(string i_VehicleDetails, bool i_IsExist)
+        {
+            Console.WriteLine(
+                string.Format(
+                    format: @"
+The vehicle details:
+{0}",
+                    i_IsExist ? i_VehicleDetails : "Vehicle was not found"));
         }
 
         private static void printOptions()

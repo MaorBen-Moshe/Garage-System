@@ -4,12 +4,12 @@
     {
         private const float k_MaxTankFuel = 7;
 
-        internal FuelMotorcycle(VehicleData i_MotorcycleData)
+        internal FuelMotorcycle(MotorcycleData i_MotorcycleData)
             : base(i_MotorcycleData, eFuelType.Octan95)
         {
             r_VehicleData.MaxEnergy = k_MaxTankFuel;
-            r_VehicleData.EnergyLeft = r_VehicleData.CurrentEnergy / k_MaxTankFuel;
             MaintainCurrentEnergy();
+            r_VehicleData.EnergyLeft = r_VehicleData.CurrentEnergy / k_MaxTankFuel;
             IntialNewWheelsOfVehicle();
         }
 
@@ -20,7 +20,7 @@
                 r_VehicleData.VehicleWheels.Add(new VehicleData.Wheel(
                     string.Empty,
                     0,
-                    MotorcycleData.k_MaxPressureInWheel));
+                    MotorcycleData.sr_MaxPressureInWheel));
             }
         }
 

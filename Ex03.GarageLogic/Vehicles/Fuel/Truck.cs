@@ -4,7 +4,7 @@ namespace Ex03.GarageLogic
 {
     internal class Truck : FuelVehicle
     {
-        internal Truck(VehicleData i_TruckData)
+        internal Truck(TruckData i_TruckData)
             : base(i_TruckData, eFuelType.Soler)
         {
             IntialNewWheelsOfVehicle();
@@ -12,12 +12,12 @@ namespace Ex03.GarageLogic
 
         protected sealed override void IntialNewWheelsOfVehicle()
         {
-            for (int i = 0; i < TruckData.k_NumberOfWheels; i++)
+            for (int i = 0; i < TruckData.sr_NumberOfWheels; i++)
             {
                 r_VehicleData.VehicleWheels.Add(new VehicleData.Wheel(
                     string.Empty,
                     0,
-                    TruckData.k_MaxPressureInWheel));
+                    TruckData.sr_MaxPressureInWheel));
             }
         }
 

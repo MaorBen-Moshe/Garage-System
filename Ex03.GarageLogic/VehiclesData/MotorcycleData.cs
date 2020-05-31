@@ -12,8 +12,8 @@ namespace Ex03.GarageLogic
             B
         }
 
-        internal const byte k_NumberOfWheels = 2;
-        internal const byte k_MaxPressureInWheel = 30;
+        internal static readonly byte sr_NumberOfWheels = 2;
+        internal static readonly byte sr_MaxPressureInWheel = 30;
         private eLicenseType? m_LicenseType;
         private uint m_EngineCapacity;
 
@@ -23,7 +23,7 @@ namespace Ex03.GarageLogic
             float i_CurrentEnergy,
             string i_LicenseType, 
             uint i_EngineCapacity)
-        : base(i_VehicleModel, i_VehicleLicenseNumber, k_NumberOfWheels, i_CurrentEnergy)
+        : base(i_VehicleModel, i_VehicleLicenseNumber, sr_NumberOfWheels, i_CurrentEnergy)
         {
             LicenseType = i_LicenseType;
             EngineCapacity = i_EngineCapacity;
@@ -73,7 +73,7 @@ namespace Ex03.GarageLogic
         {
             return string.Format(
                 format: @"
-License Type: {0},
+License Type: {0}
 Engine Capacity: {1}",
                 m_LicenseType,
                 m_EngineCapacity);
