@@ -49,10 +49,11 @@ namespace Ex03.GarageLogic
         public override string ToString()
         { 
             return string.Format(
-                format: @"Vechile Model: {0}
-Vechile License: {1},
-Wheel Data: {2},
-Energy Left: {3:0.00} %,
+                format: @"Vehicle Model: {0}
+Vehicle License: {1}
+Wheel Data: 
+{2}
+Energy Left: {3:0.00} %
 Current Energy: {4}",
                 r_VehicleData.VehicleModel,
                 r_VehicleData.VehicleLicenseNumber,
@@ -67,7 +68,7 @@ Current Energy: {4}",
             int index = 0;
             foreach (VehicleData.Wheel currentWheel in r_VehicleData.VehicleWheels)
             {
-                wheelList.AppendLine(string.Format("Wheel {0}: {1}", index++, currentWheel.ToString()));
+                wheelList.AppendLine(string.Format("Wheel {0}: {1}", ++index, currentWheel.ToString()));
             }
 
             return wheelList;

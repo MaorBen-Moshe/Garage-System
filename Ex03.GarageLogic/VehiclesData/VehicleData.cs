@@ -1,14 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Ex03.GarageLogic
 {
     public abstract class VehicleData
     {
-        protected internal struct Wheel
+        protected internal class Wheel
         {
             private readonly float r_MaxAirPressure;
             private readonly string r_Manufacturer;
@@ -16,7 +13,7 @@ namespace Ex03.GarageLogic
 
             internal Wheel(string i_ManufacturerName, float i_CurrentAirPressure, float i_MaxAirPressure)
             {
-                r_Manufacturer = i_ManufacturerName ?? "Michelin";
+                r_Manufacturer = i_ManufacturerName == string.Empty ? "Michelin" : i_ManufacturerName;
                 m_CurrentAirPressure = i_CurrentAirPressure;
                 r_MaxAirPressure = i_MaxAirPressure;
             }
@@ -26,6 +23,20 @@ namespace Ex03.GarageLogic
                 get
                 {
                     return m_CurrentAirPressure;
+                }
+
+                set
+                {
+                    float afterBlowing = m_CurrentAirPressure + value;
+                    if(afterBlowing <= r_MaxAirPressure)
+                    {
+                        m_CurrentAirPressure = value;
+                    }
+                    else
+                    {
+                        string message = "Fail adding air to the wheel";
+                        throw new ValueOutOfRangeException(0, r_MaxAirPressure, message);
+                    }
                 }
             }
 
@@ -39,21 +50,22 @@ namespace Ex03.GarageLogic
 
             internal void WheelBlowing(float i_AirToAdd)
             {
-                float afterBlowing = m_CurrentAirPressure + i_AirToAdd;
-                if (afterBlowing.CompareTo(r_MaxAirPressure) <= 0)
+                float afterBlowing = CurrentAirPressure + i_AirToAdd;
+                if (afterBlowing <= r_MaxAirPressure)
                 {
                     m_CurrentAirPressure += i_AirToAdd;
                 }
                 else
                 {
-                    throw new ValueOutOfRangeException(0, r_MaxAirPressure);
+                    string message = "Fail add air to the wheel";
+                    throw new ValueOutOfRangeException(0, r_MaxAirPressure, message);
                 }
             }
 
             public override string ToString()
             {
                 return string.Format(
-                    format: @"Manufacturer: {0},Current Air Pressure: {1}",
+                    format: @"Manufacturer: {0}, Current Air Pressure: {1}",
                     r_Manufacturer,
                     m_CurrentAirPressure);
             }
@@ -70,12 +82,15 @@ namespace Ex03.GarageLogic
             string i_VehicleModel,
             string i_VehicleLicenseNumber,
             byte i_NumberOfWheels,
-            float i_CurrentEnergy)
+            float i_CurrentEnergy,
+            float i_MaxEnergy)
         {
             m_VehicleModel = i_VehicleModel;
             m_VehicleLicenseNumber = i_VehicleLicenseNumber;
             m_VehicleWheels = new List<Wheel>(i_NumberOfWheels);
+            m_MaxEnergy = i_MaxEnergy;
             CurrentEnergy = i_CurrentEnergy;
+            m_EnergyLeft = m_CurrentEnergy / m_MaxEnergy;
         }
         
         internal string VehicleModel
@@ -100,13 +115,13 @@ namespace Ex03.GarageLogic
 
             set
             {
-                if(value >= 0)
+                if(value > 1)
                 {
-                    m_EnergyLeft = value < 1 ? value : 1;
+                    m_EnergyLeft = 1;
                 }
                 else
                 {
-                    throw new ValueOutOfRangeException(0, 1);
+                    m_EnergyLeft = value;
                 }
             }
         }
@@ -134,7 +149,8 @@ namespace Ex03.GarageLogic
                 }
                 else
                 {
-                    throw new ValueOutOfRangeException(0, m_MaxEnergy);
+                    string message = "Energy added is off the limit";
+                    throw new ValueOutOfRangeException(0, m_MaxEnergy, message);
                 }
             }
         }
@@ -159,12 +175,7 @@ namespace Ex03.GarageLogic
         {
             get
             {
-                if(m_VehicleWheels.Count > 0)
-                {
-                    return m_VehicleWheels;
-                }
-
-                throw new NullReferenceException("Wheels list is Empty");
+                return m_VehicleWheels;
             }
         }
 

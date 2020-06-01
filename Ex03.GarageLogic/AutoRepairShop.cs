@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using static Ex03.GarageLogic.VehicleData;
 
 namespace Ex03.GarageLogic
 {
@@ -26,7 +27,7 @@ namespace Ex03.GarageLogic
                 m_VehicleInShop = i_VehicleInShop;
             }
 
-            internal string VehicleLicensNumber
+            public string VehicleLicensNumber
             {
                 get
                 {
@@ -56,7 +57,7 @@ namespace Ex03.GarageLogic
             r_VehicleList = new Dictionary<string, VehicleInShop>();
         }
 
-        public void AddVehicleToStore(VehicleInShop i_VehicleToAdd)
+        public void AddVehicleToStore(VehicleInShop i_VehicleToAdd, out bool o_IsSucceeded)
         {
             bool isExist = r_VehicleList.ContainsKey(i_VehicleToAdd.VehicleLicensNumber);
             if(isExist)
@@ -70,6 +71,7 @@ namespace Ex03.GarageLogic
             }
 
             r_VehicleList.Add(i_VehicleToAdd.VehicleLicensNumber, i_VehicleToAdd);
+            o_IsSucceeded = true;
         }
 
         public List<string> ShowAllVehiclesInGarage(VehicleInShop.eVehicleStatus? i_Status = null)
@@ -93,7 +95,7 @@ namespace Ex03.GarageLogic
             return vehiclesToShow;
         }
 
-        public void SetNewStatusToVehicle(string i_LicenseNumber, VehicleInShop.eVehicleStatus? i_NewStatus)
+        public void SetNewStatusToVehicle(string i_LicenseNumber, VehicleInShop.eVehicleStatus? i_NewStatus, out bool o_IsSucceeded)
         {
             bool isExist = r_VehicleList.TryGetValue(i_LicenseNumber, out VehicleInShop toChange);
             if(isExist)
@@ -105,26 +107,33 @@ namespace Ex03.GarageLogic
                         toChange.VehicleStatus = (VehicleInShop.eVehicleStatus)i_NewStatus;
                     }
                 }
+
+                o_IsSucceeded = true;
             }
             else
             {
+                o_IsSucceeded = false;
                 throw new ArgumentException(k_IsNotExistError);
             }
         }
 
-        public void SetWheelsPressureToMaximum(string i_LicenseNumber)
+        public void SetWheelsPressureToMaximum(string i_LicenseNumber, out bool o_IsSucceeded)
         {
             bool isExist = r_VehicleList.TryGetValue(i_LicenseNumber, out VehicleInShop pressureToMaximum);
             if(isExist)
             {
-                List<VehicleData.Wheel> wheelsList = pressureToMaximum.m_VehicleInShop.Wheels;
-                foreach(VehicleData.Wheel currentWheel in wheelsList)
+                for (int i = 0; i < pressureToMaximum.m_VehicleInShop.Wheels.Count; i++)
                 {
-                    currentWheel.WheelBlowing(currentWheel.MaxAirPressure - currentWheel.CurrentAirPressure);
+                    float maxPressure = pressureToMaximum.m_VehicleInShop.Wheels[i].MaxAirPressure;
+                    float currentPressure = pressureToMaximum.m_VehicleInShop.Wheels[i].CurrentAirPressure;
+                    pressureToMaximum.m_VehicleInShop.Wheels[i].WheelBlowing(maxPressure - currentPressure);
                 }
+
+                o_IsSucceeded = true;
             }
             else
             {
+                o_IsSucceeded = false;
                 throw new ArgumentException(k_IsNotExistError);
             }
         }
@@ -132,26 +141,37 @@ namespace Ex03.GarageLogic
         public void FillInEnergyToVehicle(
             string i_LicenseNumber,
             float i_AmountToAdd,
+            out bool o_IsSucceeded,
             FuelVehicle.eFuelType? i_FuelType = null)
         {
             try
             {
+                o_IsSucceeded = false;
                 bool isExist = r_VehicleList.TryGetValue(i_LicenseNumber, out VehicleInShop toRefuel);
                 if (isExist)
                 {
-                    if (toRefuel.m_VehicleInShop is FuelVehicle)
+                    if (toRefuel.m_VehicleInShop is FuelVehicle && i_FuelType != null)
                     {
                         FuelVehicle fuelVehicle = toRefuel.m_VehicleInShop as FuelVehicle;
-                        fuelVehicle.Refueling(i_AmountToAdd, (FuelVehicle.eFuelType)i_FuelType);
+                        if(fuelVehicle != null)
+                        {
+                            fuelVehicle.Refueling(i_AmountToAdd, (FuelVehicle.eFuelType)i_FuelType);
+                            o_IsSucceeded = true;
+                        }
                     }
                     else if(toRefuel.m_VehicleInShop is ElectricVehicle)
                     {
                         ElectricVehicle electricVehicle = toRefuel.m_VehicleInShop as ElectricVehicle;
-                        electricVehicle.Loading(i_AmountToAdd / 60);
+                        if(electricVehicle != null)
+                        {
+                            electricVehicle.Loading(i_AmountToAdd / 60);
+                            o_IsSucceeded = true;
+                        }
                     }
                 }
                 else
                 {
+                    o_IsSucceeded = false;
                     throw new ArgumentException(k_IsNotExistError);
                 }
             }
@@ -161,16 +181,18 @@ namespace Ex03.GarageLogic
             }
         }
 
-        public string ShowDetailsOfVehicle(string i_LicenseNumber)
+        public string ShowDetailsOfVehicle(string i_LicenseNumber, out bool o_IsSucceeded)
         {
             string vehicleDetails;
             bool isExist = r_VehicleList.TryGetValue(i_LicenseNumber, out VehicleInShop toShow);
             if(isExist)
             {
                 vehicleDetails = toShow.m_VehicleInShop.ToString();
+                o_IsSucceeded = true;
             }
             else
             {
+                o_IsSucceeded = false;
                 throw new ArgumentException(k_IsNotExistError);
             }
 

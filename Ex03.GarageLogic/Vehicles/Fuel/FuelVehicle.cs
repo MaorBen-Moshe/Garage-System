@@ -6,12 +6,14 @@ namespace Ex03.GarageLogic
     {
         public enum eFuelType
         {
-            Octan95 = 95,
-            Octan96 = 96,
-            Octan98 = 98,
+            Octan95 = 1,
+            Octan96,
+            Octan98,
             Soler
         }
 
+        public const float k_CarMaxTankFuel = 60;
+        public const float k_MotorcycleMaxTankFuel = 7;
         protected eFuelType m_FuelType;
 
         protected FuelVehicle(VehicleData i_VehicleData, eFuelType i_FuelType)
@@ -45,12 +47,15 @@ namespace Ex03.GarageLogic
                 if (r_VehicleData.CurrentEnergy + i_FuelToAdd <= r_VehicleData.MaxEnergy)
                 {
                     r_VehicleData.CurrentEnergy += i_FuelToAdd;
+                    r_VehicleData.EnergyLeft = r_VehicleData.CurrentEnergy / r_VehicleData.MaxEnergy;
                 }
                 else
                 {
+                    string message = "Fail refueling the vehicle";
                     throw new ValueOutOfRangeException(
                         0,
-                        r_VehicleData.MaxEnergy - r_VehicleData.CurrentEnergy);
+                        r_VehicleData.MaxEnergy - r_VehicleData.CurrentEnergy,
+                        message);
                 }
             }
             else

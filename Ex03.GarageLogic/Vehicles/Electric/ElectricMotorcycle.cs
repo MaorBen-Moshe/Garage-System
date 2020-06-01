@@ -2,13 +2,9 @@
 {
     internal class ElectricMotorcycle : ElectricVehicle
     {
-        private const float k_MaxBatteryTime = 1.2f;
-
-        internal ElectricMotorcycle(VehicleData i_MotorcycleData)
+        internal ElectricMotorcycle(MotorcycleData i_MotorcycleData)
             : base(i_MotorcycleData)
         {
-            r_VehicleData.MaxEnergy = k_MaxBatteryTime;
-            r_VehicleData.EnergyLeft = r_VehicleData.CurrentEnergy / k_MaxBatteryTime;
             IntialNewWheelsOfVehicle();
         }
 
@@ -19,7 +15,7 @@
                 r_VehicleData.VehicleWheels.Add(new VehicleData.Wheel(
                     string.Empty,
                     0,
-                    MotorcycleData.k_MaxPressureInWheel));
+                    MotorcycleData.sr_MaxPressureInWheel));
             }
         }
 

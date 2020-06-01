@@ -6,14 +6,14 @@ namespace Ex03.GarageLogic
     {
         internal enum eColor
         {
-            Red,
+            Red = 1,
             White,
             Black,
             Silver
         }
 
-        internal const byte k_NumberOfWheels = 4;
-        internal const byte k_MaxPressureInWheel = 32;
+        internal static readonly byte sr_NumberOfWheels = 4;
+        internal static readonly byte sr_MaxPressureInWheel = 32;
         private byte m_NumberOfDoors;
         private eColor? m_Color;
 
@@ -22,8 +22,9 @@ namespace Ex03.GarageLogic
             string i_VehicleLicenseNumber,
             float i_CurrentEnergy,
             string i_Color,
-            byte i_NumberOfDoors)
-            : base(i_VehicleModel, i_VehicleLicenseNumber, k_NumberOfWheels, i_CurrentEnergy)
+            byte i_NumberOfDoors,
+            float i_MaxEnergy)
+            : base(i_VehicleModel, i_VehicleLicenseNumber, sr_NumberOfWheels, i_CurrentEnergy, i_MaxEnergy)
         {
             NumberOfDoors = i_NumberOfDoors;
             Color = i_Color;
@@ -43,7 +44,7 @@ namespace Ex03.GarageLogic
 
             set
             {
-                bool isValidColor = Enum.TryParse(value, out eColor result) && Enum.IsDefined(typeof(eColor), value);
+                bool isValidColor = Enum.TryParse(value, out eColor result) && Enum.IsDefined(typeof(eColor), result);
                 if(isValidColor)
                 {
                     m_Color = result;
@@ -66,7 +67,8 @@ namespace Ex03.GarageLogic
             {
                 if(!(value >= 2 && value <= 5))
                 {
-                    throw new ValueOutOfRangeException(2, 5);
+                    string message = "Fail adding the number of doors";
+                    throw new ValueOutOfRangeException(2, 5, message);
                 }
 
                 m_NumberOfDoors = value;
@@ -77,7 +79,7 @@ namespace Ex03.GarageLogic
         {
             return string.Format(
                 format: @"
-Color: {0},
+Color: {0}
 The car has {1} doors",
                 m_Color,
                 m_NumberOfDoors);
