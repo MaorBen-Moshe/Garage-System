@@ -7,10 +7,10 @@ using Ex03.GarageLogic;
 
 namespace Ex03.ConsoleUI
 {
-    public static class PrintingUtils
-    {
         public static void PrintingOpening()
         {
+    public static class PrintingUtils
+    {
             string opening = string.Format(format:
                 @"
 *************************************************************************
