@@ -64,9 +64,10 @@ namespace Ex03.GarageLogic
             {
                 string argumentFormat = string.Format(
                     format: @"vehicle of type {0}, is in the garage with status: {1}, changed to be InRepair.",
-                    i_VehicleToAdd.m_VehicleInShop.GetType(),
+                    i_VehicleToAdd.m_VehicleInShop.GetType().Name,
                     i_VehicleToAdd.VehicleStatus);
                 i_VehicleToAdd.VehicleStatus = VehicleInShop.eVehicleStatus.InRepair;
+                o_IsSucceeded = false;
                 throw new ArgumentException(argumentFormat);
             }
 

@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Diagnostics.CodeAnalysis;
+using System.Threading;
 using Ex03.GarageLogic;
 using Ex03.GarageLogic.VehiclesData;
 
@@ -43,13 +43,13 @@ namespace Ex03.ConsoleUI
                     }
                     catch
                     {
-                        System.Threading.Thread.Sleep(2000);
+                        Thread.Sleep(4000);
                     }
                 }
                 else
                 {
                     Console.WriteLine("Please choose from the options above!");
-                    System.Threading.Thread.Sleep(2000);
+                    Thread.Sleep(2000);
                 }
             }
             while(m_LeaveStore == false);
@@ -78,35 +78,42 @@ namespace Ex03.ConsoleUI
                     case eOption.ModifyStatus:
                         licenseNumber = getLicenseNumber();
                         status = getStatus();
-                        r_AutoRepairShop.SetNewStatusToVehicle(licenseNumber, status);
-                        PrintingUtils.StatusModified(licenseNumber, status);
+                        r_AutoRepairShop.SetNewStatusToVehicle(licenseNumber, status, out bool isSucceeded);
+                        PrintingUtils.StatusModified(licenseNumber, status, isSucceeded);
                         break;
                     case eOption.InflateWheels:
                         licenseNumber = getLicenseNumber();
-                        r_AutoRepairShop.SetWheelsPressureToMaximum(licenseNumber);
+                        r_AutoRepairShop.SetWheelsPressureToMaximum(licenseNumber, out bool isInflated);
+                        PrintingUtils.InflateWheels(licenseNumber, isInflated);
                         break;
                     case eOption.RefuelVehicle:
                         licenseNumber = getLicenseNumber();
                         getFuelToAdd(out FuelVehicle.eFuelType fuelType, out float fuelToAdd);
-                        r_AutoRepairShop.FillInEnergyToVehicle(licenseNumber, fuelToAdd, fuelType);
+                        r_AutoRepairShop.FillInEnergyToVehicle(licenseNumber, fuelToAdd, out bool isRefueled, fuelType);
+                        PrintingUtils.EnergyAdded(licenseNumber, isRefueled, fuelType);
                         break;
                     case eOption.LoadVehicle:
                         licenseNumber = getLicenseNumber();
                         float minutesToAdd = getMinutesToLoad();
-                        r_AutoRepairShop.FillInEnergyToVehicle(licenseNumber, minutesToAdd);
+                        r_AutoRepairShop.FillInEnergyToVehicle(licenseNumber, minutesToAdd, out bool isLoaded);
+                        PrintingUtils.EnergyAdded(licenseNumber, isLoaded);
                         break;
                     case eOption.ShowVehicleDetails:
                         licenseNumber = getLicenseNumber();
-                        Console.WriteLine(string.Format(format:@"
-The vehicle details:
-{0}", 
-                            r_AutoRepairShop.ShowDetailsOfVehicle(licenseNumber)));
+                        PrintingUtils.PrintVehicleDetails(
+                            r_AutoRepairShop.ShowDetailsOfVehicle(licenseNumber, out bool isExist),
+                            isExist);
                         break;
                     case eOption.Exit:
                         m_LeaveStore = true;
                         break;
                     default:
                         throw new ValueOutOfRangeException(1, 9);
+                }
+
+                if(i_Option != eOption.Exit)
+                {
+                    Thread.Sleep(4000);
                 }
             }
             catch(Exception ex)
@@ -134,6 +141,7 @@ The vehicle details:
                     ownerPhone = Console.ReadLine();
                     continue;
                 }
+
                 PrintingUtils.TypeOfVehicle();
                 string option = Console.ReadLine();
                 isValid = Enum.TryParse(option, true, out CreatingVehicles.eTypeOfVehicles result)
@@ -142,7 +150,8 @@ The vehicle details:
                 {
                     Vehicle vehicle = createVehicle(result);
                     AutoRepairShop.VehicleInShop toAdd = new AutoRepairShop.VehicleInShop(ownerName, ownerPhone, vehicle);
-                    r_AutoRepairShop.AddVehicleToStore(toAdd);
+                    r_AutoRepairShop.AddVehicleToStore(toAdd, out bool isAdded);
+                    PrintingUtils.VehicleAdded(toAdd.VehicleLicensNumber, isAdded);
                     break;
                 }
                 
@@ -151,7 +160,7 @@ The vehicle details:
             while(isValid == false);
         }
 
-       private Vehicle createVehicle(CreatingVehicles.eTypeOfVehicles i_TypeOfVehicle)
+        private Vehicle createVehicle(CreatingVehicles.eTypeOfVehicles i_TypeOfVehicle)
         {
             VehicleData vehicleData = null;
             getGeneralInformation(out string vehicleModel, out string vehicleLicenseNumber, out float currentEnergy);
@@ -189,6 +198,7 @@ The vehicle details:
                             ? ElectricVehicle.k_MotorcycleMaxBatteryTime
                             : FuelVehicle.k_MotorcycleMaxTankFuel;
         }
+        
         private void getTruckData(CreatingVehicles.eTypeOfVehicles i_TypeOfVehicle, out float o_CargoVolume, out bool o_IsHazardous)
         {
             checkCargoVolume(out o_CargoVolume);
@@ -196,6 +206,7 @@ The vehicle details:
             string isDeliver = Console.ReadLine();
             o_IsHazardous = isDeliver != null && (isDeliver.Equals("y") || isDeliver.Equals("Y"));
         }
+        
         private void getCarData(CreatingVehicles.eTypeOfVehicles i_TypeOfVehicle, out string o_Color, out byte o_NumOfDoors, out float o_MaxEnergy)
         {
             PrintingUtils.ColorType();
@@ -205,6 +216,7 @@ The vehicle details:
                             ? ElectricVehicle.k_CarMaxBatteryTime
                             : FuelVehicle.k_CarMaxTankFuel;
         }
+        
         private void getGeneralInformation(out string o_VehicleModel, out string o_VehicleLicenseNumber, out float o_CurrentEnergy)
         {
             Console.WriteLine("Please enter your vehicle model: ");
@@ -219,6 +231,7 @@ The vehicle details:
                 throw new FormatException("Fail parsing the current energy in vehicle");
             }
         }
+        
         private void checkNumOfDoors(out byte o_NumOfDoors)
         {
             Console.WriteLine("How many doors the car has?");
@@ -258,7 +271,7 @@ The vehicle details:
 
         private AutoRepairShop.VehicleInShop.eVehicleStatus? getStatus()
         {
-            AutoRepairShop.VehicleInShop.eVehicleStatus? returnStatus = null;
+            AutoRepairShop.VehicleInShop.eVehicleStatus? returnStatus;
             PrintingUtils.VehicleStatus();
             string status = Console.ReadLine();
             bool isValid = Enum.TryParse(status, out AutoRepairShop.VehicleInShop.eVehicleStatus result)
@@ -269,7 +282,8 @@ The vehicle details:
             }
             else
             {
-                ValueOutOfRangeException ex = new ValueOutOfRangeException(1, 3);
+                string errorMessage = "You have to choose from the following options";
+                ValueOutOfRangeException ex = new ValueOutOfRangeException(1, 3, errorMessage);
                 throw new FormatException("Fail parsing the vehicle status", ex);
             }
 
