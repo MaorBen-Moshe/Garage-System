@@ -158,8 +158,12 @@ $$$$$$$$$$ $$          $$ $$    $$$ $$         $$ $$$$$$$$$$  $$$$$$$$$$
                                              List<string> i_LicensesList, 
                                              AutoRepairShop.VehicleInShop.eVehicleStatus? i_Status = null)
         {
-            if(i_LicensesList.Count == 0)
+            if(i_LicensesList.Count == 0 && i_Status != null)
             {
+                Console.WriteLine("There are no vehicles in the garage with the status: {0}", i_Status);
+            }
+            else if(i_LicensesList.Count == 0)
+            { 
                 Console.WriteLine("There are no vehicles in the garage");
             }
             else

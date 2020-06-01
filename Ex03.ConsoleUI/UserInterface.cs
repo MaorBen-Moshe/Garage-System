@@ -223,6 +223,10 @@ namespace Ex03.ConsoleUI
             o_VehicleModel = Console.ReadLine();
             Console.WriteLine("Please enter your vehicle's license number: ");
             o_VehicleLicenseNumber = Console.ReadLine();
+            if(r_AutoRepairShop.ContainsLicenseNumber(o_VehicleLicenseNumber))
+            {
+                throw new ArgumentException(string.Format(format:@"Vehicle {0} is already in the garage", o_VehicleLicenseNumber));
+            }
             Console.WriteLine("Please enter your current energy in vehicle: ");
             string energy = Console.ReadLine();
             bool isParseEnergy = float.TryParse(energy, out o_CurrentEnergy);

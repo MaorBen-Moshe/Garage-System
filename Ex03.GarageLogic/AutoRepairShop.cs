@@ -59,7 +59,7 @@ namespace Ex03.GarageLogic
 
         public void AddVehicleToStore(VehicleInShop i_VehicleToAdd, out bool o_IsSucceeded)
         {
-            bool isExist = r_VehicleList.ContainsKey(i_VehicleToAdd.VehicleLicensNumber);
+            bool isExist = ContainsLicenseNumber(i_VehicleToAdd.VehicleLicensNumber);
             if(isExist)
             {
                 string argumentFormat = string.Format(
@@ -198,6 +198,11 @@ namespace Ex03.GarageLogic
             }
 
             return vehicleDetails;
+        }
+
+        public bool ContainsLicenseNumber(string i_LicenseNumber)
+        {
+            return r_VehicleList.ContainsKey(i_LicenseNumber);
         }
     }
 }
