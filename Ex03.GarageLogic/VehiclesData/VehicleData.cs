@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text;
 
 namespace Ex03.GarageLogic
 {
@@ -74,25 +75,15 @@ namespace Ex03.GarageLogic
         protected string m_VehicleModel;
         protected string m_VehicleLicenseNumber;
         protected float m_EnergyLeft; // out of 100%
-        protected List<Wheel> m_VehicleWheels;
+        protected readonly List<Wheel> r_VehicleWheels;
         protected float m_MaxEnergy;
         protected float m_CurrentEnergy;
 
-        protected VehicleData(
-            string i_VehicleModel,
-            string i_VehicleLicenseNumber,
-            byte i_NumberOfWheels,
-            float i_CurrentEnergy,
-            float i_MaxEnergy)
+        protected VehicleData()
         {
-            m_VehicleModel = i_VehicleModel;
-            m_VehicleLicenseNumber = i_VehicleLicenseNumber;
-            m_VehicleWheels = new List<Wheel>(i_NumberOfWheels);
-            m_MaxEnergy = i_MaxEnergy;
-            CurrentEnergy = i_CurrentEnergy;
-            m_EnergyLeft = m_CurrentEnergy / m_MaxEnergy;
+            r_VehicleWheels = new List<Wheel>();
         }
-        
+
         internal string VehicleModel
         {
             get
@@ -132,6 +123,11 @@ namespace Ex03.GarageLogic
             {
                 return m_VehicleLicenseNumber;
             }
+
+            set
+            {
+                m_VehicleLicenseNumber = value;
+            }
         }
 
         internal float CurrentEnergy
@@ -143,7 +139,7 @@ namespace Ex03.GarageLogic
 
             set
             {
-                if(value >= 0 && value <= m_MaxEnergy)
+                if (value >= 0 && value <= m_MaxEnergy)
                 {
                     m_CurrentEnergy = value;
                 }
@@ -151,6 +147,30 @@ namespace Ex03.GarageLogic
                 {
                     string message = "Energy added is off the limit";
                     throw new ValueOutOfRangeException(0, m_MaxEnergy, message);
+                }
+            }
+        }
+
+        internal string SetCurrentEnergy
+        {
+            set
+            {
+                bool isFloat = float.TryParse(value, out float currentEnergy);
+                if(isFloat)
+                {
+                    if (currentEnergy >= 0 && currentEnergy <= m_MaxEnergy)
+                    {
+                        m_CurrentEnergy = currentEnergy;
+                    }
+                    else
+                    {
+                        string message = "Energy added is off the limit";
+                        throw new ValueOutOfRangeException(0, m_MaxEnergy, message);
+                    }
+                }
+                else
+                {
+                    throw new FormatException("Fail adding current energy");
                 }
             }
         }
@@ -175,9 +195,20 @@ namespace Ex03.GarageLogic
         {
             get
             {
-                return m_VehicleWheels;
+                return r_VehicleWheels;
             }
         }
+
+        public virtual StringBuilder AskForData()
+        {
+            StringBuilder askForData = new StringBuilder();
+            askForData.AppendLine("Enter your vehicle model: ");
+            askForData.AppendLine("Enter your vehicle license number: ");
+            askForData.AppendLine("Enter your vehicle current energy: ");
+            return askForData;
+        }
+
+        public abstract void GetData(string[] i_AllData);
 
         public abstract override string ToString();
     }

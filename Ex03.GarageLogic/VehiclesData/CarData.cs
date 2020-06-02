@@ -1,10 +1,11 @@
 ﻿using System;
+using System.Text;
 
 namespace Ex03.GarageLogic
 {
     public class CarData : VehicleData
     {
-        internal enum eColor
+        public enum eColor
         {
             Red = 1,
             White,
@@ -16,19 +17,6 @@ namespace Ex03.GarageLogic
         internal static readonly byte sr_MaxPressureInWheel = 32;
         private byte m_NumberOfDoors;
         private eColor? m_Color;
-
-        public CarData(
-            string i_VehicleModel,
-            string i_VehicleLicenseNumber,
-            float i_CurrentEnergy,
-            string i_Color,
-            byte i_NumberOfDoors,
-            float i_MaxEnergy)
-            : base(i_VehicleModel, i_VehicleLicenseNumber, sr_NumberOfWheels, i_CurrentEnergy, i_MaxEnergy)
-        {
-            NumberOfDoors = i_NumberOfDoors;
-            Color = i_Color;
-        }
 
         internal string Color
         {
@@ -62,17 +50,46 @@ namespace Ex03.GarageLogic
             {
                 return m_NumberOfDoors;
             }
+        }
 
+        internal string SetNumOfDoors
+        {
             set
             {
-                if(!(value >= 2 && value <= 5))
+                bool isValid = byte.TryParse(value, out byte numOfDoors);
+                if(isValid)
                 {
-                    string message = "Fail adding the number of doors";
-                    throw new ValueOutOfRangeException(2, 5, message);
-                }
+                    if (!(numOfDoors >= 2 && numOfDoors <= 5))
+                    {
+                        string message = "Fail adding the number of doors";
+                        throw new ValueOutOfRangeException(2, 5, message);
+                    }
 
-                m_NumberOfDoors = value;
+                    m_NumberOfDoors = numOfDoors;
+                }
+                else
+                {
+                    throw new FormatException("Fail adding the number of doors");
+                }
             }
+        }
+
+        public override StringBuilder AskForData()
+        {
+            StringBuilder data = base.AskForData();
+            data.AppendLine("Enter the color of car: ");
+            data.AppendLine("Enter the number of doors: ");
+            return data;
+        }
+
+        public override void GetData(string[] i_AllData)
+        {
+            m_VehicleModel = i_AllData[0];
+            VehicleLicenseNumber = i_AllData[1];
+            SetCurrentEnergy = i_AllData[2];
+            Color = i_AllData[3];
+            SetNumOfDoors = i_AllData[4];
+            EnergyLeft = CurrentEnergy / MaxEnergy;
         }
 
         public override string ToString()

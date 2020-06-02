@@ -39,7 +39,7 @@ namespace Ex03.GarageLogic
             }
         }
 
-        public Vehicle CreateVehicle(VehicleData i_VehicleData)
+        public Vehicle CreateVehicle()
         {
             try
             {
@@ -47,19 +47,19 @@ namespace Ex03.GarageLogic
                 switch(m_VehicleToCreate)
                 {
                     case eTypeOfVehicles.ElectricCar:
-                        vehicleToCreate = new ElectricCar(i_VehicleData as CarData);
+                        vehicleToCreate = new ElectricCar();
                         break;
                     case eTypeOfVehicles.ElectricMotorcycle:
-                        vehicleToCreate = new ElectricMotorcycle(i_VehicleData as MotorcycleData);
+                        vehicleToCreate = new ElectricMotorcycle();
                         break;
                     case eTypeOfVehicles.FuelCar:
-                        vehicleToCreate = new FuelCar(i_VehicleData as CarData);
+                        vehicleToCreate = new FuelCar();
                         break;
                     case eTypeOfVehicles.FuelMotorcycle:
-                        vehicleToCreate = new FuelMotorcycle(i_VehicleData as MotorcycleData);
+                        vehicleToCreate = new FuelMotorcycle();
                         break;
                     case eTypeOfVehicles.Truck:
-                        vehicleToCreate = new Truck(i_VehicleData as TruckData);
+                        vehicleToCreate = new Truck();
                         break;
                     default:
                         throw new ArgumentException(r_ErrorMessage);

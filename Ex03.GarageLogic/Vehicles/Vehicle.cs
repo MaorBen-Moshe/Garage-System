@@ -5,20 +5,28 @@ namespace Ex03.GarageLogic
 {
     public abstract class Vehicle
     {
-        protected readonly VehicleData r_VehicleData;
-
-        protected Vehicle(VehicleData i_VehicleData)
-        {
-            r_VehicleData = i_VehicleData;
-        }
+        protected VehicleData m_VehicleData = null;
 
         protected abstract void IntialNewWheelsOfVehicle();
+
+        public abstract string[] SetVehicleData
+        {
+            set;
+        }
+
+        public StringBuilder AskForData
+        {
+            get
+            {
+                return m_VehicleData.AskForData();
+            }
+        }
 
         internal string LicenseNumber
         {
             get
             {
-                return r_VehicleData.VehicleLicenseNumber;
+                return m_VehicleData.VehicleLicenseNumber;
             }
         }
 
@@ -26,7 +34,7 @@ namespace Ex03.GarageLogic
         {
             get
             {
-                return r_VehicleData.CurrentEnergy;
+                return m_VehicleData.CurrentEnergy;
             }
         }
 
@@ -34,7 +42,7 @@ namespace Ex03.GarageLogic
         {
             get
             {
-                return r_VehicleData.MaxEnergy;
+                return m_VehicleData.MaxEnergy;
             }
         }
 
@@ -42,7 +50,7 @@ namespace Ex03.GarageLogic
         {
             get
             {
-                return r_VehicleData.VehicleWheels;
+                return m_VehicleData.VehicleWheels;
             }
         }
 
@@ -55,18 +63,18 @@ Wheel Data:
 {2}
 Energy Left: {3:0.00} %
 Current Energy: {4}",
-                r_VehicleData.VehicleModel,
-                r_VehicleData.VehicleLicenseNumber,
+                m_VehicleData.VehicleModel,
+                m_VehicleData.VehicleLicenseNumber,
                 printWheels(),
-                r_VehicleData.EnergyLeft * 100,
-                r_VehicleData.CurrentEnergy);
+                m_VehicleData.EnergyLeft * 100,
+                m_VehicleData.CurrentEnergy);
         }
 
         private StringBuilder printWheels()
         {
             StringBuilder wheelList = new StringBuilder();
             int index = 0;
-            foreach (VehicleData.Wheel currentWheel in r_VehicleData.VehicleWheels)
+            foreach (VehicleData.Wheel currentWheel in m_VehicleData.VehicleWheels)
             {
                 wheelList.AppendLine(string.Format(format:@"Wheel {0}: {1}", ++index, currentWheel.ToString()));
             }

@@ -2,17 +2,27 @@
 {
     internal class FuelCar : FuelVehicle
     {
-        internal FuelCar(CarData i_CarData)
-            : base(i_CarData, eFuelType.Octan96)
+        internal FuelCar()
+            : base(eFuelType.Octan96)
         {
+            m_VehicleData = new CarData();
             IntialNewWheelsOfVehicle();
+        }
+
+        public override string[] SetVehicleData
+        {
+            set
+            {
+                m_VehicleData.MaxEnergy = k_CarMaxTankFuel;
+                m_VehicleData.GetData(value);
+            }
         }
 
         protected sealed override void IntialNewWheelsOfVehicle()
         {
-            for (int i = 0; i < r_VehicleData.VehicleWheels.Capacity; i++)
+            for (int i = 0; i < CarData.sr_NumberOfWheels; i++)
             {
-                r_VehicleData.VehicleWheels.Add(new VehicleData.Wheel(
+                m_VehicleData.VehicleWheels.Add(new VehicleData.Wheel(
                     string.Empty,
                     0,
                     CarData.sr_MaxPressureInWheel));
@@ -22,7 +32,7 @@
         public override string ToString()
         {
             string baseString = base.ToString();
-            baseString += r_VehicleData.ToString();
+            baseString += m_VehicleData.ToString();
             return baseString;
         }
     }

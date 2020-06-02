@@ -16,8 +16,7 @@ namespace Ex03.GarageLogic
         public const float k_MotorcycleMaxTankFuel = 7;
         protected eFuelType m_FuelType;
 
-        protected FuelVehicle(VehicleData i_VehicleData, eFuelType i_FuelType)
-            : base(i_VehicleData)
+        protected FuelVehicle(eFuelType i_FuelType)
         {
             FuelType = i_FuelType;
         }
@@ -44,17 +43,17 @@ namespace Ex03.GarageLogic
         {
             if (m_FuelType.Equals(i_VehicleFuelType))
             {
-                if (r_VehicleData.CurrentEnergy + i_FuelToAdd <= r_VehicleData.MaxEnergy)
+                if (m_VehicleData.CurrentEnergy + i_FuelToAdd <= m_VehicleData.MaxEnergy)
                 {
-                    r_VehicleData.CurrentEnergy += i_FuelToAdd;
-                    r_VehicleData.EnergyLeft = r_VehicleData.CurrentEnergy / r_VehicleData.MaxEnergy;
+                    m_VehicleData.CurrentEnergy += i_FuelToAdd;
+                    m_VehicleData.EnergyLeft = m_VehicleData.CurrentEnergy / m_VehicleData.MaxEnergy;
                 }
                 else
                 {
                     string message = "Fail refueling the vehicle";
                     throw new ValueOutOfRangeException(
                         0,
-                        r_VehicleData.MaxEnergy - r_VehicleData.CurrentEnergy,
+                        m_VehicleData.MaxEnergy - m_VehicleData.CurrentEnergy,
                         message);
                 }
             }

@@ -5,24 +5,19 @@
         public const float k_CarMaxBatteryTime = 2.1f;
         public const float k_MotorcycleMaxBatteryTime = 1.2f;
 
-        protected ElectricVehicle(VehicleData i_VehicleData)
-            : base(i_VehicleData)
-        {
-        }
-
         public virtual void Loading(float i_ElectricityToAdd)
         {
-            if (r_VehicleData.CurrentEnergy + i_ElectricityToAdd <= r_VehicleData.MaxEnergy)
+            if (m_VehicleData.CurrentEnergy + i_ElectricityToAdd <= m_VehicleData.MaxEnergy)
             {
-                r_VehicleData.CurrentEnergy += i_ElectricityToAdd;
-                r_VehicleData.EnergyLeft = r_VehicleData.CurrentEnergy / r_VehicleData.MaxEnergy;
+                m_VehicleData.CurrentEnergy += i_ElectricityToAdd;
+                m_VehicleData.EnergyLeft = m_VehicleData.CurrentEnergy / m_VehicleData.MaxEnergy;
             }
             else
             {
                 string message = "Fail loading the vehicle";
                 throw new ValueOutOfRangeException(
                     0,
-                    r_VehicleData.MaxEnergy - r_VehicleData.CurrentEnergy, 
+                    m_VehicleData.MaxEnergy - m_VehicleData.CurrentEnergy, 
                     message);
             }
         }

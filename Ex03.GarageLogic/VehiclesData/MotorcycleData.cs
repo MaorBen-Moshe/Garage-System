@@ -1,10 +1,11 @@
 ﻿using System;
+using System.Text;
 
 namespace Ex03.GarageLogic
 {
     public class MotorcycleData : VehicleData
     {
-        internal enum eLicenseType
+        public enum eLicenseType
         {
             A = 1,
             A1,
@@ -17,29 +18,27 @@ namespace Ex03.GarageLogic
         private eLicenseType? m_LicenseType;
         private uint m_EngineCapacity;
 
-        public MotorcycleData(
-            string i_VehicleModel,
-            string i_VehicleLicenseNumber,
-            float i_CurrentEnergy,
-            string i_LicenseType, 
-            uint i_EngineCapacity,
-            float i_MaxEnergy)
-        : base(i_VehicleModel, i_VehicleLicenseNumber, sr_NumberOfWheels, i_CurrentEnergy, i_MaxEnergy)
-        {
-            LicenseType = i_LicenseType;
-            EngineCapacity = i_EngineCapacity;
-        }
-
         internal uint EngineCapacity
         {
             get
             {
                 return m_EngineCapacity;
             }
+        }
 
+        internal string SetEngineCapacity
+        {
             set
             {
-                m_EngineCapacity = value;
+                bool isValid = uint.TryParse(value, out uint engineCapacity);
+                if(isValid)
+                {
+                    m_EngineCapacity = engineCapacity;
+                }
+                else
+                {
+                    throw new FormatException("Fail adding the engine capacity");
+                }
             }
         }
 
@@ -68,6 +67,24 @@ namespace Ex03.GarageLogic
                     throw new FormatException("Fail parsing the license type of a motorcycle");
                 }
             }
+        }
+
+        public override StringBuilder AskForData()
+        {
+            StringBuilder data = base.AskForData();
+            data.AppendLine("Enter the license type: ");
+            data.AppendLine("Enter the engine capacity: ");
+            return data;
+        }
+
+        public override void GetData(string[] i_AllData)
+        {
+            m_VehicleModel = i_AllData[0];
+            VehicleLicenseNumber = i_AllData[1];
+            SetCurrentEnergy = i_AllData[2];
+            LicenseType = i_AllData[3];
+            SetEngineCapacity = i_AllData[4];
+            EnergyLeft = CurrentEnergy / MaxEnergy;
         }
 
         public override string ToString()

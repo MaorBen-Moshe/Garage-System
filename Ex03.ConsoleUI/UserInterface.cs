@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Reflection;
+using System.Text;
 using System.Threading;
 using Ex03.GarageLogic;
 using Ex03.GarageLogic.VehiclesData;
@@ -35,7 +37,7 @@ namespace Ex03.ConsoleUI
                 PrintingUtils.PrintingOpening();
                 string option = Console.ReadLine();
                 bool isValid = Enum.TryParse(option, out eOption result) && Enum.IsDefined(typeof(eOption), result);
-                if (isValid)
+                if(isValid)
                 {
                     try
                     {
@@ -53,6 +55,7 @@ namespace Ex03.ConsoleUI
                 }
             }
             while(m_LeaveStore == false);
+
             Console.WriteLine("Goodbye!");
         }
 
@@ -63,7 +66,7 @@ namespace Ex03.ConsoleUI
                 AutoRepairShop.VehicleInShop.eVehicleStatus? status;
                 string licenseNumber;
                 Console.Clear();
-                switch (i_Option)
+                switch(i_Option)
                 {
                     case eOption.AddVehicle:
                         addVehicle();
@@ -122,7 +125,7 @@ namespace Ex03.ConsoleUI
                 throw;
             }
         }
-        
+
         private void addVehicle()
         {
             Console.WriteLine("Creating Vehicle: ");
@@ -142,19 +145,22 @@ namespace Ex03.ConsoleUI
                     continue;
                 }
 
-                PrintingUtils.TypeOfVehicle();
+                PrintingUtils.PrintListOfEnum("Please choose a vehicle", typeof(CreatingVehicles.eTypeOfVehicles));
                 string option = Console.ReadLine();
                 isValid = Enum.TryParse(option, true, out CreatingVehicles.eTypeOfVehicles result)
                           && Enum.IsDefined(typeof(CreatingVehicles.eTypeOfVehicles), result);
-                if (isValid)
+                if(isValid)
                 {
                     Vehicle vehicle = createVehicle(result);
-                    AutoRepairShop.VehicleInShop toAdd = new AutoRepairShop.VehicleInShop(ownerName, ownerPhone, vehicle);
+                    AutoRepairShop.VehicleInShop toAdd = new AutoRepairShop.VehicleInShop(
+                        ownerName,
+                        ownerPhone,
+                        vehicle);
                     r_AutoRepairShop.AddVehicleToStore(toAdd, out bool isAdded);
                     PrintingUtils.VehicleAdded(toAdd.VehicleLicensNumber, isAdded);
                     break;
                 }
-                
+
                 Console.WriteLine("please choose a valid option.");
             }
             while(isValid == false);
@@ -162,124 +168,55 @@ namespace Ex03.ConsoleUI
 
         private Vehicle createVehicle(CreatingVehicles.eTypeOfVehicles i_TypeOfVehicle)
         {
-            VehicleData vehicleData = null;
-            getGeneralInformation(out string vehicleModel, out string vehicleLicenseNumber, out float currentEnergy);
-
-            float maxEnergy;
-            switch (i_TypeOfVehicle)
-            {
-                case CreatingVehicles.eTypeOfVehicles.ElectricCar:
-                case CreatingVehicles.eTypeOfVehicles.FuelCar:
-                    getCarData(i_TypeOfVehicle, out string color, out byte numOfDoors, out maxEnergy);
-                    vehicleData = new CarData(vehicleModel, vehicleLicenseNumber, currentEnergy, color, numOfDoors, maxEnergy);
-                    break;
-                case CreatingVehicles.eTypeOfVehicles.ElectricMotorcycle:
-                case CreatingVehicles.eTypeOfVehicles.FuelMotorcycle:
-                    getMotorcycleData(i_TypeOfVehicle, out string licenseType, out uint engineCapacity, out maxEnergy);
-                    vehicleData = new MotorcycleData(vehicleModel, vehicleLicenseNumber, currentEnergy, licenseType, engineCapacity, maxEnergy);
-                    break;
-                case CreatingVehicles.eTypeOfVehicles.Truck:
-                    getTruckData(i_TypeOfVehicle, out float cargoVolume, out bool isHazardous);
-                    vehicleData = new TruckData(vehicleModel, vehicleLicenseNumber, currentEnergy, cargoVolume, isHazardous);
-                    break;
-            }
-
-            CreatingVehicles vehicleMaker = new CreatingVehicles(i_TypeOfVehicle);
-            Vehicle vehicle = vehicleMaker.CreateVehicle(vehicleData);
-            return vehicle;
-        }
-
-        private void getMotorcycleData(CreatingVehicles.eTypeOfVehicles i_TypeOfVehicle, out string o_LicenseType, out uint o_EngineCapacity, out float o_MaxEnergy)
-        {
-            PrintingUtils.LicenseType();
-            o_LicenseType = Console.ReadLine();
-            checkEngineCapacity(out o_EngineCapacity);
-            o_MaxEnergy = i_TypeOfVehicle == CreatingVehicles.eTypeOfVehicles.ElectricMotorcycle
-                            ? ElectricVehicle.k_MotorcycleMaxBatteryTime
-                            : FuelVehicle.k_MotorcycleMaxTankFuel;
-        }
-        
-        private void getTruckData(CreatingVehicles.eTypeOfVehicles i_TypeOfVehicle, out float o_CargoVolume, out bool o_IsHazardous)
-        {
-            checkCargoVolume(out o_CargoVolume);
-            Console.WriteLine("Does the truck deliver hazardous materials? (y/n)");
-            string isDeliver = Console.ReadLine();
-            o_IsHazardous = isDeliver != null && (isDeliver.Equals("y") || isDeliver.Equals("Y"));
-        }
-        
-        private void getCarData(CreatingVehicles.eTypeOfVehicles i_TypeOfVehicle, out string o_Color, out byte o_NumOfDoors, out float o_MaxEnergy)
-        {
-            PrintingUtils.ColorType();
-            o_Color = Console.ReadLine();
-            checkNumOfDoors(out o_NumOfDoors);
-            o_MaxEnergy = i_TypeOfVehicle == CreatingVehicles.eTypeOfVehicles.ElectricCar
-                            ? ElectricVehicle.k_CarMaxBatteryTime
-                            : FuelVehicle.k_CarMaxTankFuel;
-        }
-        
-        private void getGeneralInformation(out string o_VehicleModel, out string o_VehicleLicenseNumber, out float o_CurrentEnergy)
-        {
-            Console.WriteLine("Please enter your vehicle model: ");
-            o_VehicleModel = Console.ReadLine();
-            Console.WriteLine("Please enter your vehicle's license number: ");
-            o_VehicleLicenseNumber = Console.ReadLine();
-            if(r_AutoRepairShop.ContainsLicenseNumber(o_VehicleLicenseNumber))
-            {
-                throw new ArgumentException(string.Format(format:@"Vehicle {0} is already in the garage", o_VehicleLicenseNumber));
-            }
-            Console.WriteLine("Please enter your current energy in vehicle: ");
-            string energy = Console.ReadLine();
-            bool isParseEnergy = float.TryParse(energy, out o_CurrentEnergy);
-            if (!isParseEnergy)
-            {
-                throw new FormatException("Fail parsing the current energy in vehicle");
-            }
-        }
-        
-        private void checkNumOfDoors(out byte o_NumOfDoors)
-        {
-            Console.WriteLine("How many doors the car has?");
-            bool isParseDoors = byte.TryParse(Console.ReadLine(), out o_NumOfDoors);
-            if(!isParseDoors)
-            {
-                throw new FormatException("Fail parsing numOfDoors");
-            }
-        }
-
-        private void checkEngineCapacity(out uint o_EngineCapacity)
-        {
-            Console.WriteLine("Please enter the engine capacity: ");
-            bool isValid = uint.TryParse(Console.ReadLine(), out o_EngineCapacity);
-            if(isValid == false)
-            {
-                throw new FormatException("Fail parsing engine capacity");
-            }
-        }
-
-        private void checkCargoVolume(out float o_CargoVolume)
-        {
-            Console.WriteLine("What is the cargo volume?");
-            bool isValid = float.TryParse(Console.ReadLine(), out o_CargoVolume);
-            if(isValid)
-            {
-                if(o_CargoVolume < 0)
+            CreatingVehicles vehiclesMaker = new CreatingVehicles(i_TypeOfVehicle);
+            Vehicle vehicleToAdd = vehiclesMaker.CreateVehicle();
+            StringBuilder askForData = vehicleToAdd.AskForData;
+            string[] splitAskForData = askForData.ToString().Split('\n');
+            string[] storeData = new string[splitAskForData.Length];
+            for(int i = 0; i < splitAskForData.Length; i++)
+            { 
+                if(i == 3 && i_TypeOfVehicle.Equals(CreatingVehicles.eTypeOfVehicles.Truck) == false)
                 {
-                    throw new ArgumentException("Cargo volume cannot be negative");
+                    Type getType = getVehicleTypeOfEnum(i_TypeOfVehicle);
+                    PrintingUtils.PrintListOfEnum(splitAskForData[i], getType);
+                    storeData[i] = Console.ReadLine();
+                }
+                else
+                {
+                    Console.WriteLine(splitAskForData[i]);
+                    storeData[i] = Console.ReadLine();
                 }
             }
-            else
+
+            vehicleToAdd.SetVehicleData = storeData;
+            return vehicleToAdd;
+        }
+
+        private Type getVehicleTypeOfEnum(CreatingVehicles.eTypeOfVehicles i_TypeOfVehicle)
+        {
+            Type type;
+            if(i_TypeOfVehicle.Equals(CreatingVehicles.eTypeOfVehicles.ElectricCar)
+               || i_TypeOfVehicle.Equals(CreatingVehicles.eTypeOfVehicles.FuelCar))
             {
-                throw new FormatException("Fail parsing cargo volume");
+                type = typeof(CarData.eColor);
             }
+            else // we ignore truck becuase the if outside does not allow truck at the first time.
+            {
+                type = typeof(MotorcycleData.eLicenseType);
+            }
+
+            return type;
         }
 
         private AutoRepairShop.VehicleInShop.eVehicleStatus? getStatus()
         {
             AutoRepairShop.VehicleInShop.eVehicleStatus? returnStatus;
-            PrintingUtils.VehicleStatus();
+            PrintingUtils.PrintListOfEnum(
+                "Please write below the vehicle status:",
+                typeof(AutoRepairShop.VehicleInShop.eVehicleStatus));
             string status = Console.ReadLine();
             bool isValid = Enum.TryParse(status, out AutoRepairShop.VehicleInShop.eVehicleStatus result)
-                && Enum.IsDefined(typeof(AutoRepairShop.VehicleInShop.eVehicleStatus), result);
+                           && Enum.IsDefined(typeof(AutoRepairShop.VehicleInShop.eVehicleStatus), result);
             if(isValid)
             {
                 returnStatus = result;
@@ -314,9 +251,9 @@ namespace Ex03.ConsoleUI
 
         private void getFuelToAdd(out FuelVehicle.eFuelType o_FuelType, out float o_FuelToAdd)
         {
-            PrintingUtils.FuelToAdd();
-            bool isValid = Enum.TryParse(Console.ReadLine(), out o_FuelType) 
-                && Enum.IsDefined(typeof(FuelVehicle.eFuelType), o_FuelType);
+            PrintingUtils.PrintListOfEnum("Please write below the fuel type:", typeof(FuelVehicle.eFuelType));
+            bool isValid = Enum.TryParse(Console.ReadLine(), out o_FuelType)
+                           && Enum.IsDefined(typeof(FuelVehicle.eFuelType), o_FuelType);
             if(isValid == false)
             {
                 throw new FormatException("Fail parsing fuel type");

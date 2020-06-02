@@ -25,59 +25,14 @@ $$$$$$$$$$ $$          $$ $$    $$$ $$         $$ $$$$$$$$$$  $$$$$$$$$$
             printOptions();
         }
 
-        public static void TypeOfVehicle()
+        public static void PrintListOfEnum(string i_Message, Type i_TypeOfEnum)
         {
-            string type = @"Please choose the type of vehicle:
-1.FuelCar
-2.ElectricCar
-3.FuelMotorcycle
-4.ElectricMotorcycle
-5.Truck";
-
-            Console.WriteLine(type);
-        }
-
-        public static void ColorType()
-        {
-            string color = @"Please write below the color:
-1.Red
-2.Silver
-3.White
-4.Black";
-
-            Console.WriteLine(color);
-        }
-
-        public static void LicenseType()
-        {
-            string type = @"Please write below the license type:
-1.A
-2.A1
-3.AA
-4.B";
-
-            Console.WriteLine(type);
-        }
-
-        public static void VehicleStatus()
-        {
-            string status = @"Please write below the vehicle status:
-1.InRepair
-2.Repaired
-3.Paid";
-
-            Console.WriteLine(status);
-        }
-
-        public static void FuelToAdd()
-        {
-            string fuel = @"Please write below the fuel type:
-1.Octan95
-2.Octan96
-3.Octan98
-4.Soler";
-
-            Console.WriteLine(fuel);
+            string[] types = Enum.GetNames(i_TypeOfEnum);
+            Console.WriteLine(i_Message);
+            for (int i = 0; i < types.Length; ++i)
+            {
+                Console.WriteLine("{0}. {1}", i + 1, types[i]);
+            }
         }
 
         public static void PrintExceptionErrors(Exception i_Ex)
