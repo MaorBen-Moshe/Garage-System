@@ -26,7 +26,7 @@ namespace Ex03.GarageLogic
                 m_VehicleInShop = i_VehicleInShop;
             }
 
-            public string VehicleLicensNumber
+            public string VehicleLicenseNumber
             {
                 get
                 {
@@ -58,11 +58,11 @@ namespace Ex03.GarageLogic
 
         public void AddVehicleToStore(VehicleInShop i_VehicleToAdd, out bool o_IsSucceeded)
         {
-            bool isExist = ContainsLicenseNumber(i_VehicleToAdd.VehicleLicensNumber);
+            bool isExist = ContainsLicenseNumber(i_VehicleToAdd.VehicleLicenseNumber);
             if(isExist)
             {
                 string argumentFormat = string.Format(
-                    format: @"vehicle of type {0}, is in the garage with status: {1}, changed to be InRepair.",
+                    format: @"Error! Vehicle of type {0}, is already in the garage with status: {1}.",
                     i_VehicleToAdd.m_VehicleInShop.GetType().Name,
                     i_VehicleToAdd.VehicleStatus);
                 i_VehicleToAdd.VehicleStatus = VehicleInShop.eVehicleStatus.InRepair;
@@ -70,7 +70,7 @@ namespace Ex03.GarageLogic
                 throw new ArgumentException(argumentFormat);
             }
 
-            r_VehicleList.Add(i_VehicleToAdd.VehicleLicensNumber, i_VehicleToAdd);
+            r_VehicleList.Add(i_VehicleToAdd.VehicleLicenseNumber, i_VehicleToAdd);
             o_IsSucceeded = true;
         }
 
@@ -83,12 +83,12 @@ namespace Ex03.GarageLogic
                 {
                     if(current.Value.VehicleStatus.Equals(i_Status))
                     {
-                        vehiclesToShow.Add(current.Value.VehicleLicensNumber);
+                        vehiclesToShow.Add(current.Value.VehicleLicenseNumber);
                     }
                 }
                 else
                 {
-                    vehiclesToShow.Add(current.Value.VehicleLicensNumber);
+                    vehiclesToShow.Add(current.Value.VehicleLicenseNumber);
                 }
             }
 

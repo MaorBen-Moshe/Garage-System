@@ -155,7 +155,7 @@ namespace Ex03.ConsoleUI
                         ownerPhone,
                         vehicle);
                     r_AutoRepairShop.AddVehicleToStore(toAdd, out bool isAdded);
-                    PrintingUtils.VehicleAdded(toAdd.VehicleLicensNumber, isAdded);
+                    PrintingUtils.VehicleAdded(toAdd.VehicleLicenseNumber, isAdded);
                     break;
                 }
 
@@ -170,8 +170,8 @@ namespace Ex03.ConsoleUI
             Vehicle vehicleToAdd = vehiclesMaker.CreateVehicle();
             StringBuilder askForData = vehicleToAdd.AskForData;
             string[] splitAskForData = askForData.ToString().Split('\n');
-            string[] storeData = new string[splitAskForData.Length];
-            for(int i = 0; i < splitAskForData.Length; i++)
+            string[] storeData = new string[splitAskForData.Length-1];
+            for(int i = 0; i < splitAskForData.Length-1; i++)
             { 
                 if(i == 3 && i_TypeOfVehicle.Equals(CreatingVehicles.eTypeOfVehicles.Truck) == false)
                 {

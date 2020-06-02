@@ -41,12 +41,13 @@ namespace Ex03.GarageLogic.VehiclesData
 
         public override void GetData(string[] i_AllData)
         {
+            MaxEnergy = sr_MaxTankFuel;
             m_VehicleModel = i_AllData[0];
             VehicleLicenseNumber = i_AllData[1];
             SetCurrentEnergy = i_AllData[2];
             CargoVolume = i_AllData[3];
             m_IsHaveHazardousMaterials = i_AllData[4].Equals("y");
-            MaxEnergy = sr_MaxTankFuel;
+            
             EnergyLeft = CurrentEnergy / MaxEnergy;
         }
 
