@@ -7,7 +7,16 @@ namespace Ex03.GarageLogic
     {
         protected VehicleData m_VehicleData = null;
 
-        protected abstract void IntialNewWheelsOfVehicle();
+        protected void IntialNewWheelsOfVehicle(byte i_NumOfWheels, byte i_MaxAirPressure)
+        {
+            for (int i = 0; i < i_NumOfWheels; i++)
+            {
+                m_VehicleData.VehicleWheels.Add(new VehicleData.Wheel(
+                    string.Empty,
+                    0,
+                    i_MaxAirPressure));
+            }
+        }
 
         public abstract string[] SetVehicleData
         {
@@ -76,7 +85,7 @@ Current Energy: {4}",
             int index = 0;
             foreach (VehicleData.Wheel currentWheel in m_VehicleData.VehicleWheels)
             {
-                wheelList.AppendLine(string.Format(format:@"Wheel {0}: {1}", ++index, currentWheel.ToString()));
+                wheelList.AppendLine(string.Format(format:@"Wheel {0}: {1}", ++index, currentWheel));
             }
 
             return wheelList;

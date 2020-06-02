@@ -1,4 +1,6 @@
-﻿namespace Ex03.GarageLogic
+﻿using System;
+
+namespace Ex03.GarageLogic
 {
     internal class FuelMotorcycle : FuelVehicle
     {
@@ -6,7 +8,7 @@
             : base(eFuelType.Octan95)
         {
             m_VehicleData = new MotorcycleData();
-            IntialNewWheelsOfVehicle();
+            IntialNewWheelsOfVehicle(MotorcycleData.sr_NumberOfWheels, MotorcycleData.sr_MaxPressureInWheel);
         }
 
         public override string[] SetVehicleData
@@ -15,17 +17,6 @@
             {
                 m_VehicleData.MaxEnergy = k_MotorcycleMaxTankFuel;
                 m_VehicleData.GetData(value);
-            }
-        }
-
-        protected sealed override void IntialNewWheelsOfVehicle()
-        {
-            for (int i = 0; i < MotorcycleData.sr_NumberOfWheels; i++)
-            {
-                m_VehicleData.VehicleWheels.Add(new VehicleData.Wheel(
-                    string.Empty,
-                    0,
-                    MotorcycleData.sr_MaxPressureInWheel));
             }
         }
 

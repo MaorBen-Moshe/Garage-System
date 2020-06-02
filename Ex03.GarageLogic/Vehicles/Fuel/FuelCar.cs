@@ -6,7 +6,7 @@
             : base(eFuelType.Octan96)
         {
             m_VehicleData = new CarData();
-            IntialNewWheelsOfVehicle();
+            IntialNewWheelsOfVehicle(CarData.sr_NumberOfWheels, CarData.sr_MaxPressureInWheel);
         }
 
         public override string[] SetVehicleData
@@ -15,17 +15,6 @@
             {
                 m_VehicleData.MaxEnergy = k_CarMaxTankFuel;
                 m_VehicleData.GetData(value);
-            }
-        }
-
-        protected sealed override void IntialNewWheelsOfVehicle()
-        {
-            for (int i = 0; i < CarData.sr_NumberOfWheels; i++)
-            {
-                m_VehicleData.VehicleWheels.Add(new VehicleData.Wheel(
-                    string.Empty,
-                    0,
-                    CarData.sr_MaxPressureInWheel));
             }
         }
 

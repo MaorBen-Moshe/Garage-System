@@ -8,7 +8,7 @@ namespace Ex03.GarageLogic
             : base(eFuelType.Soler)
         {
             m_VehicleData = new TruckData();
-            IntialNewWheelsOfVehicle();
+            IntialNewWheelsOfVehicle(TruckData.sr_NumberOfWheels, TruckData.sr_MaxPressureInWheel);
         }
 
         public override string[] SetVehicleData
@@ -16,17 +16,6 @@ namespace Ex03.GarageLogic
             set
             {
                 m_VehicleData.GetData(value);
-            }
-        }
-
-        protected sealed override void IntialNewWheelsOfVehicle()
-        {
-            for (int i = 0; i < TruckData.sr_NumberOfWheels; i++)
-            {
-                m_VehicleData.VehicleWheels.Add(new VehicleData.Wheel(
-                    string.Empty,
-                    0,
-                    TruckData.sr_MaxPressureInWheel));
             }
         }
 

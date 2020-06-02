@@ -9,7 +9,7 @@ namespace Ex03.GarageLogic.VehiclesData
         internal static readonly float sr_MaxTankFuel = 120;
         internal static readonly byte sr_NumberOfWheels = 16;
         internal static readonly byte sr_MaxPressureInWheel = 28;
-        private float m_CargoVolume = 0;
+        private float m_CargoVolume;
         private bool m_IsHaveHazardousMaterials;
 
         private string CargoVolume
@@ -23,6 +23,8 @@ namespace Ex03.GarageLogic.VehiclesData
                     {
                         throw new ArgumentException("Cargo volume cannot be negative");
                     }
+
+                    m_CargoVolume = cargoVolume;
                 }
                 else
                 {
@@ -47,7 +49,6 @@ namespace Ex03.GarageLogic.VehiclesData
             SetCurrentEnergy = i_AllData[2];
             CargoVolume = i_AllData[3];
             m_IsHaveHazardousMaterials = i_AllData[4].Equals("y");
-            
             EnergyLeft = CurrentEnergy / MaxEnergy;
         }
 
@@ -58,7 +59,7 @@ namespace Ex03.GarageLogic.VehiclesData
 Cargo volume: {0}
 Truck {1} deliver hazardous materials",
                 m_CargoVolume,
-                m_IsHaveHazardousMaterials ? "is" : "is not");
+                m_IsHaveHazardousMaterials ? "does" : "does not");
         }
     }
 }
