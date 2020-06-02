@@ -1,6 +1,6 @@
 ﻿namespace Ex03.GarageLogic
 {
-    public abstract class ElectricVehicle : Vehicle
+    internal abstract class ElectricVehicle : Vehicle
     {
         public const float k_CarMaxBatteryTime = 2.1f;
         public const float k_MotorcycleMaxBatteryTime = 1.2f;

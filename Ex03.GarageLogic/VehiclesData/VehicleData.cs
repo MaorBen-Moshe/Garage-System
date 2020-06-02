@@ -72,10 +72,10 @@ namespace Ex03.GarageLogic
             }
         }
 
+        protected readonly List<Wheel> r_VehicleWheels;
         protected string m_VehicleModel;
         protected string m_VehicleLicenseNumber;
         protected float m_EnergyLeft; // out of 100%
-        protected readonly List<Wheel> r_VehicleWheels;
         protected float m_MaxEnergy;
         protected float m_CurrentEnergy;
 

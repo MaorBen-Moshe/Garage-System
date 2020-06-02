@@ -44,14 +44,6 @@ namespace Ex03.GarageLogic
             }
         }
 
-        internal byte NumberOfDoors
-        {
-            get
-            {
-                return m_NumberOfDoors;
-            }
-        }
-
         internal string SetNumOfDoors
         {
             set

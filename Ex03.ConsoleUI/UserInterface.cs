@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Reflection;
 using System.Text;
 using System.Threading;
 using Ex03.GarageLogic;
-using Ex03.GarageLogic.VehiclesData;
 
 namespace Ex03.ConsoleUI
 {
@@ -200,7 +198,7 @@ namespace Ex03.ConsoleUI
             {
                 type = typeof(CarData.eColor);
             }
-            else // we ignore truck becuase the if outside does not allow truck at the first time.
+            else 
             {
                 type = typeof(MotorcycleData.eLicenseType);
             }

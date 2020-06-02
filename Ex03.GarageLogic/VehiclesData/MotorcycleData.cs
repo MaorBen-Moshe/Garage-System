@@ -18,14 +18,6 @@ namespace Ex03.GarageLogic
         private eLicenseType? m_LicenseType;
         private uint m_EngineCapacity;
 
-        internal uint EngineCapacity
-        {
-            get
-            {
-                return m_EngineCapacity;
-            }
-        }
-
         internal string SetEngineCapacity
         {
             set
