@@ -46,6 +46,22 @@ namespace Ex03.GarageLogic
                     m_VehicleStatus = value;
                 }
             }
+
+            internal string OwnerName
+            {
+                get
+                {
+                    return m_OwnerName;
+                }
+            }
+
+            internal string OwnerPhoneNumber
+            {
+                get
+                {
+                    return m_OwnerPhoneNumber;
+                }
+            }
         }
 
         private const string k_IsNotExistError = "Vehicle do not exist in the garage";
@@ -190,7 +206,17 @@ Change status to: InRepair.",
             bool isExist = r_VehicleList.TryGetValue(i_LicenseNumber, out VehicleInShop toShow);
             if(isExist)
             {
-                vehicleDetails = toShow.m_VehicleInShop.ToString();
+                vehicleDetails = string.Format(
+                    format: @"Vehicle type: {0}
+Owner of vehicle: {1}
+Owner phone number: {2}
+Status in the garage: {3}
+",
+                    toShow.m_VehicleInShop.GetType().Name,
+                    toShow.OwnerName,
+                    toShow.OwnerPhoneNumber,
+                    toShow.VehicleStatus);
+                vehicleDetails += toShow.m_VehicleInShop.ToString();
                 o_IsSucceeded = true;
             }
             else
