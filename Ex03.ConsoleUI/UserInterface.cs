@@ -193,11 +193,15 @@ namespace Ex03.ConsoleUI
         }
         private List<int> getEnumableProperties(string i_PropertyString)
         {
-            char[] charPropertyIndex = i_PropertyString.ToCharArray;
+            char[] charPropertyIndex = i_PropertyString.ToCharArray();
             List<int> intPropertyIndex = new List<int>();
-            foreach (char c in charPropertyIndex)
+            foreach (char property in charPropertyIndex)
             {
-                intPropertyIndex.Add(int.Parse(charPropertyIndex[i]));
+                if(!property.Equals('\r'))
+                {
+                    intPropertyIndex.Add(int.Parse(property.ToString()));
+                }
+               
             }
             return intPropertyIndex;
         }
