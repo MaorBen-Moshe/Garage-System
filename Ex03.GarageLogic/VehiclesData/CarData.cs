@@ -22,7 +22,7 @@ namespace Ex03.GarageLogic
         {
             get
             {
-                if(m_Color.HasValue)
+                if (m_Color.HasValue)
                 {
                     return m_Color.ToString();
                 }
@@ -33,7 +33,7 @@ namespace Ex03.GarageLogic
             set
             {
                 bool isValidColor = Enum.TryParse(value, out eColor result) && Enum.IsDefined(typeof(eColor), result);
-                if(isValidColor)
+                if (isValidColor)
                 {
                     m_Color = result;
                 }
@@ -49,7 +49,7 @@ namespace Ex03.GarageLogic
             set
             {
                 bool isValid = byte.TryParse(value, out byte numOfDoors);
-                if(isValid)
+                if (isValid)
                 {
                     if (!(numOfDoors >= 2 && numOfDoors <= 5))
                     {
@@ -71,6 +71,7 @@ namespace Ex03.GarageLogic
             StringBuilder data = base.AskForData();
             data.AppendLine("Enter the color of car: ");
             data.AppendLine("Enter the number of doors: ");
+            data.AppendLine("3");//Enumable Indices
             return data;
         }
 

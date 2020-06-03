@@ -2,6 +2,7 @@
 using System.Text;
 using System.Threading;
 using Ex03.GarageLogic;
+using System.Collections.Generic;
 
 namespace Ex03.ConsoleUI
 {
@@ -35,7 +36,7 @@ namespace Ex03.ConsoleUI
                 PrintingUtils.PrintingOpening();
                 string option = Console.ReadLine();
                 bool isValid = Enum.TryParse(option, out eOption result) && Enum.IsDefined(typeof(eOption), result);
-                if(isValid)
+                if (isValid)
                 {
                     try
                     {
@@ -52,7 +53,7 @@ namespace Ex03.ConsoleUI
                     Thread.Sleep(2000);
                 }
             }
-            while(m_LeaveStore == false);
+            while (m_LeaveStore == false);
 
             Console.WriteLine("Goodbye!");
         }
@@ -64,7 +65,7 @@ namespace Ex03.ConsoleUI
                 AutoRepairShop.VehicleInShop.eVehicleStatus? status;
                 string licenseNumber;
                 Console.Clear();
-                switch(i_Option)
+                switch (i_Option)
                 {
                     case eOption.AddVehicle:
                         addVehicle();
@@ -112,12 +113,12 @@ namespace Ex03.ConsoleUI
                         throw new ValueOutOfRangeException(1, 9);
                 }
 
-                if(i_Option != eOption.Exit)
+                if (i_Option != eOption.Exit)
                 {
                     Thread.Sleep(4000);
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 PrintingUtils.PrintExceptionErrors(ex);
                 throw;
@@ -135,7 +136,7 @@ namespace Ex03.ConsoleUI
             do
             {
                 bool isValidPhoneNumber = int.TryParse(ownerPhone, out int intPhoneNumber);
-                if(isValidPhoneNumber == false)
+                if (isValidPhoneNumber == false)
                 {
                     Console.WriteLine("Fail to add the phone number you entered.");
                     Console.WriteLine("Please write your phone number: ");
@@ -147,7 +148,7 @@ namespace Ex03.ConsoleUI
                 string option = Console.ReadLine();
                 isValid = Enum.TryParse(option, true, out CreatingVehicles.eTypeOfVehicles result)
                           && Enum.IsDefined(typeof(CreatingVehicles.eTypeOfVehicles), result);
-                if(isValid)
+                if (isValid)
                 {
                     Vehicle vehicle = createVehicle(result);
                     AutoRepairShop.VehicleInShop toAdd = new AutoRepairShop.VehicleInShop(
@@ -161,7 +162,7 @@ namespace Ex03.ConsoleUI
 
                 Console.WriteLine("please choose a valid option.");
             }
-            while(isValid == false);
+            while (isValid == false);
         }
 
         private Vehicle createVehicle(CreatingVehicles.eTypeOfVehicles i_TypeOfVehicle)
@@ -170,10 +171,11 @@ namespace Ex03.ConsoleUI
             Vehicle vehicleToAdd = vehiclesMaker.CreateVehicle();
             StringBuilder askForData = vehicleToAdd.AskForData;
             string[] splitAskForData = askForData.ToString().Split('\n');
-            string[] storeData = new string[splitAskForData.Length - 1];
-            for(int i = 0; i < splitAskForData.Length - 1; i++)
-            { 
-                if(i == 3 && i_TypeOfVehicle.Equals(CreatingVehicles.eTypeOfVehicles.Truck) == false)
+            List<int> enumable = getEnumableProperties(splitAskForData[splitAskForData.Length - 2]);
+            string[] storeData = new string[splitAskForData.Length - 2];
+            for (int i = 0; i < storeData.Length; i++)
+            {
+                if (enumable.Contains(i))
                 {
                     Type getType = getVehicleTypeOfEnum(i_TypeOfVehicle);
                     PrintingUtils.PrintListOfEnum(splitAskForData[i], getType);
@@ -189,16 +191,26 @@ namespace Ex03.ConsoleUI
             vehicleToAdd.SetVehicleData = storeData;
             return vehicleToAdd;
         }
+        private List<int> getEnumableProperties(string i_PropertyString)
+        {
+            char[] charPropertyIndex = i_PropertyString.ToCharArray;
+            List<int> intPropertyIndex = new List<int>();
+            foreach (char c in charPropertyIndex)
+            {
+                intPropertyIndex.Add(int.Parse(charPropertyIndex[i]));
+            }
+            return intPropertyIndex;
+        }
 
         private Type getVehicleTypeOfEnum(CreatingVehicles.eTypeOfVehicles i_TypeOfVehicle)
         {
             Type type;
-            if(i_TypeOfVehicle.Equals(CreatingVehicles.eTypeOfVehicles.ElectricCar)
+            if (i_TypeOfVehicle.Equals(CreatingVehicles.eTypeOfVehicles.ElectricCar)
                || i_TypeOfVehicle.Equals(CreatingVehicles.eTypeOfVehicles.FuelCar))
             {
                 type = typeof(CarData.eColor);
             }
-            else 
+            else
             {
                 type = typeof(MotorcycleData.eLicenseType);
             }
@@ -215,7 +227,7 @@ namespace Ex03.ConsoleUI
             string status = Console.ReadLine();
             bool isValid = Enum.TryParse(status, out AutoRepairShop.VehicleInShop.eVehicleStatus result)
                            && Enum.IsDefined(typeof(AutoRepairShop.VehicleInShop.eVehicleStatus), result);
-            if(isValid)
+            if (isValid)
             {
                 returnStatus = result;
             }
@@ -239,7 +251,7 @@ namespace Ex03.ConsoleUI
         {
             Console.WriteLine("Please enter the amount of time(in minutes) you would like to load the battery:");
             bool isValid = float.TryParse(Console.ReadLine(), out float minutesToAdd);
-            if(isValid == false)
+            if (isValid == false)
             {
                 throw new FormatException("Fail parsing the minutes to load");
             }
@@ -252,14 +264,14 @@ namespace Ex03.ConsoleUI
             PrintingUtils.PrintListOfEnum("Please write below the fuel type:", typeof(FuelVehicle.eFuelType));
             bool isValid = Enum.TryParse(Console.ReadLine(), out o_FuelType)
                            && Enum.IsDefined(typeof(FuelVehicle.eFuelType), o_FuelType);
-            if(isValid == false)
+            if (isValid == false)
             {
                 throw new FormatException("Fail parsing fuel type");
             }
 
             Console.WriteLine("Please insert the amount of fuel you would like to add: ");
             bool isParse = float.TryParse(Console.ReadLine(), out o_FuelToAdd);
-            if(isParse == false)
+            if (isParse == false)
             {
                 throw new FormatException("Fail parsing the amount of fuel to add");
             }

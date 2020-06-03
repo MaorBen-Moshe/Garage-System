@@ -23,7 +23,7 @@ namespace Ex03.GarageLogic
             set
             {
                 bool isValid = uint.TryParse(value, out uint engineCapacity);
-                if(isValid)
+                if (isValid)
                 {
                     m_EngineCapacity = engineCapacity;
                 }
@@ -38,7 +38,7 @@ namespace Ex03.GarageLogic
         {
             get
             {
-                if(m_LicenseType.HasValue)
+                if (m_LicenseType.HasValue)
                 {
                     return m_LicenseType.ToString();
                 }
@@ -48,9 +48,9 @@ namespace Ex03.GarageLogic
 
             set
             {
-                bool isValidLicesneType = Enum.TryParse(value, out eLicenseType result) 
+                bool isValidLicesneType = Enum.TryParse(value, out eLicenseType result)
                                           && Enum.IsDefined(typeof(eLicenseType), result);
-                if(isValidLicesneType)
+                if (isValidLicesneType)
                 {
                     m_LicenseType = result;
                 }
@@ -66,6 +66,7 @@ namespace Ex03.GarageLogic
             StringBuilder data = base.AskForData();
             data.AppendLine("Enter the license type: ");
             data.AppendLine("Enter the engine capacity: ");
+            data.AppendLine("3");//Enumable Indices
             return data;
         }
 
