@@ -38,7 +38,7 @@ namespace Ex03.GarageLogic.VehiclesData
             StringBuilder data = base.AskForData();
             data.AppendLine("Enter cargo volume: ");
             data.AppendLine("Does your vehicle move hazardous materials: (y/n)");
-            data.AppendLine("");
+            data.AppendLine(string.Empty);
             return data;
         }
 

@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Text;
-using System.Threading;
-using Ex03.GarageLogic;
 using System.Collections.Generic;
+using Ex03.GarageLogic;
 
 namespace Ex03.ConsoleUI
 {
@@ -44,13 +43,13 @@ namespace Ex03.ConsoleUI
                     }
                     catch
                     {
-                        Thread.Sleep(4000);
+                        PrintingUtils.Delay();
                     }
                 }
                 else
                 {
                     Console.WriteLine("Please choose from the options above!");
-                    Thread.Sleep(2000);
+                    System.Threading.Thread.Sleep(3000);
                 }
             }
             while (m_LeaveStore == false);
@@ -115,7 +114,7 @@ namespace Ex03.ConsoleUI
 
                 if (i_Option != eOption.Exit)
                 {
-                    Thread.Sleep(4000);
+                    PrintingUtils.Delay();
                 }
             }
             catch (Exception ex)
@@ -191,6 +190,7 @@ namespace Ex03.ConsoleUI
             vehicleToAdd.SetVehicleData = storeData;
             return vehicleToAdd;
         }
+
         private List<int> getEnumableProperties(string i_PropertyString)
         {
             char[] charPropertyIndex = i_PropertyString.ToCharArray();
@@ -201,8 +201,8 @@ namespace Ex03.ConsoleUI
                 {
                     intPropertyIndex.Add(int.Parse(property.ToString()));
                 }
-               
             }
+
             return intPropertyIndex;
         }
 

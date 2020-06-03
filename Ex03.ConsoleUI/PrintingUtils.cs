@@ -144,6 +144,14 @@ The vehicle details:
                     i_IsExist ? i_VehicleDetails : "Vehicle was not found"));
         }
 
+        public static void Delay()
+        {
+            Console.WriteLine(
+                @"
+press any key to continue...");
+            Console.ReadLine();
+        }
+
         private static void printOptions()
         {
             string options = @"

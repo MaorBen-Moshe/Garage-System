@@ -66,7 +66,7 @@ namespace Ex03.GarageLogic
             StringBuilder data = base.AskForData();
             data.AppendLine("Enter the license type: ");
             data.AppendLine("Enter the engine capacity: ");
-            data.AppendLine("3");//Enumable Indices
+            data.AppendLine("3"); //// Enumerable Indices
             return data;
         }
 
