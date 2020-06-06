@@ -101,7 +101,7 @@ $$$$$$$$$$ $$          $$ $$    $$$ $$         $$ $$$$$$$$$$  $$$$$$$$$$
                     fuelType = string.Format(format: @"fuel added: {0}", i_FuelType);
                 }
 
-                Console.WriteLine(string.Format(format: @"Energy add to vehicle {0} {1}", i_LicenseNumber, fuelType));
+                Console.WriteLine(string.Format(format: @"Energy added to vehicle {0} {1}", i_LicenseNumber, fuelType));
             }
             else
             {

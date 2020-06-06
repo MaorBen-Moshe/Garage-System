@@ -13,8 +13,8 @@ namespace Ex03.GarageLogic
             Silver
         }
 
-        internal static readonly byte sr_NumberOfWheels = 4;
-        internal static readonly byte sr_MaxPressureInWheel = 32;
+        internal const byte k_NumberOfWheels = 4;
+        internal const byte k_MaxPressureInWheel = 32;
         private byte m_NumberOfDoors;
         private eColor? m_Color;
 

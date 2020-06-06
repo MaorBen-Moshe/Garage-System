@@ -5,7 +5,7 @@
         internal ElectricMotorcycle()
         {
             m_VehicleData = new MotorcycleData();
-            IntialNewWheelsOfVehicle(MotorcycleData.sr_NumberOfWheels, MotorcycleData.sr_MaxPressureInWheel);
+            IntialNewWheelsOfVehicle(MotorcycleData.k_NumberOfWheels, MotorcycleData.k_MaxPressureInWheel);
         }
 
         public override string[] SetVehicleData

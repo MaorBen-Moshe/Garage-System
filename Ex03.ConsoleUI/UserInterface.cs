@@ -78,9 +78,17 @@ namespace Ex03.ConsoleUI
                         break;
                     case eOption.ModifyStatus:
                         licenseNumber = getLicenseNumber();
-                        status = getStatus();
-                        r_AutoRepairShop.SetNewStatusToVehicle(licenseNumber, status, out bool isSucceeded);
-                        PrintingUtils.StatusModified(licenseNumber, status, isSucceeded);
+                        if(r_AutoRepairShop.IsVehicleExist(licenseNumber))
+                        {
+                            status = getStatus();
+                            r_AutoRepairShop.SetNewStatusToVehicle(licenseNumber, status, out bool isSucceeded);
+                            PrintingUtils.StatusModified(licenseNumber, status, isSucceeded);
+                        }
+                        else
+                        {
+                            throw new ArgumentException("Vehicle is not exist in the garage");
+                        }
+
                         break;
                     case eOption.InflateWheels:
                         licenseNumber = getLicenseNumber();
@@ -89,15 +97,35 @@ namespace Ex03.ConsoleUI
                         break;
                     case eOption.RefuelVehicle:
                         licenseNumber = getLicenseNumber();
-                        getFuelToAdd(out FuelVehicle.eFuelType fuelType, out float fuelToAdd);
-                        r_AutoRepairShop.FillInEnergyToVehicle(licenseNumber, fuelToAdd, out bool isRefueled, fuelType);
-                        PrintingUtils.EnergyAdded(licenseNumber, isRefueled, fuelType);
+                        if(r_AutoRepairShop.IsVehicleExist(licenseNumber))
+                        {
+                            getFuelToAdd(out FuelVehicle.eFuelType fuelType, out float fuelToAdd);
+                            r_AutoRepairShop.FillInEnergyToVehicle(
+                                licenseNumber,
+                                fuelToAdd,
+                                out bool isRefueled,
+                                fuelType);
+                            PrintingUtils.EnergyAdded(licenseNumber, isRefueled, fuelType);
+                        }
+                        else
+                        {
+                           throw new ArgumentException("Vehicle is not exist in the garage"); 
+                        }
+
                         break;
                     case eOption.LoadVehicle:
                         licenseNumber = getLicenseNumber();
-                        float minutesToAdd = getMinutesToLoad();
-                        r_AutoRepairShop.FillInEnergyToVehicle(licenseNumber, minutesToAdd, out bool isLoaded);
-                        PrintingUtils.EnergyAdded(licenseNumber, isLoaded);
+                        if(r_AutoRepairShop.IsVehicleExist(licenseNumber))
+                        {
+                            float minutesToAdd = getMinutesToLoad();
+                            r_AutoRepairShop.FillInEnergyToVehicle(licenseNumber, minutesToAdd, out bool isLoaded);
+                            PrintingUtils.EnergyAdded(licenseNumber, isLoaded);
+                        }
+                        else
+                        {
+                            throw new ArgumentException("Vehicle is not exist in the garage");
+                        }
+
                         break;
                     case eOption.ShowVehicleDetails:
                         licenseNumber = getLicenseNumber();

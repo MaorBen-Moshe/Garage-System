@@ -5,7 +5,7 @@
         internal ElectricCar()
         {
             m_VehicleData = new CarData();
-            IntialNewWheelsOfVehicle(CarData.sr_NumberOfWheels, CarData.sr_MaxPressureInWheel);
+            IntialNewWheelsOfVehicle(CarData.k_NumberOfWheels, CarData.k_MaxPressureInWheel);
         }
 
         public override string[] SetVehicleData

@@ -13,8 +13,8 @@ namespace Ex03.GarageLogic
             B
         }
 
-        internal static readonly byte sr_NumberOfWheels = 2;
-        internal static readonly byte sr_MaxPressureInWheel = 30;
+        internal const byte k_NumberOfWheels = 2;
+        internal const byte k_MaxPressureInWheel = 30;
         private eLicenseType? m_LicenseType;
         private uint m_EngineCapacity;
 

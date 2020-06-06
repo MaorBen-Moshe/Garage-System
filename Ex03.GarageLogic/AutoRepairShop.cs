@@ -227,5 +227,10 @@ Status in the garage: {3}
 
             return vehicleDetails;
         }
+
+        public bool IsVehicleExist(string i_LicenseNunber)
+        {
+            return r_VehicleList.ContainsKey(i_LicenseNunber);
+        }
     }
 }

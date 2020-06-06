@@ -6,9 +6,9 @@ namespace Ex03.GarageLogic.VehiclesData
 {
     public class TruckData : VehicleData
     {
-        internal static readonly float sr_MaxTankFuel = 120;
-        internal static readonly byte sr_NumberOfWheels = 16;
-        internal static readonly byte sr_MaxPressureInWheel = 28;
+        internal const float k_MaxTankFuel = 120;
+        internal const byte k_NumberOfWheels = 16;
+        internal const byte k_MaxPressureInWheel = 28;
         private float m_CargoVolume;
         private bool m_IsHaveHazardousMaterials;
 
@@ -44,7 +44,7 @@ namespace Ex03.GarageLogic.VehiclesData
 
         public override void GetData(string[] i_AllData)
         {
-            MaxEnergy = sr_MaxTankFuel;
+            MaxEnergy = k_MaxTankFuel;
             m_VehicleModel = i_AllData[0];
             VehicleLicenseNumber = i_AllData[1];
             SetCurrentEnergy = i_AllData[2];
